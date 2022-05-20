@@ -18,7 +18,7 @@ natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rap
 -	D’offrir des outils dans le but de mieux visualiser ses données et d’inciter à faire le ménage, notamment en utilisant des techniques « nudge ».
 
 ## Installation ##
-Ajouter le dossier « lyon3 » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
+Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
 
 ## Donner accès au rapport ##
 Pour donner accès au rapport, le plus simple est d’ajouter un élément dans la navigation principale en utilisant les custom menu items 
