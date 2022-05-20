@@ -1,0 +1,188 @@
+<?php
+
+// Every file should have GPL and copyright in the header - we skip it in tutorials but you should not skip it for real.
+
+// This line protects the file from being accessed by a URL directly.                                                               
+defined('MOODLE_INTERNAL') || die();
+
+$string['pluginname'] = 'Rapport Lyon 3';       
+$string['choosereadme'] = 'Rapport développé pour Lyon 3';                                                                                  
+
+$string['region-side-pre'] = 'Right';
+
+// Settings pages.                                                                                                      
+$string['configtitle'] = 'coursemanager settings';                                                                                          
+$string['generalsettings'] = 'Paramètres généraux'; 
+$string['advancedsettings'] = 'Avancé';                                                                                    
+$string['teachertools'] = 'Outils enseignants';  
+$string['brandcolor'] = 'Couleur principale';                                                                                                                                                                                       
+$string['brandcolor_desc'] = 'La couleur majeure du thème.';  
+$string['preset'] = 'Préréglage de thème';    
+$string['preset_desc'] = 'Veuillez choisir un préréglage pour modifier l\'aspect du thème.';                                                                                                  
+$string['presetfiles'] = 'Fichiers de préréglages additionnels pour le thème';                                                                                                                                                                                 
+$string['presetfiles_desc'] = 'Des fichiers de préréglages peuvent être utilisés afin de changer totalement la présentation du thème. Voir <a href=https://docs.moodle.org/dev/Boost_Presets>Boost presets</a> pour des informations sur la façon de créer et partager vos propres fichiers de préréglages et consultez le <a href=http://moodle.net/boost>catalogie des fichiers de préréglages</a> que d\'autres utilisateurs ont partagés.';
+$string['rawscss'] = 'SCSS brut';                                                                                                    
+$string['rawscss_desc'] = 'Ce champ permet d\'indiquer du code SCSS ou CSS qui sera injecté à la fin de la feuille de styles.';       
+$string['rawscsspre'] = 'Code SCSS initial';                                                                                         
+$string['rawscsspre_desc'] = 'Ce champ permet d\'indiquer du code SCSS d\'initialisation, qui sera injecté dans la feuille de styles avant toute autre définition. La plupart du temps, ce code sera utilisé pour définir des variables.';
+$string['loginbackgroundimage'] = 'Image de fond de la page de connexion';                                                                                                                                                                    
+$string['loginbackgroundimage_desc'] = 'Une image affichée en arrière-plan de la page de connexion.';
+$string['enableteachertools'] = 'Activer le menu Enseignants ?';   
+$string['enableteachertools_desc'] = 'Si activé, fait apparaitre un bouton Enseignant dans la barre de navigation principale pour afficher les outils de gestion des cours';
+$string['category_bin'] = 'Catégorie corbeille';
+$string['category_bin_desc'] = 'Si un enseignant demande la suppression de son cours, le cours sera déplacé dans cette catégorie avant suppression définitive par les gestionnaires de la plateforme.';
+$string['total_filesize_threshold'] = 'Poids maximum d\'un cours';
+$string['total_filesize_threshold_desc'] = 'Poids en Mo à partir duquel on souhaite afficher une alerte à l\'enseignant si le <b>total des fichiers du cours</b> dépasse ce seuil.';
+$string['unique_filesize_threshold'] = 'Poids maximum d\'un fichier';
+$string['unique_filesize_threshold_desc'] = 'Poids en Mo à partir duquel on souhaite afficher une alerte à l\'enseignant si <b>un fichier dans une activité</b> dépasse ce seuil..';
+$string['last_access_teacher'] = 'Seuil dernière visite enseignant';
+$string['last_access_teacher_desc'] = 'Nombre de jours sans visite d\'un enseignant à partir duquel on affiche une alerte.';
+$string['last_access_student'] = 'Seuil dernière visite étudiant';
+$string['last_access_student_desc'] = 'Nombre de jours sans visite d\'un étudiant à partir duquel on affiche une alerte.';
+$string['delete_period'] = 'Période pour la suppression des cours';
+$string['delete_period_desc'] = 'Affiche la période approximative de suppression des cours de la catégorie corbeille. Inscrire un texte comme "début juillet", ou 
+"dans la première quinzaine de mai" pour l\'intégrer à la description de la page de suppression.';
+
+// Bannière des cours dans la corbeille. 
+$string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
+
+// Tableau de résumés des cours
+$string['table_course_name'] = 'Nom du cours';
+$string['table_course_state'] = 'Etat';
+$string['table_files_weight'] = 'Poids des fichiers';
+$string['table_enrolled_cohorts'] = 'Cohortes';
+$string['table_enrolled_students'] = 'Etudiants';
+$string['table_enrolled_teachers'] = 'Enseignants';
+$string['table_actions'] = 'Actions';
+
+// Alertes/préconisations sur l'accueil du tableau de bord. 
+$string['course_state_visible'] = 'Visible';
+$string['course_state_hidden'] = 'Caché';
+$string['course_state_trash'] = 'Corbeille';
+$string['see_advices'] = 'Voir les préconisations';
+$string['advices_for_course'] = 'Préconisations pour le cours ';
+$string['total_filesize_alert'] = '<b>Le poids de ce cours est important.</b><br />Nous vous invitons à consulter <a href="course_files.php?courseid={$a->courseid}">l\'interface de gestion des fichiers de ce cours</a> pour voir les éléments les plus lourds, et éventuellement y apporter des solutions.';
+$string['empty_course_alert'] = '<b>Ce cours semble vide.</b><br />Actuellement, ce cours ne contient que le forum natif de Moodle. Si ce cours n\'a pas vocation à évoluer, nous vous invitons à le supprimer.';
+$string['last_access_multiple_teacher_alert'] = '<b>Aucun enseignant n\'a visité ce cours depuis au moins {$a->limit_visit} jours .</b><br />Votre dernière visite remonte au {$a->date}. Si aucun enseignant n\'utilise ce cours, nous vous invitons à le supprimer.';
+$string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce cours depuis longtemps.</b><br />Votre dernière visite remonte au {$a->date}. Si vous n\'utilisez plus ce cours, nous vous invitons à le supprimer.';
+$string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants récentes.</b><br />Des étudiants sont inscrits à votre cours, mais aucun ne s\'y est connecté <b>depuis {$a->limit_visit} mois ou plus</b>. Si ce cours n\'a plus d\'utilité , nous vous invitons à le supprimer.';
+$string['empty_student_alert'] = '<b>Pas d\'étudiants inscrits.</b><br />Aucun utilisateur n\'est inscrit dans ce cours avec le rôle Étudiant. Si ce cours n\'est pas utilisé, pensez à le supprimer.';
+$string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'y a pas de remarques particulières sur ce cours quant à son poids ou son utilisation.';
+
+// Page - Suppression des cours. 
+$string['title_move_confirm'] = 'Demande de suppression du cours';
+$string['move_confirm'] = '<p>Cette page vous permet de demander la suppression du cours que vous n\'utilisez plus. Si vous confirmez la suppression, 
+le cours sera dans un premier temps caché aux étudiants, puis déplacé dans une catégorie de Moodle servant de corbeille. Il sera ensuite supprimé 
+par les administrateurs Moodle <b>{$a->delete_period}</b>.</p>
+<p class="alert alert-info"><i class="fa fa-info-circle"></i> Notez que vous aurez toujours accès à ce cours avant sa suppression définitive, si vous souhaitez récupérer des éléments. 
+De même, vous aurez également toujours la possibilité de contacter le Support afin de sortir le cours de la corbeille.</p>
+<p><i class="fa fa-save"></i> Avant de mettre votre cours à la corbeille, nous vous conseillons également de sauvegarder si besoin les fichiers contenus dans le cours 
+ainsi que la banque de questions. <b>Une fois votre cours supprimé, ces éléments seront définitivement perdus et non récupérables.</b></p>';
+$string['delete_wish'] = 'Que souhaitez-vous faire ?';
+$string['button_move_confirm'] = 'Confirmer la suppression';
+$string['button_save_questionbank'] = 'Sauvegarder la banque de questions';
+$string['button_save_course'] = 'Sauvegarder tout le cours';
+$string['mail_subject_delete'] = 'Cours supprimé - {$a->course}';
+$string['mail_message_delete_oneteacher'] = 'Bonjour,<br />
+le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle,
+ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
+Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
+l\'interface de gestion de vos cours.';
+$string['mail_message_delete_main_teacher'] = 'Bonjour,<br />
+le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle,
+ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
+Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
+l\'interface de gestion de vos cours.<br />
+NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous
+êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également demander de restaurer ce cours ou y récupérer des ressources.';
+$string['mail_message_delete_other_teacher'] = 'Bonjour,<br />
+le cours {$a->course}, dans lequel vous êtes inscrit.e comme enseignant.e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente 
+de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des 
+ressources.<br />
+Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
+l\'interface de gestion de vos cours.<br />';
+$string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégorie Corbeille.';
+
+// Page - gestion des fichiers. 
+$string['coursesize'] = 'Taille du cours';
+$string['coursereport'] = 'EXPLICATIONS - A venir !';
+$string['totalsize'] = 'Poids total des fichiers du cours : ';
+$string['plugin'] = 'Type d\'activité';
+$string['size'] = 'Poids';
+$string['comment'] = 'Commentaires et conseils';
+$string['number_of_files'] = 'Nombre de fichiers';
+$string['warn_heavy_assign'] = 'Les devoirs suivants représentent un poids important de fichiers :';
+$string['warn_heavy_assign_help'] = '<b>Pensez à surveiller ce devoir</b> : lorsque les dépôts des étudiants auront été récupérés, n\'oubliez pas de supprimer cette activité
+ou de réinitialiser votre cours afin de ne pas l\'encombrer.';
+$string['empty_files_course'] = 'Ce cours ne semble pas contenir de fichiers actuellement. Aucune action n\'est à envisager.';
+$string['warn_big_files'] = 'Les fichiers suivants présentent un <b>poids importants</b> :';
+$string['warn_big_files_help'] = 'Si le poids d\'un fichier est important, voici quelques conseils pour le réduire, ou atténuer son impact sur Moodle :<ul>
+<li>zippez votre fichier ;</li>
+<li>s\'il contient des images, réduisez leur résolution pour dimuner leur taille ;</li>
+<li>déposez votre fichier sur le repository OwnCloud ;</li>
+<li></li>
+</ul>';
+$string['warn_videos'] = 'Les fichiers suivants sont des <b>vidéos</b>, pensez à les déplacer :';
+$string['warn_videos_help'] = 'Les vidéos doivent de préférence être d\'abord déposées sur la WebTV de l\'université, puis insérées dans votre cours
+à l\'aide de l\'activité UbiCast. Pour plus d\'informations, consultez le tutoriel d\'aide de la WebTV.';
+$string['warn_orphans'] = 'Les devoirs suivants comportant des <b>fichiers orphelins</b> :';
+$string['warn_orphans_help'] = '<p>Si un étudiant a déposé un devoir mais qu\'il n\'est plus inscrit dans le cours, son fichier n\'apparaitra plus dans
+l\'interface de l\'activité, mais en réalité il est toujours présent !</p>
+<p>Pour y remédier, vous devez : <ul>
+<li>soit supprimer l\'activité Devoir contenant les fichiers orphelins ;</li>
+<li>soit réinitialiser l\'ensemble de l\'activité Devoir pour tout votre cours.</li></ul></p>';
+$string['global_chart'] = 'Répartition des poids de fichiers par activité';
+$string['warn_recyclebin'] = '<p class="alert alert-info"><i class="fa fa-info-circle"></i> <b>Attention</b> : la Corbeille de cours est activée sur ce site. Si vous
+avez supprimé des fichiers, ils seront comptabilisés tant que la corbeille n\'est pas vidée par un enseignant ou par la tâche synchronisée de Moodle.</p>';
+
+// Page - réinitialisation globale. 
+$string['reset_info'] = '<p class="alert alert-success"><i class="fa fa-info-circle"></i> La fonction de réinitialisation d\'un cours permet de supprimer une série de données personnelles rattachées à votre cours. <b>La réinitialisation ne supprimera pas vos activités ou ressources disponibles dans votre cours</b>. Elle sert uniquement à 
+retirer certaines données de votre cours.</p>
+<p>En lançant la réinitialisation depuis cette page, cela entraînera la suppression :<ul>
+<li>des <b>suivis d\'achèvements</b> des ressources et activités ;</li>
+<li>des <b>notes dans le carnet de notes</b> ;</li>
+<li>des <b>groupes et groupements</b> ;</li>
+<li>des <b>dépôts étudiants dans les activités Devoir</b> ;</li>
+<li>des <b>messages de forum</b> ;</li>
+<li>des <b>tentatives dans les Tests</b> ;</li>
+<li> des <b>cohortes inscrites</b> à votre cours.</li></ul></p>
+<p>Aucune autre données ne sera supprimée.</p>
+<p>Si vous ne souhaitez pas réinitialiser tous ces éléments ou si vous souhaitez vider d\'autres contenus (wiki, bases de données...), il vous est 
+possible de <b>sélectionner les éléments que vous souhaitez réinitialiser</b> depuis la fonction disponible dans votre cours.<br />
+Vous pouvez également choisir de <b>désinscrire uniquement vos cohortes</b> sans toucher aux contenus. Il est à noter que désinscrire des étudiants fait également disparaître 
+les données des étudiants.</p>
+<h5 class="alert alert-primary"><i class="fa fa-question-circle-o"></i> <b>Que souhaitez-vous faire ?</b></h5>
+';
+$string['reset_result'] = '<p><b>Votre cours a été réinitialisé.</b></p>
+<p><b>Rappel</b> : aucune ressource ou activité n\'a été supprimée. Seules les données personnelles des activités devoirs, quiz et forum, ainsi que les notes et 
+les cohortes ont été retirées. Si vous souhaitez réinitialiser d\'autres activités (wiki, feedback, base de données...), utilisez la fonction de réinitialisation 
+depuis votre cours.</p>';
+
+// Page - désinscription des cohortes. 
+$string['title_delete_cohort_confirm'] = 'Désinscription des cohortes';
+$string['delete_cohort_confirm'] = 'A l\'aide de cette fonction, vous avez la possibilité de désinscrire les étudiants en supprimant les cohortes invitées dans votre cours.<br />
+Pour rappel, la suppression des cohortes fera également disparaître les données des étudiants telles que les messages de forum ou les notes.<br />
+<b>IMPORTANT : </b> désinscrire les cohortes ne supprime pas les devoirs déposés, tentatives de QCM etc. qui peuvent
+représenter une place importante dans votre cours. Pensez à également réinitialiser votre cours !
+<p class="alert alert-primary"><i class="fa fa-question-circle-o"></i> <b>ATTENTION :</b> selon le nombre de cohortes à désinscrire, ce processus peut prendre 
+du temps.</p>
+';
+$string['button_delete_cohort_confirm'] = 'Désinscrire les cohortes';
+$string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuellement inscrite dans ce cours !</p>';
+
+// Messages de confirmation de l'acueil.
+$string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
+$string['confirm_cohort_unenrolled_message'] = 'Les cohortes ont bien été désinscrites du cours.';
+$string['confirm_course_deleted_title'] = 'Cours supprimé';
+$string['confirm_course_deleted_message'] = 'Le cours a été déplacé dans la corbeille et sera définitivement supprimé en fin d\'année universitaire. Contactez le Support si vous
+souhaitez le récupérer.';
+
+// Description des événements
+$string['course_dashboard_viewed'] = 'Tableau de bord Enseignants consulté';
+$string['course_trash_moved'] = 'Cours déplacé dans la catégorie Corbeille';
+$string['course_files_viewed'] = 'Page des fichiers de cours consultée';
+$string['course_global_reset'] = 'Cours réinitialisé';
+$string['course_cohort_unenrolled'] = 'Cohortes désinscrites';
+
+//Autres
+$string['capability_problem'] = 'Vous n\'avez pas la permission d\'afficher cette page.';
