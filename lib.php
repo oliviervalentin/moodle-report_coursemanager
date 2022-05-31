@@ -280,12 +280,9 @@ class form_restore extends moodleform {
 		global $CFG, $USER, $DB;
         $mform = $this->_form;
         $datas = $this->_customdata['post'];
-
-        // $mform->addElement('text', 'message', 'BLABLA', 'maxlength="100" size="48"');
-        // $mform->setType('message', PARAM_TEXT);
 		
 		$displaylist = core_course_category::make_categories_list();
-		$mform->addElement('select', 'restore_category', 'Catégorie de destination', $displaylist);
+		$mform->addElement('select', 'restore_category', get_string('select_restore_category', 'report_coursemanager'), $displaylist);
 		
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
