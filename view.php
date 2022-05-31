@@ -23,8 +23,6 @@
  */
  
 require_once(__DIR__ . '/../../config.php');
-// require_once(__DIR__ .'/../../../lib/enrollib.php');
-// require_once(__DIR__.'/../../lib/outputcomponents.php');
 global $DB, $USER;
 
 require_login();
@@ -38,7 +36,7 @@ $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading($site->fullname);
 
-$PAGE->set_url('/theme/coursemanager/navcoursemanager/view.php');
+$PAGE->set_url('/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
 $PAGE->set_secondary_navigation(false);
 
@@ -65,6 +63,11 @@ if ($done != '0') {
 		case 'course_deleted':
 		    $title_done = get_string('confirm_course_deleted_title', 'report_coursemanager');
 			$text_done = get_string('confirm_course_deleted_message', 'report_coursemanager');
+		    break;
+			
+		case 'course_restored':
+		    $title_done = get_string('confirm_course_restored_title', 'report_coursemanager');
+			$text_done = get_string('confirm_course_restored_message', 'report_coursemanager');
 		    break;
 			
 		default:
@@ -161,7 +164,7 @@ if(count($list_user_courses) == 0) {
 						<i class="icon fa fa-ellipsis-v fa-fw " ></i>
 						</a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-							<a class="dropdown-item" href="delete_course/delete_confirm.php?courseid='.$course->id.'">Rétablir le cours</a>
+							<a class="dropdown-item" href="restore_course.php?courseid='.$course->id.'">Rétablir le cours</a>
 						</div>
 					</div>
 				';
@@ -385,5 +388,7 @@ $context = context_user::instance($USER->id);
 $eventparams = array('context' => $context);
 $event = \report_coursemanager\event\course_dashboard_viewed::create($eventparams);
 $event->trigger();
+
+unset($_GET);
 
 echo $OUTPUT->footer();
