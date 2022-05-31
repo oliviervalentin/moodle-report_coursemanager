@@ -61,6 +61,9 @@ $infocourse = $DB->get_record('course', array('id' => $id));
 
 $a = new stdClass();
 $a->delete_period = get_config('report_coursemanager', 'delete_period');
+$name_trash = $DB->get_record('course_categories', array("id" => get_config('report_coursemanager', 'category_bin')));
+// print_object($name_trash);
+$a->trash_category = $name_trash->name;
 
 $post = new stdClass();
 $post->courseid = $id;
