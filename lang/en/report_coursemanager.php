@@ -5,28 +5,12 @@
 // This line protects the file from being accessed by a URL directly.                                                               
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Rapport Lyon 3';       
-$string['choosereadme'] = 'Rapport développé pour Lyon 3';                                                                                  
+$string['pluginname'] = 'Course manager';                                                                                    
 
-$string['region-side-pre'] = 'Right';
+// $string['region-side-pre'] = 'Right';
 
 // Settings pages.                                                                                                      
-$string['configtitle'] = 'coursemanager settings';                                                                                          
-$string['generalsettings'] = 'Paramètres généraux'; 
-$string['advancedsettings'] = 'Avancé';                                                                                    
-$string['teachertools'] = 'Outils enseignants';  
-$string['brandcolor'] = 'Couleur principale';                                                                                                                                                                                       
-$string['brandcolor_desc'] = 'La couleur majeure du thème.';  
-$string['preset'] = 'Préréglage de thème';    
-$string['preset_desc'] = 'Veuillez choisir un préréglage pour modifier l\'aspect du thème.';                                                                                                  
-$string['presetfiles'] = 'Fichiers de préréglages additionnels pour le thème';                                                                                                                                                                                 
-$string['presetfiles_desc'] = 'Des fichiers de préréglages peuvent être utilisés afin de changer totalement la présentation du thème. Voir <a href=https://docs.moodle.org/dev/Boost_Presets>Boost presets</a> pour des informations sur la façon de créer et partager vos propres fichiers de préréglages et consultez le <a href=http://moodle.net/boost>catalogie des fichiers de préréglages</a> que d\'autres utilisateurs ont partagés.';
-$string['rawscss'] = 'SCSS brut';                                                                                                    
-$string['rawscss_desc'] = 'Ce champ permet d\'indiquer du code SCSS ou CSS qui sera injecté à la fin de la feuille de styles.';       
-$string['rawscsspre'] = 'Code SCSS initial';                                                                                         
-$string['rawscsspre_desc'] = 'Ce champ permet d\'indiquer du code SCSS d\'initialisation, qui sera injecté dans la feuille de styles avant toute autre définition. La plupart du temps, ce code sera utilisé pour définir des variables.';
-$string['loginbackgroundimage'] = 'Image de fond de la page de connexion';                                                                                                                                                                    
-$string['loginbackgroundimage_desc'] = 'Une image affichée en arrière-plan de la page de connexion.';
+$string['configtitle'] = 'Course Manager settings';                                                                                          
 $string['enableteachertools'] = 'Activer le menu Enseignants ?';   
 $string['enableteachertools_desc'] = 'Si activé, fait apparaitre un bouton Enseignant dans la barre de navigation principale pour afficher les outils de gestion des cours';
 $string['category_bin'] = 'Catégorie corbeille';
@@ -103,6 +87,15 @@ Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de 
 l\'interface de gestion de vos cours.<br />';
 $string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégorie Corbeille.';
 
+// Page - restauration des cours. 
+$string['title_restore_confirm'] = 'Restauration d\'un cours de la Corbeille';
+$string['restore_confirm'] = '<p>Cette page vous permet de restaurer un cours initialement prévu pour être supprimé, en le déplaçant
+hors de la catégorie Corbeille de Moodle. <b>{$a->delete_period}</b>.</p>
+<p class="alert alert-info"><i class="fa fa-info-circle"></i> tagada</p>';
+$string['button_restore_confirm'] = 'Confirmer la restauration';
+$string['restore_already_moved'] = 'Ce cours n\'est pas dans la catégorie Corbeille !.';
+$string['error_category'] = 'Mauvaise catégorie sélectionnée';
+
 // Page - gestion des fichiers. 
 $string['coursesize'] = 'Taille du cours';
 $string['coursereport'] = 'EXPLICATIONS - A venir !';
@@ -174,8 +167,10 @@ $string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuel
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
 $string['confirm_cohort_unenrolled_message'] = 'Les cohortes ont bien été désinscrites du cours.';
 $string['confirm_course_deleted_title'] = 'Cours supprimé';
-$string['confirm_course_deleted_message'] = 'Le cours a été déplacé dans la corbeille et sera définitivement supprimé en fin d\'année universitaire. Contactez le Support si vous
-souhaitez le récupérer.';
+$string['confirm_course_deleted_message'] = 'Le cours a été déplacé dans la corbeille et sera définitivement supprimé ';
+$string['confirm_course_restored_title'] = 'Cours restauré';
+$string['confirm_course_restored_message'] = 'Le cours a été déplacé hors de la corbeille et ne sera plus supprimé. Note : le cours restauré n\'est pas visible 
+par les étudiants, modifiez les paramètres du cours si nécessaire.';
 
 // Description des événements
 $string['course_dashboard_viewed'] = 'Tableau de bord Enseignants consulté';
@@ -183,6 +178,7 @@ $string['course_trash_moved'] = 'Cours déplacé dans la catégorie Corbeille';
 $string['course_files_viewed'] = 'Page des fichiers de cours consultée';
 $string['course_global_reset'] = 'Cours réinitialisé';
 $string['course_cohort_unenrolled'] = 'Cohortes désinscrites';
+$string['course_restored'] = 'Cours restauré hors de la catégorie Corbeille';
 
 //Autres
 $string['capability_problem'] = 'Vous n\'avez pas la permission d\'afficher cette page.';
