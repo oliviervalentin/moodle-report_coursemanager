@@ -61,13 +61,13 @@ if (!$confirm) {
 	echo $OUTPUT->header();
 	// Add back button.
 	print html_writer::div('
-	<div class="btn btn-outline-info"><span style="cursor:pointer;" onclick="history.back(-1)">
-	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</span></div><br /><br />
+	<div class="btn btn-outline-info"><a href="view.php">
+	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
 	');
 
 	echo $OUTPUT->heading(get_string('title_move_confirm', 'report_coursemanager')." ".$infocourse->fullname);
 	if($infocourse->category == get_config('report_coursemanager', 'category_bin')) {
-		echo html_writer::tag('h5', get_string('delete_already_moved', 'report_coursemanager'), array('class' => 'alert alert-warning'));
+		echo html_writer::tag('h5', get_string('delete_already_moved'), array('class' => 'alert alert-warning'));
 		echo $OUTPUT->footer();
 		exit();
 	}

@@ -49,22 +49,18 @@ $PAGE = new moodle_page();
 $PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
-$PAGE->set_url('/theme/coursemanager/navcoursemanager/reset.php', array('id'=>$id));
+$PAGE->set_url('/report/coursemanager/reset.php', array('id'=>$id));
 $PAGE->set_pagelayout('mycourses');
 $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
-$PAGE->set_title($course->fullname.': '.$strresetcourse);
+$PAGE->set_title($site->fullname);
 $PAGE->set_secondary_navigation(false);
-// $PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
-
-require_login($course);
-require_capability('moodle/course:reset', context_course::instance($course->id));
 
 $mform = new course_reset_form();
 
 if ($mform->is_cancelled()) {
-    redirect($CFG->wwwroot.'/theme/coursemanager/navcoursemanager/view.php');
+    redirect($CFG->wwwroot.'/report/coursemanager/view.php');
 
 } else if ($data = $mform->get_data()) { // no magic quotes
 
@@ -102,12 +98,7 @@ if ($mform->is_cancelled()) {
 }
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading($strresetcourse);
 echo $OUTPUT->heading($strresetcourse);
-
-// echo $OUTPUT->box(get_string('reset_info', 'report_coursemanager'));
 echo html_writer::div(get_string('reset_info', 'report_coursemanager'));
-// echo html_writer::div('Test');
 $mform->display();
-
 echo $OUTPUT->footer();

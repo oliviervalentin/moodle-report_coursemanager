@@ -74,19 +74,23 @@ echo $OUTPUT->heading(get_string('title_delete_cohort_confirm', 'report_coursema
 if ($count == 0) {
 	echo html_writer::tag('p', get_string('no_cohort', 'report_coursemanager'));
 	print html_writer::div('
-	<div class="btn btn-outline-info"><span style="cursor:pointer;" onclick="history.back(-1)">
-	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</span></div><br /><br />
+	<div class="btn btn-outline-info"><a href="view.php">
+	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></span></div><br /><br />
 	');
 }
 // If wohort detected, check if unenrollment is confirmed..
 else if (!$confirm) {
 	// If not confirmed : add explanations.
+	print html_writer::div('
+	<div class="btn btn-outline-info"><a href="view.php">
+	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
+	');
     echo $OUTPUT->box_start('generalbox', 'notice');
     echo html_writer::tag('p', get_string('delete_cohort_confirm', 'report_coursemanager'));
-    echo html_writer::tag(
-    'p',
-    $OUTPUT->single_button($url = new moodle_url('delete_cohort.php', array('confirm' => 1,
-        'id' => $courseid)), get_string('button_delete_cohort_confirm', 'report_coursemanager'), 'post'));
+	
+	$url_confirm_delete = new moodle_url('delete_cohort.php', array('confirm' => 1, 'id' => $courseid));
+    echo html_writer::div(html_writer::link($url_confirm_delete, get_string('button_delete_cohort_confirm', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info') . " ";
+
     echo $OUTPUT->box_end();
     echo $OUTPUT->footer();
 } else if ($confirm) {

@@ -59,7 +59,6 @@ if (!has_capability('moodle/course:update', $context)) {
 	exit();
 }
 
-
 // First query to retrieve files related to course.
 $sizesql = "SELECT a.component, SUM(a.filesize) as filesize, COUNT(a.contenthash) as countfiles
               FROM (SELECT DISTINCT f.contenthash, f.component, f.filesize
@@ -155,8 +154,8 @@ $chart_sizes_mod->set_labels($chart_labels);
 print $OUTPUT->header();
 
 print html_writer::div('
-<div class="btn btn-outline-info"><span style="cursor:pointer;" onclick="history.back(-1)">
-<i class="fa fa-arrow-left"></i>  '.get_string('back').'</span></div><br /><br />
+<div class="btn btn-outline-info"><a href="view.php">
+<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
 ');
 print $OUTPUT->heading(get_string('coursesize', 'report_coursemanager'). " - ". format_string($course->fullname));
 if (array_sum($total)>0) {
@@ -186,7 +185,6 @@ if (array_sum($total)>0) {
 print $OUTPUT->footer();
 
 // Add event when showing this page.
-// $context = context_user::instance($USER->id);
 $eventparams = array('context' => $context, 'courseid' => $courseid);
 $event = \report_coursemanager\event\course_files_viewed::create($eventparams);
 $event->trigger();
