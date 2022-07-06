@@ -219,8 +219,6 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
 
 		// For each file, check MIME type and size.
 		foreach ($filesrev as $f) {
-			$heavy_file = array();
-			$video = array();
 			// We remove files starting by "_s" and files with no size.
 			if(substr($f->get_filename(), 0, 2) !== "s_" && $f->get_filesize() > 0) {
 				// Size is rounded in Mo.
