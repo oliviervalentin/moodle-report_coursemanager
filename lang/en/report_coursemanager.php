@@ -37,13 +37,14 @@ $string['table_files_weight'] = 'Poids des fichiers';
 $string['table_enrolled_cohorts'] = 'Cohortes';
 $string['table_enrolled_students'] = 'Etudiants';
 $string['table_enrolled_teachers'] = 'Enseignants';
+$string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
 
 // Alertes/préconisations sur l'accueil du tableau de bord. 
 $string['course_state_visible'] = 'Visible';
 $string['course_state_hidden'] = 'Caché';
 $string['course_state_trash'] = 'Corbeille';
-$string['see_advices'] = 'Voir les préconisations';
+$string['see_advices'] = 'Résumé des recommandations';
 $string['advices_for_course'] = 'Préconisations pour le cours ';
 $string['total_filesize_alert'] = '<b>Le poids de ce cours est important.</b><br />Nous vous invitons à consulter <a href="course_files.php?courseid={$a->courseid}">l\'interface de gestion des fichiers de ce cours</a> pour voir les éléments les plus lourds, et éventuellement y apporter des solutions.';
 $string['empty_course_alert'] = '<b>Ce cours semble vide.</b><br />Actuellement, ce cours ne contient que le forum natif de Moodle. Si ce cours n\'a pas vocation à évoluer, nous vous invitons à le supprimer.';
@@ -90,11 +91,13 @@ $string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégo
 // Page - restauration des cours. 
 $string['title_restore_confirm'] = 'Restauration d\'un cours de la Corbeille';
 $string['restore_confirm'] = '<p>Cette page vous permet de restaurer un cours initialement prévu pour être supprimé, en le déplaçant
-hors de la catégorie Corbeille de Moodle. <b>{$a->delete_period}</b>.</p>
-<p class="alert alert-info"><i class="fa fa-info-circle"></i> tagada</p>';
+hors de la catégorie Corbeille de Moodle.</p>
+<p class="alert alert-info"><i class="fa fa-info-circle"></i> NOTE : ne restaurez pas votre cours dans la catégorie <b>"{$a->trash_category}"</b> : cette catégorie 
+sert précisément de corbeille et son contenu sera définitivement supprimé <b>{$a->delete_period}</b>.</p>';
 $string['button_restore_confirm'] = 'Confirmer la restauration';
 $string['restore_already_moved'] = 'Ce cours n\'est pas dans la catégorie Corbeille !.';
 $string['error_category'] = 'Mauvaise catégorie sélectionnée';
+$string['select_restore_category'] = 'Choisissez la catégorie de restauration du cours';
 
 // Page - gestion des fichiers. 
 $string['coursesize'] = 'Taille du cours';
@@ -182,3 +185,13 @@ $string['course_restored'] = 'Cours restauré hors de la catégorie Corbeille';
 
 //Autres
 $string['capability_problem'] = 'Vous n\'avez pas la permission d\'afficher cette page.';
+
+// Filtres
+$string['text_filter'] = 'Saisissez quelques caractères du nom du cours';
+$string['all_courses'] = 'Tous les cours';
+$string['no_content'] = 'Pas de contenus';
+$string['no_visit_student'] = 'Pas de visites d\'étudiant';
+$string['no_visit_teacher'] = 'Pas de visites d\'enseignants';
+$string['no_student'] = 'Aucun étudiants inscrits';
+$string['heavy_course'] = 'Poids important';
+
