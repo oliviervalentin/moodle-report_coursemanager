@@ -88,6 +88,7 @@ $chart_sizes = array();
 $chart_labels = array();
 
 foreach ($cxsizes as $cxdata) {
+	// print_object($cxdata);
     $row = array();
     // If component is not course, retrive file sizes and component for global chart.
 	if ($cxdata->component != 'course') {
