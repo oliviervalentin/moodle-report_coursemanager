@@ -35,6 +35,7 @@ $site = get_site();
 $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading($site->fullname);
+$PAGE->requires->js('/report/coursemanager/test.js');
 
 $PAGE->set_url('/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
@@ -86,7 +87,26 @@ if ($done != '0') {
 // Empty action message variable.
 unset($done);
 
-// First, retrieve all courses where is user is enrolled.
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+///////////////Buttons to filter lines.
+// 
+echo html_writer::div('
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Tapez le nom du cours">
+
+<div id="myBtnContainer">
+  <button class="btn active" onclick="filterSelection(\'all\')"> Show all</button>
+  <button class="btn" onclick="filterSelection(\'nocontent\')"> No content</button>
+  <button class="btn" onclick="filterSelection(\'novisitstudent\')"> novisitstudent</button>
+  <button class="btn" onclick="filterSelection(\'novisitteacher\')"> novisitteacher</button>
+  <button class="btn" onclick="filterSelection(\'heavycourse\')"> heavycourse</button>
+</div>
+');
+
+////////////////////////////////////////////////////////////////////////
+
+
+// First, retrieve all courses where user is enrolled.
 $list_user_courses = enrol_get_users_courses($USER->id, false, '' , 'fullname ASC');
 
 // If empty : user is not enrolled as teacher in any course. Show warning.
@@ -98,10 +118,11 @@ if(count($list_user_courses) == 0) {
 } else {
     // Add a new table to display courses information.
     $table = new html_table();
+	$all_row_classes = '';
     $table->id = 'courses';
 
     $table->attributes['class'] = 'admintable generaltable';
-
+    $table->align = array('left', 'left', 'left', 'left', 'left', 'left', 'center', 'left');
     $table->head = array ();
 
     // Define headings for table.
@@ -111,8 +132,10 @@ if(count($list_user_courses) == 0) {
 	$table->head[] = get_string('table_enrolled_cohorts', 'report_coursemanager');
     $table->head[] = get_string('table_enrolled_students', 'report_coursemanager');
     $table->head[] = get_string('table_enrolled_teachers', 'report_coursemanager');
-	$table->head[] = '';
+	$table->head[] = get_string('table_recommendation', 'report_coursemanager');;
     $table->head[] = get_string('table_actions', 'report_coursemanager');
+
+
 
     // Retrieve all informations for each courses where user is enrolled as teacher.
     foreach ($list_user_courses as $course) {
@@ -122,9 +145,16 @@ if(count($list_user_courses) == 0) {
 		$infocourse = $DB->get_record('course', array('id' => $course->id), 'category');
 	    $is_teacher = get_user_roles($coursecontext, $USER->id, false);
 	    $role = key($is_teacher);
+		
 
         // If user is enrolled as teacher in course.
 	    if ($is_teacher[$role]->roleid == 3) {
+			
+//////////////////			
+			$all_row_classes = '';
+			$data_keys = array();
+			$string_keys = '';
+			
 			
 			// Get enrol methods information.
 			$instances = enrol_get_instances($course->id, false);
@@ -145,6 +175,7 @@ if(count($list_user_courses) == 0) {
 			$all_students = get_role_users(5, $coursecontext);	
 
             // Create a new line for table.
+			// $row[] = new html_table_row();
             $row = array ();
             // Course name and direct link.
 	        $row[] = html_writer::link("/course/view.php?id=".$course->id, $course->fullname);
@@ -171,6 +202,8 @@ if(count($list_user_courses) == 0) {
 				$row[] = html_writer::div($menu, null);
 			} else {
 				$sumup = '';
+				$icons_sumup = '';
+				$string_key = '';
 				// If course is not in trash, let's show all information.
 
 				// Visible or hidden course ?.
@@ -199,14 +232,14 @@ if(count($list_user_courses) == 0) {
 //////////////////////////////////////////////////////////////////////////////////////
 ////////////////   A MODIFIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ////////////////////////////////////////////////////////////////////////////////////////
-				} else if ($filesize <= (get_config('report_coursemanager', 'total_filesize_threshold') / 2)) {
+				} else if ($filesize <= (get_config('report_coursemanager', 'total_filesize_threshold'))) {
 					// Si la taille totale est inférieure à la moitié de la limite définie dans les paramètres, affichage vert.
 					$icon_size = 'fa fa-thermometer-quarter';
 					$progress = 'text-success';
 				// } else if ($filesize > 10 && $filesize < 50) {
 					// $icon_size = 'fa fa-thermometer-half';
 					// $progress = 'text-warning';
-				} else {
+				} else if ($filesize > (get_config('report_coursemanager', 'total_filesize_threshold'))) {
 					// Au-delà de la moitié, on affiche une alerte.
 					$icon_size = 'fa fa-thermometer-three-quarters';
 					$progress = 'text-danger';
@@ -234,6 +267,10 @@ if(count($list_user_courses) == 0) {
 					$info = new stdClass();
 					$info->courseid = $course->id;
 					$sumup .= "<li>".get_string('total_filesize_alert', 'report_coursemanager', $info)."</li><br />";
+					$icons_sumup .= "<i class='fa fa-lg fa-thermometer-three-quarters text-danger'></i>&nbsp;";
+					$all_row_classes .= 'heavycourse ';
+					$data_key[] = "heavycourse";
+					$string_key .= "heavycourse";
 				}
 					
 				// 2- TEST FOR EMPTY COURSE.
@@ -251,6 +288,10 @@ if(count($list_user_courses) == 0) {
 				// If no result, course only contains announcment forum. Add a warning.
 				if($dbresultemptycourse < 1) {
 					$sumup .= "<li>".get_string('empty_course_alert', 'report_coursemanager')."</li><br />";
+					$icons_sumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
+					$all_row_classes .= "nocontent ";
+					$data_key[] = "nocontent";
+					$string_key .= "nocontent";
 				}
 				
 				// 3- TEST FOR TEACHERS VISITS
@@ -281,6 +322,10 @@ if(count($list_user_courses) == 0) {
 						// If user is the only teacher in course, add message and last access.
 						$sumup .= "<li>".get_string('last_access_unique_teacher_alert', 'report_coursemanager', $info).".</li><br />";
 					}
+					$icons_sumup .= "<i class='fa fa-lg fa-graduation-cap'></i>&nbsp;";
+					$all_row_classes .= "novisitteacher ";
+					$data_key[] = "novisitteacher";
+					$string_key .= "novisitteacher ";
 				}
 				
 				// 4- TEST FOR STUDENTS VISITS
@@ -308,10 +353,18 @@ if(count($list_user_courses) == 0) {
 						$info->limit_visit = floor(get_config('report_coursemanager', 'last_access_student')/30);					
 						// Add warning about no visit for students.
 						$sumup .= "<li>".get_string('last_access_student_alert', 'report_coursemanager', $info).".</li>";
+						$icons_sumup .= "<i class='fa fa-lg fa-group text-info'></i>&nbsp;";
+						$all_row_classes .= "novisitstudent ";
+						$data_key[] = "novisitstudent";
+						$string_key .= "novisitstudent ";
 					}
 				} else {
 					// If no students enrolled, add a specific warning
 					$sumup .= "<li>".get_string('empty_student_alert', 'report_coursemanager').".</li>";
+					$icons_sumup .= "<i class='fa fa-lg fa-user-o text-info'></i>&nbsp;";
+					$all_row_classes .= "nostudent ";
+					$data_key[] = "nostudent";
+					$string_key .= "nostudent ";
 				}
 
 				////////////////////////////////////////////			
@@ -321,10 +374,23 @@ if(count($list_user_courses) == 0) {
                 // If no specific recommendations, add a specific message.
 				if (empty($sumup)) {
 				    $sumup = "<p class='course_visible'><i class='fa fa-check'></i> ".get_string('no_advices', 'report_coursemanager')."</p>";
+					$icons_sumup .= "<i class='fa fa-lg fa-thumbs-up text-success'></i>";
+					$all_row_classes .= "ok ";
+					$data_key[] = "ok";
+					$string_key .= "ok ";
 				}
 				
+			////////////////////////////////////////////////// créer des classes rows
+				
+				// $data_keys = (array)$data_key;
+				// print_object($data_key);
+				// $row->attributes['data-key'][] = 'abc';
+				// $tagada[] = $i;
+				// $all_row_classes .= $i++;
+				
+				
 				// Create button to open Modal containing all recommandations.
-				$row[] = html_writer::label("<a type='button' class='btn btn-info' href='#' data-toggle='modal' data-target='#exampleModal".$course->id."'>".get_string('see_advices', 'report_coursemanager')."</a>", null);
+				$row[] = html_writer::label($icons_sumup."<br /><a class='badge badge-pill badge-light' href='#' data-toggle='modal' data-target='#exampleModal".$course->id."'>".get_string('see_advices', 'report_coursemanager')."</a>", null);
 				
 				// Code for Modal.
 				echo html_writer::div('
@@ -367,8 +433,6 @@ if(count($list_user_courses) == 0) {
 					</div>
 				';
 				$row[] = html_writer::div($menu, null);
-				
-				
             }
 
 /////////////////// DES TEST ! A SUPPRIMER SI INUTILE
@@ -376,6 +440,8 @@ if(count($list_user_courses) == 0) {
 // <a class="dropdown-item" href="view.php?courseid='.$course->id.'&confirm=1">TEST CORB</a>
 
             // All infos are set. Add line to table.
+			$table->rowclasses[] = "filterDiv ".$all_row_classes;
+			// $table->attributes['data-key'] = $data_keys;
 	        $table->data[] = $row;
 	    }
     }
