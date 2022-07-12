@@ -1,10 +1,11 @@
 # moodle-report_coursemanager
 Moodle report for helping teachers to clean and manage courses and contents
 
-# mode d'emploi et readme en cours de rédaction ! #
+# Version en cours de dévelopement #
+Pour toute question sur le fonctionnement du code, me contacter directement.
 
 ### !! Version fonctionnant uniquement sur Moodle 4.0 !! ###
-Pour versions antérieures (3.11 et moins) : dans les fichiers course_files.php, delete_cohort.php, delete_course.php, reset.php et view.php, mettre ce code en commentaires :
+Pour faire tourner le code sur des versions antérieures (3.11 et moins) : dans les fichiers course_files.php, delete_cohort.php, delete_course.php, reset.php et view.php, mettre ce code en commentaires :
 // $PAGE->set_secondary_navigation(false);
 
 ## Description ##
@@ -23,7 +24,3 @@ Pour donner accès au rapport, le plus simple est d’ajouter un élément dans 
 dans Administration du site > Présentation > Réglages thème. On peut alors rajouter un lien pointant vers /report/coursemanager/view.php
 Le menu s’affiche alors pour tous les utilisateurs, enseignants comme étudiants. Néanmoins, le rapport n’affichera de données que si 
 l’utilisateur qui le consulte est inscrit avec le rôle Enseignant dans au moins un cours.
-
-
-# Version en cours de dévelopement #
-Pour toute question sur le fonctionnement du code, me contacter directement.
