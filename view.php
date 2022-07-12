@@ -35,7 +35,8 @@ $site = get_site();
 $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading($site->fullname);
-$PAGE->requires->js('/report/coursemanager/test.js');
+$PAGE->requires->js('/report/coursemanager/test.js', false);
+$PAGE->requires->js_init_call('filterSelection');
 
 $PAGE->set_url('/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
@@ -87,19 +88,17 @@ if ($done != '0') {
 // Empty action message variable.
 unset($done);
 
-//////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////
-///////////////Buttons to filter lines.
-// 
+// Buttons to filter lines.
 echo html_writer::div('
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Tapez le nom du cours">
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="'.get_string('text_filter', 'report_coursemanager').'">
 
-<div id="myBtnContainer">
-  <button class="btn active" onclick="filterSelection(\'all\')"> Show all</button>
-  <button class="btn" onclick="filterSelection(\'nocontent\')"> No content</button>
-  <button class="btn" onclick="filterSelection(\'novisitstudent\')"> novisitstudent</button>
-  <button class="btn" onclick="filterSelection(\'novisitteacher\')"> novisitteacher</button>
-  <button class="btn" onclick="filterSelection(\'heavycourse\')"> heavycourse</button>
+<div id="filtercontainer">
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'all\')"><i class=\'fa fa-lg fa-list\'></i> '.get_string('all_courses', 'report_coursemanager').'</button>
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-content\')"><i class=\'fa fa-lg fa-battery-empty text-danger\'></i> '.get_string('no_content', 'report_coursemanager').'</button>
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-visit-student\')"><i class=\'fa fa-lg fa-group text-info\'></i> '.get_string('no_visit_student', 'report_coursemanager').'</button>
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-visit-teacher\')"><i class=\'fa fa-lg fa-graduation-cap\'></i> '.get_string('no_visit_teacher', 'report_coursemanager').'</button>
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-student\')"><i class=\'fa fa-lg fa-user-o text-info\'></i> '.get_string('no_student', 'report_coursemanager').'</button>
+  <button class="btn btn-outline-secondary" onclick="filterSelection(\'heavy-course\')"><i class=\'fa fa-lg fa-thermometer-three-quarters text-danger\'></i> '.get_string('heavy_course', 'report_coursemanager').'</button>
 </div>
 ');
 
@@ -268,9 +267,9 @@ if(count($list_user_courses) == 0) {
 					$info->courseid = $course->id;
 					$sumup .= "<li>".get_string('total_filesize_alert', 'report_coursemanager', $info)."</li><br />";
 					$icons_sumup .= "<i class='fa fa-lg fa-thermometer-three-quarters text-danger'></i>&nbsp;";
-					$all_row_classes .= 'heavycourse ';
-					$data_key[] = "heavycourse";
-					$string_key .= "heavycourse";
+					$all_row_classes .= 'heavy-course ';
+					// $data_key[] = "heavycourse";
+					// $string_key .= "heavycourse";
 				}
 					
 				// 2- TEST FOR EMPTY COURSE.
@@ -289,9 +288,9 @@ if(count($list_user_courses) == 0) {
 				if($dbresultemptycourse < 1) {
 					$sumup .= "<li>".get_string('empty_course_alert', 'report_coursemanager')."</li><br />";
 					$icons_sumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
-					$all_row_classes .= "nocontent ";
-					$data_key[] = "nocontent";
-					$string_key .= "nocontent";
+					$all_row_classes .= "no-content ";
+					// $data_key[] = "nocontent";
+					// $string_key .= "no-content";
 				}
 				
 				// 3- TEST FOR TEACHERS VISITS
@@ -323,9 +322,9 @@ if(count($list_user_courses) == 0) {
 						$sumup .= "<li>".get_string('last_access_unique_teacher_alert', 'report_coursemanager', $info).".</li><br />";
 					}
 					$icons_sumup .= "<i class='fa fa-lg fa-graduation-cap'></i>&nbsp;";
-					$all_row_classes .= "novisitteacher ";
-					$data_key[] = "novisitteacher";
-					$string_key .= "novisitteacher ";
+					$all_row_classes .= "no-visit-teacher ";
+					// $data_key[] = "novisitteacher";
+					// $string_key .= "novisitteacher ";
 				}
 				
 				// 4- TEST FOR STUDENTS VISITS
@@ -354,17 +353,17 @@ if(count($list_user_courses) == 0) {
 						// Add warning about no visit for students.
 						$sumup .= "<li>".get_string('last_access_student_alert', 'report_coursemanager', $info).".</li>";
 						$icons_sumup .= "<i class='fa fa-lg fa-group text-info'></i>&nbsp;";
-						$all_row_classes .= "novisitstudent ";
-						$data_key[] = "novisitstudent";
-						$string_key .= "novisitstudent ";
+						$all_row_classes .= "no-visit-student ";
+						// $data_key[] = "novisitstudent";
+						// $string_key .= "novisitstudent ";
 					}
 				} else {
 					// If no students enrolled, add a specific warning
 					$sumup .= "<li>".get_string('empty_student_alert', 'report_coursemanager').".</li>";
 					$icons_sumup .= "<i class='fa fa-lg fa-user-o text-info'></i>&nbsp;";
-					$all_row_classes .= "nostudent ";
-					$data_key[] = "nostudent";
-					$string_key .= "nostudent ";
+					$all_row_classes .= "no-student ";
+					// $data_key[] = "nostudent";
+					// $string_key .= "nostudent ";
 				}
 
 				////////////////////////////////////////////			
@@ -376,8 +375,8 @@ if(count($list_user_courses) == 0) {
 				    $sumup = "<p class='course_visible'><i class='fa fa-check'></i> ".get_string('no_advices', 'report_coursemanager')."</p>";
 					$icons_sumup .= "<i class='fa fa-lg fa-thumbs-up text-success'></i>";
 					$all_row_classes .= "ok ";
-					$data_key[] = "ok";
-					$string_key .= "ok ";
+					// $data_key[] = "ok";
+					// $string_key .= "ok ";
 				}
 				
 			////////////////////////////////////////////////// créer des classes rows
@@ -440,7 +439,7 @@ if(count($list_user_courses) == 0) {
 // <a class="dropdown-item" href="view.php?courseid='.$course->id.'&confirm=1">TEST CORB</a>
 
             // All infos are set. Add line to table.
-			$table->rowclasses[] = "filterDiv ".$all_row_classes;
+			$table->rowclasses[] = "filterrow show ".$all_row_classes;
 			// $table->attributes['data-key'] = $data_keys;
 	        $table->data[] = $row;
 	    }
