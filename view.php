@@ -35,8 +35,8 @@ $site = get_site();
 $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading($site->fullname);
-$PAGE->requires->js('/report/coursemanager/test.js', false);
-$PAGE->requires->js_init_call('filterSelection');
+// $PAGE->requires->js('/report/coursemanager/test.js', false);
+// $PAGE->requires->js_init_call('filterSelection');
 
 $PAGE->set_url('/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
