@@ -11,8 +11,8 @@ $string['pluginname'] = 'Course manager';
 
 // Settings pages.                                                                                                      
 $string['configtitle'] = 'Course Manager settings';                                                                                          
-$string['enableteachertools'] = 'Activer le menu Enseignants ?';   
-$string['enableteachertools_desc'] = 'Si activé, fait apparaitre un bouton Enseignant dans la barre de navigation principale pour afficher les outils de gestion des cours';
+$string['enableteachertools'] = 'Activer le menu Enseignants';   
+$string['enableteachertools_desc'] = 'RÉGLAGE NON UTILE ! Le lien vers le rapport doit être ajouté dans custommenuitems';
 $string['category_bin'] = 'Catégorie corbeille';
 $string['category_bin_desc'] = 'Si un enseignant demande la suppression de son cours, le cours sera déplacé dans cette catégorie avant suppression définitive par les gestionnaires de la plateforme.';
 $string['total_filesize_threshold'] = 'Poids maximum d\'un cours';
