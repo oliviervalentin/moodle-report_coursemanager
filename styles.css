@@ -12,17 +12,13 @@
 	margin-bottom: 12px;
 }
 
-.container {
-  overflow: hidden;
-}
-
 .filterrow {
   display: none; /* Hidden by default */
 }
 
 /* The "show" class is added to the filtered elements */
-.show {
-  display: revert;
+.show_course {
+  display: table-row;
 }
 
 /* Style the buttons */
