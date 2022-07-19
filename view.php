@@ -89,28 +89,31 @@ if ($done != '0') {
 unset($done);
 
 // Buttons to filter lines.
-echo html_writer::div('
+print('
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="'.get_string('text_filter', 'report_coursemanager').'">
 
-<div id="filtercontainer">
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'all\')"><i class=\'fa fa-lg fa-list\'></i> '.get_string('all_courses', 'report_coursemanager').'</button>
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-content\')"><i class=\'fa fa-lg fa-battery-empty text-danger\'></i> '.get_string('no_content', 'report_coursemanager').'</button>
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-visit-student\')"><i class=\'fa fa-lg fa-group text-info\'></i> '.get_string('no_visit_student', 'report_coursemanager').'</button>
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-visit-teacher\')"><i class=\'fa fa-lg fa-graduation-cap\'></i> '.get_string('no_visit_teacher', 'report_coursemanager').'</button>
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'no-student\')"><i class=\'fa fa-lg fa-user-o text-info\'></i> '.get_string('no_student', 'report_coursemanager').'</button>
-  <button class="btn btn-outline-secondary" onclick="filterSelection(\'heavy-course\')"><i class=\'fa fa-lg fa-thermometer-three-quarters text-danger\'></i> '.get_string('heavy_course', 'report_coursemanager').'</button>
-</div>
+<input type="radio" class="tablefilter" name="course_filter" id="filterrow" checked />
+<label for="filterrow" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-list\'></i> '.get_string('all_courses', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="heavy-course" />
+<label for="heavy-course" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-thermometer-three-quarters text-danger\'></i> '.get_string('heavy_course', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="no-visit-student" />
+<label for="no-visit-student" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-group text-info\'></i> '.get_string('no_visit_student', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="no-visit-teacher" />
+<label for="no-visit-teacher" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-graduation-cap\'></i> '.get_string('no_visit_teacher', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="no-student" />
+<label for="no-student" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-user-o\'></i> '.get_string('no_student', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="no-content" />
+<label for="no-content" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-battery-empty text-danger\'></i> '.get_string('no_content', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="ok" />
+<label for="ok" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-check-circle text-success\'></i> '.get_string('ok', 'report_coursemanager').'</label>
 ');
-
-////////////////////////////////////////////////////////////////////////
-
 
 // First, retrieve all courses where user is enrolled.
 $list_user_courses = enrol_get_users_courses($USER->id, false, '' , 'fullname ASC');
 
 // If empty : user is not enrolled as teacher in any course. Show warning.
 if(count($list_user_courses) == 0) {
-    echo html_writer::div('<h2>Pas de cours</h3>
+    echo html_writer::div('<h2>Pas de cours</h2>
         Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant.', 'alert alert-primary');
 
 // If user is enrolled in at least one course as teacher, let's start !
@@ -120,7 +123,7 @@ if(count($list_user_courses) == 0) {
 	$all_row_classes = '';
     $table->id = 'courses';
 
-    $table->attributes['class'] = 'admintable generaltable';
+    $table->attributes['class'] = 'admintable generaltable browse_courses';
     $table->align = array('left', 'left', 'left', 'left', 'left', 'left', 'center', 'left');
     $table->head = array ();
 
@@ -439,7 +442,7 @@ if(count($list_user_courses) == 0) {
 // <a class="dropdown-item" href="view.php?courseid='.$course->id.'&confirm=1">TEST CORB</a>
 
             // All infos are set. Add line to table.
-			$table->rowclasses[] = "filterrow show ".$all_row_classes;
+			$table->rowclasses[] = "filterrow ".$all_row_classes;
 			// $table->attributes['data-key'] = $data_keys;
 	        $table->data[] = $row;
 	    }
