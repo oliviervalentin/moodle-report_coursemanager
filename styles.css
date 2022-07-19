@@ -1,9 +1,5 @@
 #myInput {
-  /* background-image: url('/css/searchicon.png');  */
-  /* background-position: 10px 12px;  */
-  /* background-repeat: no-repeat;  */
   width: 100%; 
-  /* font-size: 16px;  */
   padding: 10px 20px 10px 20px; 
   border: 1px solid #ddd;
   margin-bottom: 12px;
@@ -13,30 +9,57 @@
 }
 
 .filterrow {
-  display: none; /* Hidden by default */
+  display: none;
 }
 
-/* The "show" class is added to the filtered elements */
 .show_course {
   display: table-row;
 }
 
-/* Style the buttons */
-.btn {
-  border: none;
-  outline: none;
-  padding: 12px 16px;
-  background-color: #f1f1f1;
-  cursor: pointer;
+/* .btn { */
+  /* border: none; */
+  /* outline: none; */
+  /* padding: 12px 16px; */
+  /* background-color: #f1f1f1; */
+  /* cursor: pointer; */
+/* } */
+
+/* .btn:hover { */
+  /* background-color: #ddd; */
+/* } */
+
+/* .btn.active { */
+  /* background-color: #666; */
+  /* color: white; */
+/* } */
+
+
+#no-visit-student.tablefilter:checked~div table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked~div table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked~div table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked~div table tbody tr.no-content,
+#no-student.tablefilter:checked~div table tbody tr.no-student,
+#filterrow.tablefilter:checked~div table tbody tr.filterrow {
+  display: table-row;
 }
 
-/* Add a light grey background on mouse-over */
-.btn:hover {
+.tablefilter+label {
+  cursor: pointer;
+  /* background-color: #666; */
+  /* color: #fff; */
+  /* padding: 3px; */
+}
+
+.tablefilter:checked+label {
   background-color: #ddd;
 }
 
-/* Add a dark background to the active button */
-.btn.active {
-  background-color: #666;
-  color: white;
+.browse_courses {
+  /* position: relative; */
+  /* left: 6% */
+}
+
+.browse_courses tbody tr,
+.tablefilter{
+    display:none;
 }
