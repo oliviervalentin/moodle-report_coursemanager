@@ -15,6 +15,9 @@ natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rap
 -	De proposer des fonctions « raccourcies » pour nettoyer son cours (désinscription massive de cohortes, réinitialisation simplifiée, préconisations de nettoyage) ;
 -	D’offrir des outils dans le but de mieux visualiser ses données et d’inciter à faire le ménage, notamment en utilisant des techniques « nudge ».
 
+![image](https://user-images.githubusercontent.com/25584834/179756387-804fa248-e542-4bd8-b8d7-920bf9e8fe0f.png)
+![image](https://user-images.githubusercontent.com/25584834/179756572-ab7bdb9e-00a2-4db9-9960-754194af59c5.png)
+
 ## Fonctionnalités ##
 
 - Liste complète des cours où l'utilisateur est inscrit en tant qu'enseignant.
@@ -25,6 +28,8 @@ natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rap
 - Réinitialisation de cours simplifiée.
 - Désinscription massive des cohortes inscrites.
 - Evénements liés à différentes actions, afin de mesurer l'utilisation du plugin.
+
+![image](https://user-images.githubusercontent.com/25584834/179756655-1732b9ed-97cf-4e9b-85d4-d65622159c31.png)
 
 ## Installation ##
 1) Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
