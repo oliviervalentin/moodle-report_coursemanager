@@ -24,6 +24,7 @@ natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rap
 - Possibilité de déplacer un cours dans une catégorie-corbeille.
 - Réinitialisation de cours simplifiée.
 - Désinscription massive des cohortes inscrites.
+- Evénements liés à différentes actions, afin de mesurer l'utilisation du plugin.
 
 ## Installation ##
 1) Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
