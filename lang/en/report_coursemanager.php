@@ -192,6 +192,7 @@ $string['all_courses'] = 'Tous les cours';
 $string['no_content'] = 'Pas de contenus';
 $string['no_visit_student'] = 'Pas de visites d\'étudiant';
 $string['no_visit_teacher'] = 'Pas de visites d\'enseignants';
-$string['no_student'] = 'Aucun étudiants inscrits';
+$string['no_student'] = 'Aucun étudiant inscrit';
 $string['heavy_course'] = 'Poids important';
+$string['ok'] = 'Aucune remarque';
 
