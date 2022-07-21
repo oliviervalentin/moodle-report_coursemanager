@@ -34,7 +34,9 @@ natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rap
 ## Installation ##
 Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
 
-Idéalement, le code JavaScript du fichier test.js, qui sert au filtrage des cours par nom, sera intégré via Grunt (en projet).
+## Notes techniques ##
+Le code JavaScript du fichier test.js sert au filtrage des cours par nom. Il est appelé directement dans l'en-tête du fichier view.php.
+Idéalement, afin de respecter le codage moodle, il sera intégré via Grunt (en projet).
 
 ## Comment donner accès au rapport ? ##
 Pour donner accès au rapport, le plus simple est d’ajouter un élément dans la navigation principale en utilisant les custom menu items 
