@@ -16,31 +16,20 @@
   display: table-row;
 }
 
-/* .btn { */
-  /* border: none; */
-  /* outline: none; */
-  /* padding: 12px 16px; */
-  /* background-color: #f1f1f1; */
-  /* cursor: pointer; */
-/* } */
-
-/* .btn:hover { */
-  /* background-color: #ddd; */
-/* } */
-
-/* .btn.active { */
-  /* background-color: #666; */
-  /* color: white; */
-/* } */
-
-
 #no-visit-student.tablefilter:checked~div table tbody tr.no-visit-student,
 #heavy-course.tablefilter:checked~div table tbody tr.heavy-course,
 #no-visit-teacher.tablefilter:checked~div table tbody tr.no-visit-teacher,
 #no-content.tablefilter:checked~div table tbody tr.no-content,
 #no-student.tablefilter:checked~div table tbody tr.no-student,
 #ok.tablefilter:checked~div table tbody tr.ok,
-#filterrow.tablefilter:checked~div table tbody tr.filterrow {
+#filterrow.tablefilter:checked~div table tbody tr.filterrow,
+#no-visit-student.tablefilter:checked~ table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked~ table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked~ table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked~ table tbody tr.no-content,
+#no-student.tablefilter:checked~ table tbody tr.no-student,
+#ok.tablefilter:checked~ table tbody tr.ok,
+#filterrow.tablefilter:checked~ table tbody tr.filterrow {
   display: table-row;
 }
 
