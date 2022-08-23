@@ -36,20 +36,16 @@ $PAGE = new moodle_page();
 $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/report/coursemanager/test.js'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading($site->fullname);
-
-
-// $PAGE->requires->js_init_call('filterSelection');
-
-$PAGE->set_url('/coursemanager/view.php');
+$PAGE->set_url('/report/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
-$PAGE->set_secondary_navigation(false);
+// $PAGE->set_secondary_navigation(false);
 
 $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-$PAGE->set_heading($site->fullname);
+
 // Force the add block out of the default area.
-$PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
+// $PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
 
 // Defines date and hour.
 $now = time();
