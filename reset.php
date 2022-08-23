@@ -46,7 +46,7 @@ $site = get_site();
 
 // Page settings
 $PAGE = new moodle_page();
-$PAGE->set_context($context);
+// $PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
 $PAGE->set_url('/report/coursemanager/reset.php', array('id'=>$id));
@@ -55,9 +55,9 @@ $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-$PAGE->set_secondary_navigation(false);
+// $PAGE->set_secondary_navigation(false);
 
-$mform = new course_reset_form();
+$mform = new course_reset_form(null, array('prout' => $id));
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
@@ -70,7 +70,7 @@ if ($mform->is_cancelled()) {
     $data->reset_start_date_old = $course->startdate;
     $data->reset_end_date_old = $course->enddate;
     $status = reset_course_userdata($data);
-
+	
 	// Get enroll instances.
 	$instances = enrol_get_instances($course->id, false);
 	$plugins   = enrol_get_plugins(false);
@@ -82,6 +82,16 @@ if ($mform->is_cancelled()) {
 			$plugin->delete_instance($instance);
 		}
 	}
+	
+	$data = array();
+	
+    foreach ($status as $item) {
+        $line = array();
+        $line[] = $item['component'];
+        $line[] = $item['item'];
+        $line[] = ($item['error']===false) ? get_string('ok') : '<div class="notifyproblem">'.$item['error'].'</div>';
+        $data[] = $line;
+    }
 
     echo html_writer::div(get_string('reset_result', 'report_coursemanager'), 'alert alert-success');
 
