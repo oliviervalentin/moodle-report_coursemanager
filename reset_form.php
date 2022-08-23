@@ -61,7 +61,6 @@ class course_reset_form extends moodleform {
 		
 		// Retrieve all activities.
         if ($allmods = $DB->get_records('modules') ) {
-			// print_object($allmods);
             foreach ($allmods as $mod) {
 				// If activity is in preset list, let's check it.
 				if (in_array($mod->name, $myresets)) {
@@ -69,11 +68,7 @@ class course_reset_form extends moodleform {
 					$modfile = $CFG->dirroot."/mod/$modname/lib.php";
 					$mod_reset_course_form_definition = $modname.'_reset_course_form_definition';
 					$mod_reset__userdata = $modname.'_reset_userdata';
-					
-					// print_object($modfile);
-					print_object($mod_reset_course_form_definition);
-					print_object($id);
-					
+										
 					if (file_exists($modfile)) {
 						if (!$DB->count_records($modname, array('course'=>$this->_customdata['prout']))) {
 							continue; // Skip mods with no instances
@@ -81,8 +76,6 @@ class course_reset_form extends moodleform {
 					include_once($modfile);
 					// When reset, function in appropriate lib.php is defined, define elements to reset.
 					if (function_exists($mod_reset_course_form_definition)) {
-						// print_object($mod_reset_course_form_definition);
-						// echo "BBB";
 						// For assign : delete submissions.
 						if ($modname == "assign") {
 							$mform->addElement('hidden', 'reset_assign_submissions', get_string('deleteallsubmissions', 'assign'));
@@ -129,7 +122,5 @@ class course_reset_form extends moodleform {
 
         $mform->addGroup($buttonarray, 'buttonar', '', array(' '), false);
         $mform->closeHeaderBefore('buttonar');
-		
-		// print_object($mform);
     }
 }
