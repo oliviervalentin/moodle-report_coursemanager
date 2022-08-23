@@ -70,7 +70,7 @@ class course_reset_form extends moodleform {
 					$mod_reset__userdata = $modname.'_reset_userdata';
 										
 					if (file_exists($modfile)) {
-						if (!$DB->count_records($modname, array('course'=>$this->_customdata['prout']))) {
+						if (!$DB->count_records($modname, array('course'=>$this->_customdata['courseid']))) {
 							continue; // Skip mods with no instances
 						}
 					include_once($modfile);
@@ -113,7 +113,7 @@ class course_reset_form extends moodleform {
             }
         }
 
-        $mform->addElement('hidden', 'id', $this->_customdata['prout']);
+        $mform->addElement('hidden', 'id', $this->_customdata['courseid']);
         $mform->setType('id', PARAM_INT);
 
         $buttonarray = array();

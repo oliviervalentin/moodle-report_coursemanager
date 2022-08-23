@@ -57,7 +57,7 @@ $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 // $PAGE->set_secondary_navigation(false);
 
-$mform = new course_reset_form(null, array('prout' => $id));
+$mform = new course_reset_form(null, array('courseid' => $id));
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
