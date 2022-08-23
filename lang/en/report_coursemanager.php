@@ -6,7 +6,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Course manager';                                                                                    
-
+$string['title'] = 'Gestion des cours - Enseignants';  
 // $string['region-side-pre'] = 'Right';
 
 // Settings pages.                                                                                                      
@@ -141,10 +141,10 @@ retirer certaines données de votre cours.</p>
 <li>des <b>dépôts étudiants dans les activités Devoir</b> ;</li>
 <li>des <b>messages de forum</b> ;</li>
 <li>des <b>tentatives dans les Tests</b> ;</li>
-<li> des <b>cohortes inscrites</b> à votre cours.</li></ul></p>
+<li> des <b>cohortes inscrites</b> à votre cours (<span class="text-danger"><b>ATTENTION</b> : la fonction peut prendre un certain temps suivant le nombre de cohortes et d\'étudiants inscrits !).</span></li></ul></p>
 <p>Aucune autre données ne sera supprimée.</p>
 <p>Si vous ne souhaitez pas réinitialiser tous ces éléments ou si vous souhaitez vider d\'autres contenus (wiki, bases de données...), il vous est 
-possible de <b>sélectionner les éléments que vous souhaitez réinitialiser</b> depuis la fonction disponible dans votre cours.<br />
+possible de <a href="/course/view.php?id="><b>sélectionner les éléments que vous souhaitez réinitialiser</b></a> depuis la fonction disponible dans votre cours.<br />
 Vous pouvez également choisir de <b>désinscrire uniquement vos cohortes</b> sans toucher aux contenus. Il est à noter que désinscrire des étudiants fait également disparaître 
 les données des étudiants.</p>
 <h5 class="alert alert-primary"><i class="fa fa-question-circle-o"></i> <b>Que souhaitez-vous faire ?</b></h5>
