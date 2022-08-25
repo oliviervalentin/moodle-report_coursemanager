@@ -221,7 +221,7 @@ if(count($list_user_courses) == 0) {
 				$paramsdb = array($course->id);
 				$dbresult = $DB->get_field_sql($sql, $paramsdb);
 				// Rounded files size in Mo.
-				$filesize = number_format(ceil($dbresult / 1048576));
+				$filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
 
 				// Test with config variable "total_filesize_threshold".
 				// if total size is null, blue color.
