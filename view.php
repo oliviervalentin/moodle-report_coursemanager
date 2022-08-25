@@ -35,7 +35,7 @@ $site = get_site();
 $PAGE = new moodle_page();
 $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/report/coursemanager/test.js'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_heading($site->fullname);
+$PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/view.php');
 $PAGE->set_pagelayout('mycourses');
 // $PAGE->set_secondary_navigation(false);
@@ -88,6 +88,7 @@ unset($done);
 
 // Buttons to filter lines.
 print('
+<h3>'.get_string('title', 'report_coursemanager').'</h3>
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="'.get_string('text_filter', 'report_coursemanager').'">
 
 <input type="radio" class="tablefilter" name="course_filter" id="filterrow" checked />
@@ -112,11 +113,12 @@ $list_user_courses = enrol_get_users_courses($USER->id, false, '' , 'fullname AS
 // If empty : user is not enrolled as teacher in any course. Show warning.
 if(count($list_user_courses) == 0) {
     echo html_writer::div('<h2>Pas de cours</h2>
-        Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant.', 'alert alert-primary');
+        Vous n\'êtes inscrit dans aucun cours', 'alert alert-primary');
 
 // If user is enrolled in at least one course as teacher, let's start !
 } else {
     // Add a new table to display courses information.
+	$count_courses = 0;
     $table = new html_table();
 	$all_row_classes = '';
     $table->id = 'courses';
@@ -135,8 +137,6 @@ if(count($list_user_courses) == 0) {
 	$table->head[] = get_string('table_recommendation', 'report_coursemanager');;
     $table->head[] = get_string('table_actions', 'report_coursemanager');
 
-
-
     // Retrieve all informations for each courses where user is enrolled as teacher.
     foreach ($list_user_courses as $course) {
         // Get context and course infos.
@@ -145,17 +145,16 @@ if(count($list_user_courses) == 0) {
 		$infocourse = $DB->get_record('course', array('id' => $course->id), 'category');
 	    $is_teacher = get_user_roles($coursecontext, $USER->id, false);
 	    $role = key($is_teacher);
-		
 
         // If user is enrolled as teacher in course.
 	    if ($is_teacher[$role]->roleid == 3) {
-			
+			$count_courses = $count_courses+1;
+			// echo $count_courses;
 //////////////////			
 			$all_row_classes = '';
 			$data_keys = array();
 			$string_keys = '';
-			
-			
+				
 			// Get enrol methods information.
 			$instances = enrol_get_instances($course->id, false);
 			$plugins   = enrol_get_plugins(false);
@@ -446,7 +445,12 @@ if(count($list_user_courses) == 0) {
 	    }
     }
     // End : show all table.
-    echo html_writer::table($table);
+	if ($count_courses > 1) {
+        echo html_writer::table($table);
+	} else {
+		echo html_writer::div('<h2>Pas de cours</h2>
+        Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant', 'alert alert-primary');
+	}
 }
 
 // Trigger event for viewing the Teacher Courses Dashboard.
