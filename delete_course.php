@@ -33,7 +33,6 @@ $confirm = optional_param('confirm', 0, PARAM_INT);
 $context = context_course::instance($courseid, MUST_EXIST);
 
 require_capability('moodle/course:update', $context);
-
 // Get site infos.
 $site = get_site();
 
@@ -48,7 +47,7 @@ $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-$PAGE->set_secondary_navigation(false);
+// $PAGE->set_secondary_navigation(false);
 // Force the add block out of the default area.
 
 $infocourse = $DB->get_record('course', array('id' => $courseid));
@@ -85,50 +84,74 @@ if (!$confirm) {
     echo html_writer::div(html_writer::link($url_backup_course, get_string('button_save_course', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info');
     echo $OUTPUT->footer();
 } else if ($confirm) {
-        // If confirmed : course is moved in trash category.
-        $moveit = \core_course\management\helper::move_courses_into_category(get_config('report_coursemanager', 'category_bin'),
-            array('id' => $courseid));
+    // If confirmed : course is moved in trash category.
+    // First, retrieve category id for this course.
+    $course = $DB->get_record('course', array('id' => $courseid), 'id, category');
+	// Next, get context for course category and the bin category.
+	$contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
+    $contextcategorytrashid = $contextcategorytrash->id;
+	$contextcategorystart = CONTEXT_COURSECAT::instance($course->category);
+    $contextcategorystartid = $contextcategorystart->id;
+	
+	// Assign teacher role in these two categories context.
+    role_assign(3, $USER->id, $contextcategorytrashid);
+	role_assign(3, $USER->id, $contextcategorystartid);
 
-        // Course parameters updated : course is hidden.
-        $datahide->id = $courseid;
-        $datahide->visible = 0;
-        $hide = $DB->update_record('course', $datahide);
+    // Assign 2 capabilities to move course.
+	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+	
+	// Move course into trash.
+	$moveit = \core_course\management\helper::move_courses_into_category(get_config('report_coursemanager', 'category_bin'),
+    array('id' => $courseid));
 
-		$all_teachers = get_role_users(3, $context);
+    // Unassign the teacher role in categories contexts.
+	role_unassign(3, $USER->id, $contextcategorytrashid);
+	role_unassign(3, $USER->id, $contextcategorystartid);
+		
+    // Course parameters updated : course is hidden.
+    $datahide->id = $courseid;
+    $datahide->visible = 0;
+    $hide = $DB->update_record('course', $datahide);
 
-		$a->course = $infocourse->fullname;
-		$a->count_teacher = count($all_teachers);
+    // Get all users enrolled as teacher in course.
+    $all_teachers = get_role_users(3, $context);
 
-		$subject = get_string('mail_subject_delete', 'report_coursemanager', $a);
-		$from = $CFG->supportname;
-		$from->maildisplay = false;
+    // Define informations for mail.
+	$a->course = $infocourse->fullname;
+	$a->count_teacher = count($all_teachers);
+	$subject = get_string('mail_subject_delete', 'report_coursemanager', $a);
+	$from = $CFG->supportname;
+	$from->maildisplay = false;
 
-        // Send a message to teacher(s).
-		//If only one teacher : send mail for the only teacher in course.
-		if(count($all_teachers) == 1) {
-			$message = get_string('mail_message_delete_oneteacher', 'report_coursemanager', $a);
-			$send = email_to_user($USER, $from, $subject, $message);
-		} else {
-			//If multiple teachers : send 2 different mails.
-			foreach($all_teachers as $teacher){
-				if ($teacher->email == $USER->email){
-					// Mail for teacher who deletes course.
-					$message = get_string('mail_message_delete_main_teacher', 'report_coursemanager', $a);
-					$send = email_to_user($USER, $from, $subject, $message);
-				} else {
-					// Mail for other teachers to warn them.
-					$a->deleter = $USER->firstname." ".$USER->lastname;
-					$message = get_string('mail_message_delete_other_teacher', 'report_coursemanager', $a);
-					$send = email_to_user($teacher, $from, $subject, $message);
-				}
+    // Send a message to teacher(s).
+	// If only one teacher : send mail for the only teacher in course.
+	if(count($all_teachers) == 1) {
+		$message = get_string('mail_message_delete_oneteacher', 'report_coursemanager', $a);
+		$send = email_to_user($USER, $from, $subject, $message);
+	} else {
+		//If multiple teachers : send 2 different mails.
+		foreach($all_teachers as $teacher){
+			if ($teacher->email == $USER->email){
+				// Mail for teacher who deletes course.
+				$message = get_string('mail_message_delete_main_teacher', 'report_coursemanager', $a);
+				$send = email_to_user($USER, $from, $subject, $message);
+			} else {
+				// Mail for other teachers to warn them.
+				$a->deleter = $USER->firstname." ".$USER->lastname;
+				$message = get_string('mail_message_delete_other_teacher', 'report_coursemanager', $a);
+				$send = email_to_user($teacher, $from, $subject, $message);
 			}
 		}
+	}
 
-		// Add event for deletion.
-		$context = context_course::instance($courseid);
-		$eventparams = array('context' => $context, 'courseid' => $courseid);
-		$event = \report_coursemanager\event\course_trash_moved::create($eventparams);
-		$event->trigger();
-    }
+	// Add event for deletion.
+	$context = context_course::instance($courseid);
+	$eventparams = array('context' => $context, 'courseid' => $courseid);
+	$event = \report_coursemanager\event\course_trash_moved::create($eventparams);
+	$event->trigger();
+}
 $url = new moodle_url('view.php', array('done' => 'course_deleted'));
 redirect($url);
