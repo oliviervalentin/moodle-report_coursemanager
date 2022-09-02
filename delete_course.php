@@ -85,36 +85,7 @@ if (!$confirm) {
     echo $OUTPUT->footer();
 } else if ($confirm) {
     // If confirmed : course is moved in trash category.
-    // First, retrieve category id for this course.
-    $course = $DB->get_record('course', array('id' => $courseid), 'id, category');
-	// Next, get context for course category and the bin category.
-	$contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
-    $contextcategorytrashid = $contextcategorytrash->id;
-	$contextcategorystart = CONTEXT_COURSECAT::instance($course->category);
-    $contextcategorystartid = $contextcategorystart->id;
-	
-	// Assign teacher role in these two categories context.
-    role_assign(3, $USER->id, $contextcategorytrashid);
-	role_assign(3, $USER->id, $contextcategorystartid);
-
-    // Assign 2 capabilities to move course.
-	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
-	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
-	
-	// Move course into trash.
-	$moveit = \core_course\management\helper::move_courses_into_category(get_config('report_coursemanager', 'category_bin'),
-    array('id' => $courseid));
-
-    // Unassign the teacher role in categories contexts.
-	role_unassign(3, $USER->id, $contextcategorytrashid);
-	role_unassign(3, $USER->id, $contextcategorystartid);
-	
-	unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
-	unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
-	unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
-	unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
+	move_courses(array($courseid), get_config('report_coursemanager', 'category_bin'));
 		
     // Course parameters updated : course is hidden.
     $datahide->id = $courseid;
