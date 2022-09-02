@@ -445,7 +445,7 @@ if(count($list_user_courses) == 0) {
 	    }
     }
     // End : show all table.
-	if ($count_courses > 1) {
+	if ($count_courses > 0) {
         echo html_writer::table($table);
 	} else {
 		echo html_writer::div('<h2>Pas de cours</h2>
