@@ -98,9 +98,9 @@ if (!$confirm) {
 	role_assign(3, $USER->id, $contextcategorystartid);
 
     // Assign 2 capabilities to move course.
-	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
 	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
 	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
 	
 	// Move course into trash.
