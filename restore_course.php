@@ -103,6 +103,11 @@ if ($mform->is_cancelled()) {
     // Unassign the teacher role in categories contexts.
 	role_unassign(3, $USER->id, $contextcategorytrashid);
 	role_unassign(3, $USER->id, $contextcategorystartid);
+	
+	unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
+	unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
+	unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
+	unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
 
     // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
         // array('id' => $data->courseid));

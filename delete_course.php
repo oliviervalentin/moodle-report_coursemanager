@@ -98,10 +98,10 @@ if (!$confirm) {
 	role_assign(3, $USER->id, $contextcategorystartid);
 
     // Assign 2 capabilities to move course.
-	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
 	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
 	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+	assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
 	
 	// Move course into trash.
 	$moveit = \core_course\management\helper::move_courses_into_category(get_config('report_coursemanager', 'category_bin'),
@@ -110,6 +110,11 @@ if (!$confirm) {
     // Unassign the teacher role in categories contexts.
 	role_unassign(3, $USER->id, $contextcategorytrashid);
 	role_unassign(3, $USER->id, $contextcategorystartid);
+	
+	unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
+	unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
+	unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
+	unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
 		
     // Course parameters updated : course is hidden.
     $datahide->id = $courseid;
