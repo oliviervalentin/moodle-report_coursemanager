@@ -50,8 +50,8 @@ $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-$PAGE->set_secondary_navigation(false);
-$PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
+// $PAGE->set_secondary_navigation(false);
+// $PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
 
 // First, retrieve all enrollment instances.
 $instances = enrol_get_instances($course->id, false);

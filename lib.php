@@ -24,6 +24,7 @@
  
 defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
+
 global $COURSE, $OUTPUT, $PAGE, $CFG;
 
 function report_coursemanager_get_main_scss_content($theme) {
@@ -213,23 +214,24 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
 		$contextres = context_module::instance($cm->id);
 		$fsres = get_file_storage();
 		$filesrev = $fsres->get_area_files($contextres->id, 'mod_'.$component, $filearea);
-	
+
 		$heavy_files = array();
 		$videos = array();
 
 		// For each file, check MIME type and size.
 		foreach ($filesrev as $f) {
+
 			// We remove files starting by "_s" and files with no size.
 			if(substr($f->get_filename(), 0, 2) !== "s_" && $f->get_filesize() > 0) {
 				// Size is rounded in Mo.
 				$weight = number_format(ceil($f->get_filesize() / 1048576));
+
 				// If file is a video AND exceeds file limit, add warning about Web TV. 
 				if(strpos($f->get_mimetype(), 'video') !== false && $weight >= get_config('report_coursemanager', 'unique_filesize_threshold')) {
 					$video[] = (array ('weight' => $weight, 'name' =>$f->get_filename()));
 				}
-				
 				// If file is no video, just add warning about size.
-				else if ($weight >= get_config('report_coursemanager', 'unique_filesize_threshold')) {
+				else if ($weight > get_config('report_coursemanager', 'unique_filesize_threshold')) {
 					$heavy_file[] = (array ('weight' => $weight, 'name' =>$f->get_filename()));
 					}
 				$videos = (array)$video;
@@ -242,6 +244,7 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
 
 	// If there are videos, add warning.
 	$comment = '';
+// echo "video ".count($videos);
 	if (count($videos) > 0) {
 		$comment .= "<span class='text-danger'>".get_string('warn_videos', 'report_coursemanager')." </span>" .  $OUTPUT->help_icon('warn_videos', 'report_coursemanager', '') ; 
 		$comment .= "<ul>";
@@ -252,7 +255,7 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
 			}
 		$comment .= "</ul>";
 	}
-	
+
 	// If heavy files detected, add warning.
 	if (count($heavy_files) > 0) {
 		$comment .= "<span class='text-danger'>".get_string('warn_big_files', 'report_coursemanager')." </span>" .  $OUTPUT->help_icon('warn_big_files', 'report_coursemanager', '') ; 
@@ -303,4 +306,175 @@ class form_restore extends moodleform {
         }
         return $errors;
     }
+}
+
+// function report_coursemanager_insert_report() {
+
+    // global $CFG, $PAGE, $OUTPUT, $DB, $SESSION;
+	
+    // if (!$PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+        // return;
+    // }
+	
+	// $output = '';
+	
+    // $output .= "<script type='text/javascript'>
+// var div1 = document.createElement('div');
+      // div1.innerHTML = 'hi there';
+      // div1.style.left = '600px';
+      // div1.style.position = 'absolute';
+      // document.body.appendChild(div1);
+// </script>
+// <body onload='myFunction()'>
+// ";
+    // return $output;
+// }
+
+function report_coursemanager_before_standard_top_of_body_html() {
+
+    global $PAGE, $USER;
+	
+
+    if (!$PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+        return;
+    }
+	
+	// $texte = array(0=>'prout',1=>'youpi',2=>$USER->username);
+	$texte = array('prout','youpi',$USER->username,$PAGE->course->id,'tugudu');
+	
+	// $jsmodule = array(
+        // 'name' => 'report_coursemanager',
+        // 'fullpath' => '/report/coursemanager/insertdiv.js'
+    // );
+    // $PAGE->requires->js_init_call('M.report_coursemanager.init', array($texte), true, $jsmodule);
+	
+	// $config = ['paths' => '/report/coursemanager/test2.js'];
+	// $requirejs = 'require.config(' . json_encode($config) . ')';
+	// $PAGE->requires->js_amd_inline($requirejs);
+
+	// $PAGE->requires->js_call_amd('report_coursemanager/test2', 'init');
+	
+	// $PAGE->requires->js('/report/coursemanager/js/insertdiv.js');
+	// $texte = array(0=>'prout',1=>'youpi',2=>$USER->username,$PAGE->course->id,'tugudu');
+    // $output .= $PAGE->requires->js_init_call('reportZone', array($texte), true);
+	
+	// $PAGE->requires->js_call_amd('report_coursemanager/insertdiv', 'init');
+	
+///////////////////////////////////////////
+/////////////////////////////////////////////
+////// ORIGINAL //////////////////////////
+//////////////////////////////////////////
+	
+	// $js = 'function reportZone(tableau) {
+		// var container = document.getElementById("user-notifications");
+		// var div1 = document.createElement("div");
+		// div1.className = "card card-body";
+      	// for(var i=0;i < tableau.length;i++){
+      		// div1.innerHTML += tableau[i] + "<br />";
+      	// }
+      	// container.appendChild(div1);
+	// }
+	// var truc = ' . json_encode($texte) . ';
+	// reportZone(truc);
+	// ';
+	// $output .=  $PAGE->requires->js_amd_inline($js);
+	
+///////////////////////////////////
+/////////////////////
+///////////////
+//////////// CODE POUR UN COLLAPSE///////////////	
+	$button = '<button id=\"test\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\" data-target=\"#mon-contenu\">Affichage rapport 1</button><div id=\"mon-contenu\" class=\"collapse show\">Rapport texte texte texte</div>';
+	
+	$js = 'function reportZone(tableau) {	
+		var container = document.getElementById("user-notifications");
+		
+		var button = document.createElement("div");
+		button.id = "mon_collapse";
+		button.class = "collapse";
+		button.innerHTML = "'.$button.'";
+		container.appendChild(button);
+		
+		document.addEventListener("DOMContentLoaded", function() {
+    var bouton = document.querySelector("#mon-collapse button");
+    var collapse = new bootstrap.Collapse(document.querySelector("#mon-collapse"));
+
+    bouton.addEventListener("click", function() {
+      collapse.toggle();
+    });
+  });
+
+		
+		// var collapse = document.createElement("div");
+		// collapse.className = "collapse";
+		// collapse.id = "coursemanager_report";
+		// container.appendChild(collapse);
+		
+		// var container2 = document.getElementById("coursemanager_report");
+		// var report_final = document.createElement("div");
+		// report_final.className = "card card-body";
+      	// for(var i=0;i < tableau.length;i++){
+      		// report_final.innerHTML += tableau[i] + "<br />";
+      	// }
+      	// container2.appendChild(report_final);
+	}
+	var truc = ' . json_encode($texte) . ';
+	reportZone(truc);
+	';
+	$output .=  $PAGE->requires->js_amd_inline($js);
+	
+//////////// CODE POUR UN POPOVER///////////////	
+	$button2 = '<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"popover\" title=\"Titre du rapport\" data-content=\"Rapport texte texte texte\"> Affichage rapport 2</button>';
+	
+	$js = 'function reportZone2(tableau) {	
+		var container = document.getElementById("user-notifications");
+		
+		var button2 = document.createElement("div");
+		button2.id = "mon_collapse";
+		button2.class = "collapse";
+		button2.innerHTML = "'.$button2.'";
+		container.appendChild(button2);
+		
+		document.addEventListener("DOMContentLoaded", function() {
+    var popoverTrigger = document.querySelector(\'[data-toggle="popover"]\');
+	var popover = new bootstrap.Popover(popoverTrigger);
+
+    // bouton.addEventListener("click", function() {
+      // collapse.toggle();
+    // });
+  });
+
+		
+		// var collapse = document.createElement("div");
+		// collapse.className = "collapse";
+		// collapse.id = "coursemanager_report";
+		// container.appendChild(collapse);
+		
+		// var container2 = document.getElementById("coursemanager_report");
+		// var report_final = document.createElement("div");
+		// report_final.className = "card card-body";
+      	// for(var i=0;i < tableau.length;i++){
+      		// report_final.innerHTML += tableau[i] + "<br />";
+      	// }
+      	// container2.appendChild(report_final);
+	}
+	var truc = ' . json_encode($texte) . ';
+	reportZone2(truc);
+	';
+	$output .=  $PAGE->requires->js_amd_inline($js);
+	
+	// $output .=  $PAGE->requires->js_amd_inline($js);
+	 
+	// $courseid = $PAGE->course->id;
+	// $output = '';
+	// $output .= "<script type='text/javascript'>
+	// document.addEventListener('DOMContentLoaded', function(event) {
+		// var div1 = document.createElement('div');
+		// div1.innerHTML = '".($courseid)."';
+		// var container = document.getElementById('page-header');
+		// container.appendChild(div1);
+	// }
+	// );
+	// </script>";
+
+    return $output;
 }

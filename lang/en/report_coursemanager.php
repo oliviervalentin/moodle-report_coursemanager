@@ -56,13 +56,26 @@ $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'
 
 // Page - Suppression des cours. 
 $string['title_move_confirm'] = 'Demande de suppression du cours';
-$string['move_confirm'] = '<p>Cette page vous permet de demander la suppression du cours que vous n\'utilisez plus. Si vous confirmez la suppression, 
+$string['move_confirm'] = '
+<div class="alert alert-danger"><h5>Lisez attentivement les indications ci-dessous !</h5></div>
+<p><b>Cette page vous permet de demander la suppression du cours que vous n\'utilisez plus.</b><br/>Si vous confirmez la suppression, 
 le cours sera dans un premier temps caché aux étudiants, puis déplacé dans une catégorie de Moodle servant de corbeille. Il sera ensuite supprimé 
 par les administrateurs Moodle <b>{$a->delete_period}</b>.</p>
-<p class="alert alert-info"><i class="fa fa-info-circle"></i> Notez que vous aurez toujours accès à ce cours avant sa suppression définitive, si vous souhaitez récupérer des éléments. 
-De même, vous aurez également toujours la possibilité de contacter le Support afin de sortir le cours de la corbeille.</p>
-<p><i class="fa fa-save"></i> Avant de mettre votre cours à la corbeille, nous vous conseillons également de sauvegarder si besoin les fichiers contenus dans le cours 
-ainsi que la banque de questions. <b>Une fois votre cours supprimé, ces éléments seront définitivement perdus et non récupérables.</b></p>';
+
+<p> Notez que vous aurez toujours accès à ce cours avant sa suppression définitive, si vous souhaitez récupérer des éléments. 
+De même, vous aurez également toujours la possibilité de restaurer le cours hors de la corbeille depuis l\'interface de gestion de vos cours.</p>
+
+<p> Avant de mettre votre cours à la corbeille, nous vous conseillons  de sauvegarder si besoin les fichiers contenus dans le cours 
+ainsi que la banque de questions. <b>Une fois votre cours supprimé, ces éléments seront définitivement perdus et non récupérables.</b></p><br />
+';
+// <div class="alert alert-danger"><h3>NE SUPPRIMEZ PAS TOUT DE SUITE UN COURS SI D\'AUTRES ENSEIGNANTS LE PARTAGENT AVEC VOUS !</h3>
+// En supprimant un cours, un message d\'alerte est envoyé à tous les enseignants qui y sont inscrit. <b>Avant toute suppression, consultez donc la liste des inscrits et prévenez 
+// les autres enseignants pour savoir si le cours peut être supprimé.<br />
+// Si vous souhaitez juste que ce cours n{apparaisse plus dans la liste de vos cours, vous pouvez vous en <b>désinscrire</b>, ou <b>demandez à un autre enseignant de le faire</b>.<br /></b></div>
+$string['delete_several_teachers'] = '<h4><i class="fa fa-exclamation-triangle"></i> ATTENTION ! D\'AUTRES ENSEIGNANTS SONT INSCRITS DANS CE COURS !</h4>
+Si vous n\'avez pas informé vos collègues de la suppression de ce cours, nous vous invitons à le faire dès à présent.<br/>La demande de suppression d\'un cours enverra en effet une <b>alerte
+à tous les enseignants listés ci-dessous</b> pour leur signifier que vous avez demandé à supprimer ce cours.<br /><br />
+<h5>Autres enseignants de ce cours</h5>';
 $string['delete_wish'] = 'Que souhaitez-vous faire ?';
 $string['button_move_confirm'] = 'Confirmer la suppression';
 $string['button_save_questionbank'] = 'Sauvegarder la banque de questions';
@@ -71,21 +84,19 @@ $string['mail_subject_delete'] = 'Cours supprimé - {$a->course}';
 $string['mail_message_delete_oneteacher'] = 'Bonjour,<br />
 le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle,
 ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
-Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
-l\'interface de gestion de vos cours.';
+Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours .';
 $string['mail_message_delete_main_teacher'] = 'Bonjour,<br />
 le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle,
 ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
-Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
-l\'interface de gestion de vos cours.<br />
+Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours.<br />
 NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous
-êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également demander de restaurer ce cours ou y récupérer des ressources.';
+êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
 $string['mail_message_delete_other_teacher'] = 'Bonjour,<br />
 le cours {$a->course}, dans lequel vous êtes inscrit.e comme enseignant.e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente 
 de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des 
 ressources.<br />
-Si vous souhaitez le conserver, vous pouvez demander au Support de le sortir de la corbeille Moodle. Merci de contacter le Support à l\'aide du formulaire disponible dans
-l\'interface de gestion de vos cours.<br />';
+Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours, sous réserve de prévenir les autres
+enseignants.<br />';
 $string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégorie Corbeille.';
 
 // Page - restauration des cours. 
@@ -103,6 +114,8 @@ $string['select_restore_category'] = 'Choisissez la catégorie de restauration d
 $string['coursesize'] = 'Taille du cours';
 $string['coursereport'] = 'EXPLICATIONS - A venir !';
 $string['totalsize'] = 'Poids total des fichiers du cours : ';
+$string['watchedfilessize'] = 'Poids des fichiers les plus surveillés : ';
+$string['watchedfilessizedetails'] = 'Ces fichiers les plus surveillés proviennent des activités les plus utilisées : Dossier, Fichier, Forum, Devoir et Étiquette.';
 $string['plugin'] = 'Type d\'activité';
 $string['size'] = 'Poids';
 $string['comment'] = 'Commentaires et conseils';
@@ -196,3 +209,5 @@ $string['no_student'] = 'Aucun étudiant inscrit';
 $string['heavy_course'] = 'Poids important';
 $string['ok'] = 'Aucune remarque';
 
+// Taches
+$string['runreportstask'] = 'Calcul des rapports pour Course Manager';

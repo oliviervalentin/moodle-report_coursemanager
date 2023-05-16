@@ -33,7 +33,7 @@ $done = optional_param('done', 0, PARAM_RAW);
 $site = get_site();
 
 $PAGE = new moodle_page();
-$PAGE->requires->js( new moodle_url($CFG->wwwroot . '/report/coursemanager/test.js'));
+// $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/report/coursemanager/test.js'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/view.php');

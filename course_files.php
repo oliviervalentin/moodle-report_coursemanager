@@ -43,14 +43,14 @@ $site = get_site();
 $PAGE->set_context($context);
 $PAGE->set_url('/report/coursemanager/course_files.php');
 $PAGE->set_pagelayout('mycourses');
-$PAGE->set_secondary_navigation(false);
+// $PAGE->set_secondary_navigation(false);
 
 $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 $PAGE->set_heading('Gestion des cours - Enseignants');
 // Force the add block out of the default area.
-$PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
+// $PAGE->theme->addblockposition  = BLOCK_ADDBLOCK_POSITION_CUSTOM;
 
 if (!has_capability('moodle/course:update', $context)) {
     echo $OUTPUT->header();
@@ -70,6 +70,17 @@ $sizesql = "SELECT a.component, SUM(a.filesize) as filesize, COUNT(a.contenthash
 			 ORDER BY a.component";
 
 $cxsizes = $DB->get_recordset_sql($sizesql, array($contextcheck));
+
+// Query for total files size in course.			
+$sql = 'SELECT SUM(filesize)
+	FROM {files}
+	WHERE contextid 
+	IN (SELECT id FROM {context} WHERE contextlevel = 70 AND instanceid IN 
+	(SELECT id FROM {course_modules} WHERE course = ?)) ';
+$paramsdb = array($course->id);
+$dbresult = $DB->get_field_sql($sql, $paramsdb);
+// Rounded files size in Mo.
+$filesize = number_format(ceil($dbresult / 1048576));
 
 // initialize table to show results.
 $coursetable = new html_table();
@@ -161,8 +172,10 @@ print html_writer::div('
 print $OUTPUT->heading(get_string('coursesize', 'report_coursemanager'). " - ". format_string($course->fullname));
 if (array_sum($total)>0) {
 	
-	print html_writer::tag('h4', get_string('totalsize', 'report_coursemanager').array_sum($total).' Mo');
-	// print html_writer::tag('h4', '&nbsp;');
+	print html_writer::tag('h4',  get_string('totalsize', 'report_coursemanager').$filesize.' Mo');
+	print html_writer::tag('h4', get_string('watchedfilessize', 'report_coursemanager').array_sum($total).' Mo');
+	print html_writer::tag('div', get_string('watchedfilessizedetails', 'report_coursemanager'));
+	// Si corbeille
 	if (get_config('tool_recyclebin', 'coursebinenable') == 1) {
 		print html_writer::tag('p', get_string('warn_recyclebin', 'report_coursemanager')); 
 	} else {

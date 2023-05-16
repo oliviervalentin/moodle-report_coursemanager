@@ -24,7 +24,7 @@
                                                              
 defined('MOODLE_INTERNAL') || die();                                                                                                
                                                                                                                                                                                                                              
-$plugin->version = 2017022001;                                                                                                                                                                                
-$plugin->requires = 2018051718;                                                                                                                                                                     
-$plugin->component = 'report_coursemanager';       
-$plugin->maturity = 'MATURITY_ALPHA'; 
+$plugin->version = '2017022001';                                                                                                                                                                                
+$plugin->requires = '2020061516';                                                                                                                                                                     
+$plugin->component = 'report_coursemanager';    
+$plugin->maturity = 'MATURITY_ALPHA';                                                                                                                                                    

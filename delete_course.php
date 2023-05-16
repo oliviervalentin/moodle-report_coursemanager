@@ -38,7 +38,7 @@ $site = get_site();
 
 // Page settings
 $PAGE = new moodle_page();
-$PAGE->set_context($context);
+// $PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
 $PAGE->set_url('/report/coursemanager/delete_course.php');
@@ -54,6 +54,9 @@ $infocourse = $DB->get_record('course', array('id' => $courseid));
 
 $a = new stdClass();
 $a->delete_period = get_config('report_coursemanager', 'delete_period');
+
+// Get all users enrolled as teacher in course.
+$all_teachers = get_role_users(3, $context);
 
 // If not yet confirm.
 if (!$confirm) {
@@ -74,6 +77,19 @@ if (!$confirm) {
     // Text to inform about this function.
 	echo html_writer::div(get_string('move_confirm', 'report_coursemanager', $a));
 
+	if(count($all_teachers) > 1) {
+		$text_warn_several_teachers = get_string('delete_several_teachers', 'report_coursemanager');
+		$text_warn_several_teachers .= "<ul>";
+		
+		$list_teachers = '';
+		foreach($all_teachers as $teacher){
+			$list_teachers .= '<li>'.$teacher->firstname.' '.$teacher->lastname. '</li>';
+		}
+		$text_warn_several_teachers .= $list_teachers;
+		$text_warn_several_teachers .= "</ul>";
+		echo html_writer::div($text_warn_several_teachers, 'alert alert-danger');
+	}
+
 	// Add choices : delete course, or direct links to save questions bank or full course.
 	echo html_writer::tag('h5', get_string('delete_wish', 'report_coursemanager'), array('class' => 'alert alert-warning'));
 	$url_confirm_delete = new moodle_url('delete_course.php', array('confirm' => 1, 'courseid' => $courseid));
@@ -82,7 +98,9 @@ if (!$confirm) {
     echo html_writer::div(html_writer::link($url_question_bank, get_string('button_save_questionbank', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info') . " ";
 	$url_backup_course = new moodle_url('/backup/backup.php', array('id' => $courseid));
     echo html_writer::div(html_writer::link($url_backup_course, get_string('button_save_course', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info');
-    echo $OUTPUT->footer();
+
+	echo $OUTPUT->footer();
+	
 } else if ($confirm) {
     // If confirmed : course is moved in trash category.
 	move_courses(array($courseid), get_config('report_coursemanager', 'category_bin'));
@@ -91,9 +109,6 @@ if (!$confirm) {
     $datahide->id = $courseid;
     $datahide->visible = 0;
     $hide = $DB->update_record('course', $datahide);
-
-    // Get all users enrolled as teacher in course.
-    $all_teachers = get_role_users(3, $context);
 
     // Define informations for mail.
 	$a->course = $infocourse->fullname;

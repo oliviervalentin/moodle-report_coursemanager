@@ -77,8 +77,43 @@ if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
 
 } else if ($data = $mform->get_data()) { // no magic quotes
-    // If confirmed : course is restored out of trash in new category.		
+    // If confirmed : course is restored out of trash.
+    // First, retrieve category id for this course.
+    // $course = $DB->get_record('course', array('id' => $courseid), 'id, category');
+	
+	// Next, get context for course category and the bin category.
+	// $contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
+    // $contextcategorytrashid = $contextcategorytrash->id;
+	// $contextcategorystart = CONTEXT_COURSECAT::instance($data->restore_category);
+    // $contextcategorystartid = $contextcategorystart->id;
+	
+	// Assign teacher role in these two categories context.
+    // role_assign(3, $USER->id, $contextcategorytrashid);
+	// role_assign(3, $USER->id, $contextcategorystartid);
+
+    // Assign 2 capabilities to move course.
+	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
+	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+	
+	// Move course out of trash into category.
+    // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
+        // array('id' => $data->courseid));
+		
 	move_courses(array($data->courseid), $data->restore_category);
+
+    // Unassign the teacher role in categories contexts.
+	// role_unassign(3, $USER->id, $contextcategorytrashid);
+	// role_unassign(3, $USER->id, $contextcategorystartid);
+	
+	// unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
+	// unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
+	// unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
+	// unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
+
+    // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
+        // array('id' => $data->courseid));
 
 	// Add event for course resetting.
 	$context = context_course::instance($data->courseid);
