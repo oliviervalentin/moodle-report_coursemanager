@@ -21,6 +21,25 @@ Le plugin propose :
 - le calcul automatique des rapports via une tâche Moodle. Dans l'idéal, à paramétrer toutes les 3-4 heures (retours appréciés)
 - l'affichage sur la page d'accueil du cours des rapports (uniquement visible pour les enseignants).
 
+![image](https://user-images.githubusercontent.com/25584834/179756387-804fa248-e542-4bd8-b8d7-920bf9e8fe0f.png)
+![image](https://user-images.githubusercontent.com/25584834/179756572-ab7bdb9e-00a2-4db9-9960-754194af59c5.png)
+
+## Fonctionnalités ##
+
+- Liste complète des cours où l'utilisateur est inscrit en tant qu'enseignant.
+- Filtrage des cours par type de cours et recherche par nom de cours.
+- Calcul du poids des fichiers contenus dans un cours, avec graph de répartition. Recommendations spécifiques pour les fichiers lourds, les vidéos, les devoirs volumineux ou contenant des fichiers d'utilisateurs non inscrits au cours.
+- Recommandations automatiques sur le poids du cours, l'absence de visites (étudiants ou eneignants), l'absence de contenus, l'absece d'inscrits.
+- Possibilité de déplacer un cours dans une catégorie-corbeille.
+- Réinitialisation de cours simplifiée.
+- Désinscription massive des cohortes inscrites.
+- Evénements liés à différentes actions, afin de mesurer l'utilisation du plugin.
+- Tâche automatique de calcul des rapports de cours.
+- Affichage des rapports directement dans chaque cours soit sous forme de menu déroulant, soit sous forme de popovers Bootstrap.
+
+![image](https://user-images.githubusercontent.com/25584834/179756655-1732b9ed-97cf-4e9b-85d4-d65622159c31.png)
+
+
 ## Installation ##
 Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
 
