@@ -46,32 +46,21 @@ class run_reports_task extends \core\task\scheduled_task {
 		foreach ($list_courses as $course) {
 			if ($course->id > 1) {
 				$coursecontext = \context_course::instance($course->id);
-				// $infocourse = $DB->get_record('course', array('id' => $course->id), 'category');
 				$is_teacher = get_user_roles($coursecontext, $USER->id, false);
 					
 				// Let's count teachers and students enrolled in course.
 				$all_teachers = get_role_users(3, $coursecontext);
 				$all_students = get_role_users(5, $coursecontext);	
 
-				// If course is in trash : informations are hidden.
-				// Action menu has only one possibility : contact support to re-establish course.
-				
-				////////////////////////////////////////////////////////////////////////////////////////////
-				
+				// If course is in trash category, delete all reports.			
 				if($course->category == get_config('report_coursemanager', 'category_bin')) {
-					mtrace("Trash - no report for ".$course->fullname." - ID".$course->id);
 					$exists = $DB->get_record('coursemanager', array('course'=>$course->id));
-					// $where = 'courseid=' . $course->id;
 					if(!empty($exists)) {
 						$res = $DB->delete_records($table, array('course' => $course->id));
-						// $res = $DB->delete_records_select($table, $where);
 					}
 					
 				} else {
-					///////////////////////////////////////////////////
-					/////  SPECIAL TESTS FOR RECOMMENDATIONS      /////
-					///////////////////////////////////////////////////
-
+					// Start reports calculation.
 					// 1- TEST FOR TOTAL COURSE SIZE.
 					// If total_course_size exceeds limit, add warning.
 
@@ -88,31 +77,30 @@ class run_reports_task extends \core\task\scheduled_task {
 					$dbresult = $DB->get_field_sql($sql, $paramsdb);
 					$filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
 					
+					// If total filesize is bigger than limit defined in parameters, create alert.
 					if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
 						$data = (object)$data;
 						$data->course = $course->id;
 						$data->report = 'heavy';
 						$data->detail = $filesize;
 						
+						// If size alert doesn't exist for this course, create it in DB.
 						if (empty($exists)) {
 							$res = $DB->insert_record($table, $data);
-							mtrace("Lourd - CREA");
 						} else {
+							// If alert existe, possibily change total filesize.
 							$data->id = $exists->id;
 							$res = $DB->update_record($table, $data);
-							mtrace("Lourd - EXISTE DEJA");
 						}
 						unset($data);
 					} elseif(!empty($exists)) {
+						// In this case, filesize doesn't reach limit. If alert exists, delete it.
 						$res = $DB->delete_records($table, array('id' => $exists->id));
 						unset($data);
-						mtrace("Lourd - DELETE");
 					}
 					unset($exists);
-					// FIN TEST 1
 					
 					// 2- TEST FOR EMPTY COURSE.
-
 					// Check if course entry exists in database.
 					$exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'empty'));
 
@@ -133,28 +121,24 @@ class run_reports_task extends \core\task\scheduled_task {
 						$data->course = $course->id;
 						$data->report = 'empty';
 						
+						// If empty course alert doesn't exist for this course, create it in DB.
 						if (empty($exists)) {
 							$res = $DB->insert_record($table, $data);
-							mtrace("Vide - CREA");
 						} else {
-							// $data->id = $exists->id;
-							// $res = $DB->update_record($table, $data);
-							mtrace("Vide - EXISTE DEJA");
+							// Alert already exist - nothing to do !
 						}
 						unset($data);
 					} elseif(!empty($exists)) {
+						// In this case, course is not empty. If alert exists, delete it.
 						$res = $DB->delete_records($table, array('id' => $exists->id));
 						unset($data);
-						mtrace("Vide - DELETE");
 					}
 					unset($exists);
-					// FIN TEST 2
-					
+
 					// 3- TEST FOR TEACHERS VISITS
-					
 					// Check if course entry exists in database.
 					$exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_teacher'));
-					
+
 					$count_teacher_visit = array();
 					// For each enrolled teacher, check last visit in course.
 					foreach($all_teachers as $teacher){
@@ -170,36 +154,28 @@ class run_reports_task extends \core\task\scheduled_task {
 						}
 					}
 					$res_count_teacher_visit = array_count_values($count_teacher_visit);
+					
 					// If result is empty, no teacher has visited course.
 					if (!isset($res_count_teacher_visit['visited_teacher'])) {
 						$data = (object)$data;
 						$data->course = $course->id;
 						$data->report = 'no_visit_teacher';
 						
-						// $res = $DB->insert_record('coursemanager', $data);
-						// unset($data);
-						// mtrace("Pas de visites ens");
-						
+						// If no teacher visit alert doesn't exist for this course, create it in DB.
 						if (empty($exists)) {
 							$res = $DB->insert_record($table, $data);
-							mtrace("Pas de visites ens - CREA");
-						} else {
-							// $data->id = $exists->id;
-							// $res = $DB->update_record($table, $data);
-							
-							mtrace("Pas de visites ens - EXISTE DEJA");
+						} else {				
+							// Alert already exist - nothing to do !
 						}
 						unset($data);
 					} elseif(!empty($exists)) {
+						// In this case, at least one teacher has visited course. If alert exists, delete it.
 						$res = $DB->delete_records($table, array('id' => $exists->id));
 						unset($data);
-						mtrace("Pas de visites ens - DELETE");
 					}
 					unset($exists);
-					// FIN TEST 3
-					
+
 					// 4- TEST FOR STUDENTS VISITS
-					
 					// Check if course entry exists in database.
 					$exists_no_visit_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_student'));
 					$exists_no_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_student'));
@@ -208,7 +184,6 @@ class run_reports_task extends \core\task\scheduled_task {
 					if (count($all_students) > 0) {
 						$count_student_visit = array();
 						$i=0;
-						mtrace("IL Y A DES ETUDIANTS !!!!!!!!!!!!!!!!!!!!");
 						
 						// For each student, retrieve last access in course.
 						foreach($all_students as $student){
@@ -228,12 +203,8 @@ class run_reports_task extends \core\task\scheduled_task {
 						}
 
 						$res_count_student_visit = array_count_values($count_student_visit);
-mtrace($i);
-						// If result is empty, no student has visited course.
-						// if (!isset($res_count_student_visit['visit'])) {
-						if ($i==0) {
-							mtrace("COMPTE DES VISITES A 000000000000000000000000000000");
-							
+						// If res_count_student_visit is empty : no student has visited course.
+						if ($i==0) {					
 							$data = (object)$data;
 							$data->course = $course->id;
 							$data->report = 'no_visit_student';
@@ -243,21 +214,16 @@ mtrace($i);
 												
 							if (empty($exists_no_visit_student)) {
 								$res = $DB->insert_record($table, $data);
-								mtrace("Pas de visites étu - CREA");
 							} else {
 								// $data->id = $exists->id;
 								// $res = $DB->update_record($table, $data);
-								mtrace("Pas de visites étu - EXISTE DEJA");
 							}
 						} elseif(!empty($exists_no_visit_student)) {
 							$res = $DB->delete_records($table, array('id' => $exists_no_visit_student->id));
-							mtrace("Pas de visites étu - DELETE");
 						}
 						unset($data);
 					} else {
-						
-						mtrace("ZERO ETUDIANTS !!!!!!!!!!!!!!!!!!!!");
-						
+						// In this case, no student enrolled in course.				
 						$data = (object)$data;
 						$data->course = $course->id;
 						$data->report = 'no_student';
@@ -267,21 +233,17 @@ mtrace($i);
 						
 						if (empty($exists_no_student)) {
 								$res = $DB->insert_record($table, $data);
-								mtrace("Zéro étu - CREA");
 						} else {
-							// $data->id = $exists->id;
-							// $res = $DB->update_record($table, $data);
-							mtrace("Zéro étu - EXISTE DEJA");
+							// Alert already exist - nothing to do !
 						}
-						// $res = $DB->insert_record('coursemanager', $data);
 						unset($data);
 						unset($count_student_visit);
-					} // FIN TEST 4
+					}
 					
-				}   // FIN DES TESTS - fin SI pas dans la poubelle
-				////////////////////////////////////////////////////////////////////////////////////////////
-			}  // fin SI pas le cours 1
-		}   // fin foreach
+				}
+				// Tests end?
+			}
+		}
 	mtrace("... End coursemanager reports.");
-    }  // fin execute	
+    }
 }

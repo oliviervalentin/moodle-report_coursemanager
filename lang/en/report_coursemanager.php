@@ -26,6 +26,11 @@ $string['last_access_student_desc'] = 'Nombre de jours sans visite d\'un étudia
 $string['delete_period'] = 'Période pour la suppression des cours';
 $string['delete_period_desc'] = 'Affiche la période approximative de suppression des cours de la catégorie corbeille. Inscrire un texte comme "début juillet", ou 
 "dans la première quinzaine de mai" pour l\'intégrer à la description de la page de suppression.';
+$string['show_report_in_course'] = 'Affichage des rapports dans les cours';
+$string['show_report_in_course_desc'] = 'Définit si les rapports sont affichés dans les cours et à quel endroit.';
+$string['show_report_in_course_choices_none'] = 'Ne pas afficher';
+$string['show_report_in_course_choices_collapse'] = 'Menu déroulant sous la barre d\'admin';
+$string['show_report_in_course_choices_popover'] = 'Icônes à côté du titre';
 
 // Bannière des cours dans la corbeille. 
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
@@ -211,3 +216,15 @@ $string['ok'] = 'Aucune remarque';
 
 // Taches
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
+
+
+// Alertes - Affichage dans le cours
+$string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';
+$string['course_alert_no_visit_teacher'] = 'Aucun <b>enseignant</b> n\'a visité ce cours <b>depuis plus de {$a->no_teacher_time} jours</b>. Pensez à supprimer ce cours si vous ne l\'utilisez plus.<br /><b>{$a->delete_link}</b>';
+$string['course_alert_no_visit_student'] = 'Aucun <b>étudiant</b> n\'a visité ce cours <b>depuis plus de {$a->no_student_time} jours</b>. S\'il n\'a pas vocation à être conserver, pensez à le supprimer ou à le réinitialiser.<br /><b>{$a->delete_link} | {$a->reset_link}</b>';
+$string['course_alert_no_student'] = '<b>Aucun étudiant n\'est actuellement inscrit dans ce cours</b>. Si ce cours n\'a plus vocation à accueillir des utilisateurs, pensez à le supprimer !<br /><b>{$a->delete_link}</b>';
+$string['course_alert_empty'] = 'Ce cours ne propose <b>aucun contenu</b> en dehors du forum de base. Pensez à le supprimer s\'il n\'est pas utilisé. <br /><b>{$a->delete_link}</b>';
+$string['more_information'] = 'Plus d\'informations';
+$string['text_link_delete'] = 'Supprimer ce cours';
+$string['text_link_reset'] = 'Réinitialiser';
+$string['collapse_show_report'] = 'Afficher le rapport';

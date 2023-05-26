@@ -332,149 +332,126 @@ class form_restore extends moodleform {
 
 function report_coursemanager_before_standard_top_of_body_html() {
 
-    global $PAGE, $USER;
+    global $DB, $PAGE, $USER;
 	
-
     if (!$PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE)) {
         return;
     }
 	
-	// $texte = array(0=>'prout',1=>'youpi',2=>$USER->username);
-	$texte = array('prout','youpi',$USER->username,$PAGE->course->id,'tugudu');
-	
-	// $jsmodule = array(
-        // 'name' => 'report_coursemanager',
-        // 'fullpath' => '/report/coursemanager/insertdiv.js'
-    // );
-    // $PAGE->requires->js_init_call('M.report_coursemanager.init', array($texte), true, $jsmodule);
-	
-	// $config = ['paths' => '/report/coursemanager/test2.js'];
-	// $requirejs = 'require.config(' . json_encode($config) . ')';
-	// $PAGE->requires->js_amd_inline($requirejs);
+	// If plugin param is set to show report, let's start.
+    if(get_config('report_coursemanager', 'show_report_in_course') != 0) {
+		// First, retrieve all reports for course.
+		$all_reports = $DB->get_records('coursemanager', array('course' => $PAGE->course->id));
+		// Create object to stock reports.
+		$final = '';
+		
+		// Create an object for messages variables.
+		$info = new stdClass();
+		$info->courseid = $PAGE->course->id;
+		$info->heavy_link = "<a href='/report/coursemanager/course_files.php?courseid=".$PAGE->course->id."' >".get_string('more_information', 'report_coursemanager')."</a>";
+		$info->delete_link = "<a href='/report/coursemanager/delete_course.php?courseid=".$PAGE->course->id."' >".get_string('text_link_delete', 'report_coursemanager')."</a>";
+		$info->reset_link = "<a href='/report/coursemanager/reset.php?id=".$PAGE->course->id."' >".get_string('text_link_reset', 'report_coursemanager')."</a>";
+		$info->no_teacher_time = get_config('report_coursemanager', 'last_access_teacher');
+		$info->no_student_time = get_config('report_coursemanager', 'last_access_student');
+		
+		// If reports are shown in course with collapse menu under admin nav.
+		if(!empty($all_reports)){
+			if(get_config('report_coursemanager', 'show_report_in_course') == 1) {
+				// For each report, create <li> with text and links.
+				foreach ($all_reports as $report){
+					switch($report->report) {
+						case $report->report = 'heavy':
+							$info->size = $report->detail;
+							$final .= "<li><i class='fa fa-thermometer-three-quarters text-danger fa-lg'></i>  ".get_string('course_alert_heavy', 'report_coursemanager', $info)."</li>";
+							break;
+						case $report->report = 'no_visit_teacher':
+							$final .= "<li><i class='fa fa-graduation-cap text-info fa-lg'></i>  ".get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info)."</li>";
+							break;
+						case $report->report = 'no_visit_student':
+							$final .= "<li><i class='fa fa-group text-info fa-lg'></i>  ".get_string('course_alert_no_visit_student', 'report_coursemanager', $info)."</li>";
+							break;
+						case $report->report = 'no_student':
+							$final .= "<li><i class='fa fa-user-o fa-lg text-warning'></i>  ".get_string('course_alert_no_student', 'report_coursemanager', $info)."</li>";
+							break;
+						case $report->report = 'empty':
+							$final .= "<li><i class='fa fa-battery-empty fa-lg text-dark'></i>  ".get_string('course_alert_empty', 'report_coursemanager', $info)."</li>";
+							break;
+					}
+				}
+				
+				// Generate HTML for collapse button and create
+				$button = '<button id=\"collapse_report\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\" data-target=\"#reports_zone\">'.get_string('collapse_show_report', 'report_coursemanager').'</button><div id=\"reports_zone\" class=\"collapse alert alert-warning\"><ul>'.$final.'</ul></div>';
+				
+				// JS function to push a div under admin nav with 
+				$js = 'function reportZone() {
+					var container = document.getElementById("user-notifications");
+					
+					var button = document.createElement("div");
+					button.id = "coursemanager_collapse";
+					button.class = "collapse";
+					button.innerHTML = "'.$button.'";
+					container.appendChild(button);
+					
+					document.addEventListener("DOMContentLoaded", function() {
+						var bouton = document.querySelector("#coursemanager_collapse button");
+						var collapse = new bootstrap.Collapse(document.querySelector("#coursemanager_collapse"));
 
-	// $PAGE->requires->js_call_amd('report_coursemanager/test2', 'init');
-	
-	// $PAGE->requires->js('/report/coursemanager/js/insertdiv.js');
-	// $texte = array(0=>'prout',1=>'youpi',2=>$USER->username,$PAGE->course->id,'tugudu');
-    // $output .= $PAGE->requires->js_init_call('reportZone', array($texte), true);
-	
-	// $PAGE->requires->js_call_amd('report_coursemanager/insertdiv', 'init');
-	
-///////////////////////////////////////////
-/////////////////////////////////////////////
-////// ORIGINAL //////////////////////////
-//////////////////////////////////////////
-	
-	// $js = 'function reportZone(tableau) {
-		// var container = document.getElementById("user-notifications");
-		// var div1 = document.createElement("div");
-		// div1.className = "card card-body";
-      	// for(var i=0;i < tableau.length;i++){
-      		// div1.innerHTML += tableau[i] + "<br />";
-      	// }
-      	// container.appendChild(div1);
-	// }
-	// var truc = ' . json_encode($texte) . ';
-	// reportZone(truc);
-	// ';
-	// $output .=  $PAGE->requires->js_amd_inline($js);
-	
-///////////////////////////////////
-/////////////////////
-///////////////
-//////////// CODE POUR UN COLLAPSE///////////////	
-	$button = '<button id=\"test\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\" data-target=\"#mon-contenu\">Affichage rapport 1</button><div id=\"mon-contenu\" class=\"collapse show\">Rapport texte texte texte</div>';
-	
-	$js = 'function reportZone(tableau) {	
-		var container = document.getElementById("user-notifications");
-		
-		var button = document.createElement("div");
-		button.id = "mon_collapse";
-		button.class = "collapse";
-		button.innerHTML = "'.$button.'";
-		container.appendChild(button);
-		
-		document.addEventListener("DOMContentLoaded", function() {
-    var bouton = document.querySelector("#mon-collapse button");
-    var collapse = new bootstrap.Collapse(document.querySelector("#mon-collapse"));
+						bouton.addEventListener("click", function() {
+							collapse.toggle();
+						});
+					});
+				}
+				reportZone();
+				';
+				$output .=  $PAGE->requires->js_amd_inline($js);
+			} elseif(get_config('report_coursemanager', 'show_report_in_course') == 2) {
+				// If reports are shown with popover icons next to course title.	
+				foreach ($all_reports as $report){
+					switch($report->report) {
+						case $report->report = 'heavy':
+							$info->size = $report->detail;
+							$final .= '<li><button type=\"button\" class=\"reportbutton bg-danger heavy\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('heavy_course', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_heavy', 'report_coursemanager', $info).'\"><i class=\"fa fa-thermometer-three-quarters\"></i></button></li>';
+							break;
+						case $report->report = 'no_visit_teacher':
+							$final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_teacher\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_visit_teacher', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info).'\"><i class=\"fa fa-graduation-cap\"></i></button></li>';
+							break;
+						case $report->report = 'no_visit_student':
+							$final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_student\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_visit_student', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_visit_student', 'report_coursemanager', $info).'\"><i class=\"fa fa-group\"></i></button></li>';
+							break;
+						case $report->report = 'no_student':
+							$final .= '<li><button type=\"button\" class=\"reportbutton bg-warning no_student\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_student', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_student', 'report_coursemanager', $info).'\"><i class=\"fa fa-user-o\"></i></button></li>';
+							break;
+						case $report->report = 'empty':
+							$final .= '<li><button type=\"button\" class=\"reportbutton bg-dark empty\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_content', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info).'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
+							break;
+					}
+				}
 
-    bouton.addEventListener("click", function() {
-      collapse.toggle();
-    });
-  });
+				$js = 'function reportZone() {	
+					var container = document.querySelector(".page-context-header");
+					
+					
+					var button = document.createElement("div");
+					button.id = "coursemanager_popover";
+					// button.class = "collapse";
+					// button.innerHTML = "'.$button.'";
+					container.appendChild(button);
 
-		
-		// var collapse = document.createElement("div");
-		// collapse.className = "collapse";
-		// collapse.id = "coursemanager_report";
-		// container.appendChild(collapse);
-		
-		// var container2 = document.getElementById("coursemanager_report");
-		// var report_final = document.createElement("div");
-		// report_final.className = "card card-body";
-      	// for(var i=0;i < tableau.length;i++){
-      		// report_final.innerHTML += tableau[i] + "<br />";
-      	// }
-      	// container2.appendChild(report_final);
+					var list = document.createElement("ul");
+					list.innerHTML = "'.$final.'";
+					list.id = "coursemanagerbuttons";
+					button.appendChild(list);
+					
+					document.addEventListener("DOMContentLoaded", function() {
+						var popoverTrigger = document.querySelector(\'[data-toggle="popover"]\');
+						var popover = new bootstrap.Popover(popoverTrigger);
+					});
+				}
+				reportZone();
+				';
+				$output .=  $PAGE->requires->js_amd_inline($js);
+			}
+		}
+		return $output;	
 	}
-	var truc = ' . json_encode($texte) . ';
-	reportZone(truc);
-	';
-	$output .=  $PAGE->requires->js_amd_inline($js);
-	
-//////////// CODE POUR UN POPOVER///////////////	
-	$button2 = '<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"popover\" title=\"Titre du rapport\" data-content=\"Rapport texte texte texte\"> Affichage rapport 2</button>';
-	
-	$js = 'function reportZone2(tableau) {	
-		var container = document.getElementById("user-notifications");
-		
-		var button2 = document.createElement("div");
-		button2.id = "mon_collapse";
-		button2.class = "collapse";
-		button2.innerHTML = "'.$button2.'";
-		container.appendChild(button2);
-		
-		document.addEventListener("DOMContentLoaded", function() {
-    var popoverTrigger = document.querySelector(\'[data-toggle="popover"]\');
-	var popover = new bootstrap.Popover(popoverTrigger);
-
-    // bouton.addEventListener("click", function() {
-      // collapse.toggle();
-    // });
-  });
-
-		
-		// var collapse = document.createElement("div");
-		// collapse.className = "collapse";
-		// collapse.id = "coursemanager_report";
-		// container.appendChild(collapse);
-		
-		// var container2 = document.getElementById("coursemanager_report");
-		// var report_final = document.createElement("div");
-		// report_final.className = "card card-body";
-      	// for(var i=0;i < tableau.length;i++){
-      		// report_final.innerHTML += tableau[i] + "<br />";
-      	// }
-      	// container2.appendChild(report_final);
-	}
-	var truc = ' . json_encode($texte) . ';
-	reportZone2(truc);
-	';
-	$output .=  $PAGE->requires->js_amd_inline($js);
-	
-	// $output .=  $PAGE->requires->js_amd_inline($js);
-	 
-	// $courseid = $PAGE->course->id;
-	// $output = '';
-	// $output .= "<script type='text/javascript'>
-	// document.addEventListener('DOMContentLoaded', function(event) {
-		// var div1 = document.createElement('div');
-		// div1.innerHTML = '".($courseid)."';
-		// var container = document.getElementById('page-header');
-		// container.appendChild(div1);
-	// }
-	// );
-	// </script>";
-
-    return $output;
 }

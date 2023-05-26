@@ -53,3 +53,25 @@
 .tablefilter{
     display:none;
 }
+.reportbutton {
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    width: 40px;
+	height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+ul#coursemanagerbuttons li {
+    display: inline;
+}
+#coursemanager_popover{
+	min-width: 150px;
+}
+#collapse_report {
+	margin-bottom: 8px;
+}
+#reports_zone li {
+  margin-bottom: 12px;
+}
