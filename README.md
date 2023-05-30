@@ -2,10 +2,10 @@
 Moodle report for helping teachers to clean and manage courses and contents
 
 
-# mode d'emploi et readme en cours de rédaction ! #
+# Mode d'emploi et readme en cours de rédaction ! #
 
-### !! Version fonctionnant uniquement sur Moodle 4.0 !! ###
-Pour versions antérieures (3.11 et moins) : dans les fichiers course_files.php, delete_cohort.php, delete_course.php, reset.php et view.php, mettre ce code en commentaires :
+### ! Le plugin a été conçu pour Moodle 4 ! ###
+Il est toutefois parfaitement possible de le faire fonctionner pour Moodle 3 : dans les fichiers course_files.php, delete_cohort.php, delete_course.php, reset.php et view.php, mettre cette ligne de code en commentaires :
 // $PAGE->set_secondary_navigation(false);
 
 ## Description ##
