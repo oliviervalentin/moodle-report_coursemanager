@@ -54,3 +54,9 @@ l’utilisateur qui le consulte est inscrit avec le rôle Enseignant dans au moi
 # Version en cours de dévelopement #
 Pour toute question sur le fonctionnement du code, me contacter directement.
 Les textes du fichier de traduction ainsi que les éléments analysés peuvent être directement rattachés à la politique du service TICE que j'occupe. N'hésitez pas à me faire vos retours sur des pistes d'améliorations !
+
+## Résultats selon les templates ##
+Course Manager a été testé sous Moodle 3.11 et 4.1 avec différents thèmes.
+L'affichage des rapport fonctionne parfaitement pour Almonbd, Boost, Boost Union, Classic, Moove et Trema.
+Pour Academi, Degrade, Eguru et Klass, l'affichage sous forme d'icônes à coté du titre fonctionne, mais l'image est légèrement décalée.
+Pour Adaptable, le fonctionne sous forme d'icône ne fonctionne pas, car la zone visée pour le JS du rapport n'existe pas.
