@@ -72,7 +72,7 @@ if ($ADMIN->fulltree) {
 	$show_report_in_course_choices = array(
 	    get_string('show_report_in_course_choices_none', 'report_coursemanager'),
 		get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
-		get_string('show_report_in_course_choices_popover', 'report_coursemanager'),
+		get_string('show_report_in_course_choices_popover', 'report_coursemanager')
 	);
     $name = 'report_coursemanager/show_report_in_course';
     $title = get_string('show_report_in_course', 'report_coursemanager');
