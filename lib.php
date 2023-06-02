@@ -217,6 +217,8 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
 
 		$heavy_files = array();
 		$videos = array();
+		$heavy_file = array();
+		$video = array();
 
 		// For each file, check MIME type and size.
 		foreach ($filesrev as $f) {
