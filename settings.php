@@ -36,7 +36,7 @@ if ($ADMIN->fulltree) {
     $name = 'report_coursemanager/category_bin';
     $title = get_string('category_bin', 'report_coursemanager');
     $description = get_string('category_bin_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configselect($name, $title, $description, array('value' => 2, 'fix' => false), $displaylist));
+    $settings->add(new admin_setting_configselect($name, $title, $description, null, $displaylist));
 
     // Limit for total course files size before warning.
     $name = 'report_coursemanager/total_filesize_threshold';
