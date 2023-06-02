@@ -102,7 +102,7 @@ foreach ($cxsizes as $cxdata) {
 	// print_object($cxdata);
     $row = array();
     // If component is not course, retrive file sizes and component for global chart.
-	if ($cxdata->component != 'course') {
+	if ($cxdata->component != 'course' && $cxdata->component != 'contentbank') {
 	    $chart_labels[] = get_string('pluginname', $cxdata->component);
 	    $chart_sizes[] = number_format(ceil($cxdata->filesize / 1048576));
     }
