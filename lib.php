@@ -355,7 +355,9 @@ function report_coursemanager_before_standard_top_of_body_html() {
 		$info->no_student_time = get_config('report_coursemanager', 'last_access_student');
 		
 		// If reports are shown in course with collapse menu under admin nav.
+		$output = '';
 		if(!empty($all_reports)){
+			
 			if(get_config('report_coursemanager', 'show_report_in_course') == 1) {
 				// For each report, create <li> with text and links.
 				foreach ($all_reports as $report){
@@ -433,8 +435,6 @@ function report_coursemanager_before_standard_top_of_body_html() {
 					
 					var button = document.createElement("div");
 					button.id = "coursemanager_popover";
-					// button.class = "collapse";
-					// button.innerHTML = "'.$button.'";
 					container.appendChild(button);
 
 					var list = document.createElement("ul");
@@ -452,6 +452,6 @@ function report_coursemanager_before_standard_top_of_body_html() {
 				$output .=  $PAGE->requires->js_amd_inline($js);
 			}
 		}
-		return $output;	
+		return $output;
 	}
 }
