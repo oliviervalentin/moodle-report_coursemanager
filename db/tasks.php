@@ -29,8 +29,8 @@ $tasks = array(
     array(
         'classname' => 'report_coursemanager\task\run_reports_task',
         'blocking' => 0,
-        'minute' => '10',
-        'hour' => '*',
+        'minute' => '*',
+        'hour' => '2',
         'day' => '*',
         'month' => '*',
         'dayofweek' => '*'
