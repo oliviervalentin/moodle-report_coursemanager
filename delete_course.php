@@ -52,8 +52,8 @@ $PAGE->set_title($site->fullname);
 
 $infocourse = $DB->get_record('course', array('id' => $courseid));
 
-$a = new stdClass();
-$a->delete_period = get_config('report_coursemanager', 'delete_period');
+// $a = new stdClass();
+// $a->delete_period = get_config('report_coursemanager', 'delete_period');
 
 // Get all users enrolled as teacher in course.
 $all_teachers = get_role_users(3, $context);
