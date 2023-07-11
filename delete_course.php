@@ -106,16 +106,20 @@ if (!$confirm) {
 	move_courses(array($courseid), get_config('report_coursemanager', 'category_bin'));
 		
     // Course parameters updated : course is hidden.
+    $datahide = new stdClass;
     $datahide->id = $courseid;
     $datahide->visible = 0;
     $hide = $DB->update_record('course', $datahide);
 
     // Define informations for mail.
-	$a->course = $infocourse->fullname;
-	$a->count_teacher = count($all_teachers);
-	$subject = get_string('mail_subject_delete', 'report_coursemanager', $a);
-	$from = $CFG->supportname;
-	$from->maildisplay = false;
+    $a = new stdClass;
+    $a->course = $infocourse->fullname;
+    $a->count_teacher = count($all_teachers);
+    $subject = get_string('mail_subject_delete', 'report_coursemanager', $a);
+
+    $from = new stdClass;
+    $from->email = $CFG->supportname;
+    $from->maildisplay = false;
 
     // Send a message to teacher(s).
 	// If only one teacher : send mail for the only teacher in course.
