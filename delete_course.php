@@ -115,6 +115,7 @@ if (!$confirm) {
     $a = new stdClass;
     $a->course = $infocourse->fullname;
     $a->count_teacher = count($all_teachers);
+    $a->delete_period = get_config('report_coursemanager', 'delete_period');
     $subject = get_string('mail_subject_delete', 'report_coursemanager', $a);
 
     $from = new stdClass;
