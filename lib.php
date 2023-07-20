@@ -340,8 +340,13 @@ function report_coursemanager_before_standard_top_of_body_html() {
         return;
     }
 	
-	// If plugin param is set to show report, let's start.
-    if(get_config('report_coursemanager', 'show_report_in_course') != 0) {
+    // If plugin param is set to show report, let's start.
+    $coursecontext = context_course::instance($PAGE->course->id);
+    $is_teacher = get_user_roles($coursecontext, $USER->id, false);
+    $role = key($is_teacher);
+
+    // If reports are shown AND user is a teacher, start to retrieve and show reports.
+    if(get_config('report_coursemanager', 'show_report_in_course') != 0 && $is_teacher[$role]->roleid == 3) {
 		// First, retrieve all reports for course.
 		$all_reports = $DB->get_records('coursemanager', array('course' => $PAGE->course->id));
 		// Create object to stock reports.
