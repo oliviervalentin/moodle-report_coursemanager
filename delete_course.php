@@ -148,6 +148,7 @@ if (!$confirm) {
 	$eventparams = array('context' => $context, 'courseid' => $courseid);
 	$event = \report_coursemanager\event\course_trash_moved::create($eventparams);
 	$event->trigger();
+
+	$url = new moodle_url('view.php', array('done' => 'course_deleted'));
+        redirect($url);
 }
-$url = new moodle_url('view.php', array('done' => 'course_deleted'));
-redirect($url);
