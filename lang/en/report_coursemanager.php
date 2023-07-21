@@ -95,7 +95,7 @@ Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente
 'ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
 Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours.<br />
 NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous '.
-êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
+'êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
 $string['mail_message_delete_other_teacher'] = 'Bonjour,<br />
 Le cours {$a->course}, dans lequel vous êtes inscrit⋅e comme enseignant⋅e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente '.
 'de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des '.
