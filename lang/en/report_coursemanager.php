@@ -10,9 +10,9 @@ $string['title'] = 'Gestion des cours - Enseignants';
 
 // Settings pages.                                                                                                      
 $string['configtitle'] = 'Course Manager settings';                                                                                          
-$string['enableteachertools'] = 'Activer le menu Enseignants';   
-$string['enableteachertools_desc'] = 'RÉGLAGE NON UTILE ! Le lien vers le rapport doit être ajouté dans custommenuitems';
 $string['category_bin'] = 'Catégorie corbeille';
+$string['teacherroledashboard'] = 'Rôle enseignant dans les cours';
+$string['teacherroledashboard_desc'] = 'Définit le rôle permettant d\'afficher la liste des cours dans le tableau de bord. Par défaut, il s\'agit du rôle Enseignant de Moodle.';
 $string['category_bin_desc'] = 'Si un enseignant demande la suppression de son cours, le cours sera déplacé dans cette catégorie avant suppression définitive par les gestionnaires de la plateforme.';
 $string['total_filesize_threshold'] = 'Poids maximum d\'un cours';
 $string['total_filesize_threshold_desc'] = 'Poids en Mo à partir duquel on souhaite afficher une alerte à l\'enseignant si le <b>total des fichiers du cours</b> dépasse ce seuil.';
@@ -65,7 +65,7 @@ $string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce co
 $string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants depuis plus de {$a->limit_visit} mois.</b><br />Aucun étudiant inscrit à votre cours n\'a visité ce cours durant cette période. Si ce cours n\'a plus d\'utilité , pensez à le supprimer.';
 $string['empty_student_alert'] = '<b>Pas d\'étudiants inscrits.</b><br />Aucun utilisateur n\'est inscrit dans ce cours avec le rôle Étudiant. Si ce cours n\'est pas utilisé, pensez à le supprimer.';
 $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'y a pas de remarques particulières sur ce cours quant à son poids ou son utilisation.';
-$string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant';
+$string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit dans aucun cours avec un rôle permettant de l\'administrer avec cette interface.';
 
 // Page - Suppression des cours. 
 $string['title_move_confirm'] = 'Demande de suppression du cours';

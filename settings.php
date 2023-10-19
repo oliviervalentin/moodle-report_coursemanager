@@ -24,12 +24,18 @@
  
 defined('MOODLE_INTERNAL') || die();      
                                                                                     
-if ($ADMIN->fulltree) {                                                                                                                                                                                                  
-    // Show in navigation ?
-    $name = 'report_coursemanager/teachertools';
-    $title = get_string('enableteachertools', 'report_coursemanager');
-    $description = get_string('enableteachertools_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 'enableteachertools'));
+if ($ADMIN->fulltree) {
+    // Define which role is defined as teacher in courses to retrieve course list on dashboard.
+    $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
+    $editingteachers = get_archetype_roles('editingteacher');
+    $settings->add(
+        new admin_setting_configselect('report_coursemanager/teacher_role_dashboard',
+            get_string('teacherroledashboard', 'report_coursemanager'),
+            get_string('teacherroledashboard_desc', 'report_coursemanager'),
+            '3',
+            $rolesoptions
+        )
+    );
 
     // Define trash category.
     $displaylist = core_course_category::make_categories_list();

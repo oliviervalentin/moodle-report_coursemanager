@@ -112,8 +112,7 @@ $list_user_courses = enrol_get_users_courses($USER->id, false, '' , 'fullname AS
 
 // If empty : user is not enrolled as teacher in any course. Show warning.
 if(count($list_user_courses) == 0) {
-    echo html_writer::div('<h2>Pas de cours</h2>
-        Vous n\'êtes inscrit dans aucun cours', 'alert alert-primary');
+    echo html_writer::div(get_string('no_course_to_show', 'report_coursemanager'), 'alert alert-primary');
 
 // If user is enrolled in at least one course as teacher, let's start !.
 } else {
@@ -146,8 +145,8 @@ if(count($list_user_courses) == 0) {
         $role = key($is_teacher);
 
         // If user is enrolled as teacher in course.
-        if ($is_teacher[$role]->roleid == 3) {
-            $count_courses = $count_courses+1;        
+        if ($is_teacher[$role]->roleid == get_config('report_coursemanager', 'teacher_role_dashboard')) {
+            $count_courses = $count_courses+1;
             $all_row_classes = '';
             $data_keys = array();
             $string_keys = '';
