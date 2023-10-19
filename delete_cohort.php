@@ -61,10 +61,10 @@ $plugins   = enrol_get_plugins(false);
 $count = 0;
 // We count all cohort enrollments.
 foreach($instances as $instance){
-	if ($instance->enrol == 'cohort') {
-		$plugin = $plugins[$instance->enrol];
-		$count = $count+1;
-	    }
+    if ($instance->enrol == 'cohort') {
+        $plugin = $plugins[$instance->enrol];
+        $count = $count+1;
+        }
     }
 
 echo $OUTPUT->header();
@@ -72,41 +72,41 @@ echo $OUTPUT->heading(get_string('title_delete_cohort_confirm', 'report_coursema
 
 // If no cohort enrolled, warning and back button.
 if ($count == 0) {
-	echo html_writer::tag('p', get_string('no_cohort', 'report_coursemanager'));
-	print html_writer::div('
-	<div class="btn btn-outline-info"><a href="view.php">
-	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></span></div><br /><br />
-	');
+    echo html_writer::tag('p', get_string('no_cohort', 'report_coursemanager'));
+    print html_writer::div('
+    <div class="btn btn-outline-info"><a href="view.php">
+    <i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></span></div><br /><br />
+    ');
 }
 // If wohort detected, check if unenrollment is confirmed..
 else if (!$confirm) {
-	// If not confirmed : add explanations.
-	print html_writer::div('
-	<div class="btn btn-outline-info"><a href="view.php">
-	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
-	');
+    // If not confirmed : add explanations.
+    print html_writer::div('
+    <div class="btn btn-outline-info"><a href="view.php">
+    <i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
+    ');
     echo $OUTPUT->box_start('generalbox', 'notice');
     echo html_writer::tag('p', get_string('delete_cohort_confirm', 'report_coursemanager'));
-	
-	$url_confirm_delete = new moodle_url('delete_cohort.php', array('confirm' => 1, 'id' => $courseid));
+    
+    $url_confirm_delete = new moodle_url('delete_cohort.php', array('confirm' => 1, 'id' => $courseid));
     echo html_writer::div(html_writer::link($url_confirm_delete, get_string('button_delete_cohort_confirm', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info') . " ";
 
     echo $OUTPUT->box_end();
     echo $OUTPUT->footer();
 } else if ($confirm) {
-	// If confirmed, all cohort enrollment are deleted.
-	foreach($instances as $instance) {
-		if ($instance->enrol == 'cohort') {
-			$plugin->delete_instance($instance);
-		}
-	}
+    // If confirmed, all cohort enrollment are deleted.
+    foreach($instances as $instance) {
+        if ($instance->enrol == 'cohort') {
+            $plugin->delete_instance($instance);
+        }
+    }
 
-	// Add event for cohort unenrollment.
-	$context = context_course::instance($course->id);
-	$eventparams = array('context' => $context, 'courseid' => $courseid);
-	$event = \report_coursemanager\event\course_cohort_unenrolled::create($eventparams);
-	$event->trigger();	
-		
-	$url = new moodle_url('view.php', array('done' => 'cohort_deleted'));
-    redirect($url);	
+    // Add event for cohort unenrollment.
+    $context = context_course::instance($course->id);
+    $eventparams = array('context' => $context, 'courseid' => $courseid);
+    $event = \report_coursemanager\event\course_cohort_unenrolled::create($eventparams);
+    $event->trigger();    
+        
+    $url = new moodle_url('view.php', array('done' => 'cohort_deleted'));
+    redirect($url);    
     } 

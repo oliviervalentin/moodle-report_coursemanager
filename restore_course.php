@@ -68,7 +68,7 @@ $post = new stdClass();
 $post->courseid = $id;
 
 $formarray = array(
-	'post' => $post
+    'post' => $post
 );
 
 $mform = new form_restore('restore_course.php', $formarray, 'post');
@@ -80,49 +80,49 @@ if ($mform->is_cancelled()) {
     // If confirmed : course is restored out of trash.
     // First, retrieve category id for this course.
     // $course = $DB->get_record('course', array('id' => $courseid), 'id, category');
-	
-	// Next, get context for course category and the bin category.
-	// $contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
+    
+    // Next, get context for course category and the bin category.
+    // $contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
     // $contextcategorytrashid = $contextcategorytrash->id;
-	// $contextcategorystart = CONTEXT_COURSECAT::instance($data->restore_category);
+    // $contextcategorystart = CONTEXT_COURSECAT::instance($data->restore_category);
     // $contextcategorystartid = $contextcategorystart->id;
-	
-	// Assign teacher role in these two categories context.
+    
+    // Assign teacher role in these two categories context.
     // role_assign(3, $USER->id, $contextcategorytrashid);
-	// role_assign(3, $USER->id, $contextcategorystartid);
+    // role_assign(3, $USER->id, $contextcategorystartid);
 
     // Assign 2 capabilities to move course.
-	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
-	// assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
-	// assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-	
-	// Move course out of trash into category.
+    // assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
+    // assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+    // assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
+    // assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
+    
+    // Move course out of trash into category.
     // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
         // array('id' => $data->courseid));
-		
-	move_courses(array($data->courseid), $data->restore_category);
+        
+    move_courses(array($data->courseid), $data->restore_category);
 
     // Unassign the teacher role in categories contexts.
-	// role_unassign(3, $USER->id, $contextcategorytrashid);
-	// role_unassign(3, $USER->id, $contextcategorystartid);
-	
-	// unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
-	// unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
-	// unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
-	// unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
+    // role_unassign(3, $USER->id, $contextcategorytrashid);
+    // role_unassign(3, $USER->id, $contextcategorystartid);
+    
+    // unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
+    // unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
+    // unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
+    // unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
 
     // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
         // array('id' => $data->courseid));
 
-	// Add event for course resetting.
-	$context = context_course::instance($data->courseid);
-	$eventparams = array('context' => $context, 'courseid' => $data->courseid);
-	$event = \report_coursemanager\event\course_restored::create($eventparams);
-	$event->trigger();
+    // Add event for course resetting.
+    $context = context_course::instance($data->courseid);
+    $eventparams = array('context' => $context, 'courseid' => $data->courseid);
+    $event = \report_coursemanager\event\course_restored::create($eventparams);
+    $event->trigger();
 
-	$url = new moodle_url('view.php', array('done' => 'course_restored'));
-	redirect($url);
+    $url = new moodle_url('view.php', array('done' => 'course_restored'));
+    redirect($url);
 
     exit;
 }
@@ -131,7 +131,7 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('title_restore_confirm', 'report_coursemanager')." ".$infocourse->fullname." V2");
 
 if($infocourse->category != get_config('report_coursemanager', 'category_bin')) {
-	echo html_writer::tag('h5', get_string('restore_already_moved', 'report_coursemanager'), array('class' => 'alert alert-warning'));
+    echo html_writer::tag('h5', get_string('restore_already_moved', 'report_coursemanager'), array('class' => 'alert alert-warning'));
 } else {
     echo html_writer::div(get_string('restore_confirm', 'report_coursemanager', $a));
     $mform->display();

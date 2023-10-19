@@ -25,13 +25,13 @@
 defined('MOODLE_INTERNAL') || die();      
                                                                                     
 if ($ADMIN->fulltree) {                                                                                                                                                                                                  
-	// Show in navigation ?
+    // Show in navigation ?
     $name = 'report_coursemanager/teachertools';
     $title = get_string('enableteachertools', 'report_coursemanager');
     $description = get_string('enableteachertools_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 'enableteachertools'));
 
-	// Define trash category.
+    // Define trash category.
     $displaylist = core_course_category::make_categories_list();
     $name = 'report_coursemanager/category_bin';
     $title = get_string('category_bin', 'report_coursemanager');
@@ -56,24 +56,24 @@ if ($ADMIN->fulltree) {
     $description = get_string('last_access_teacher_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '5'));
 
-	// Number of days without student visit before warn.
+    // Number of days without student visit before warn.
     $name = 'report_coursemanager/last_access_student';
     $title = get_string('last_access_student', 'report_coursemanager');
     $description = get_string('last_access_student_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '5'));
 
-	// Information text when courses in trash category will be deleted.
+    // Information text when courses in trash category will be deleted.
     $name = 'report_coursemanager/delete_period';
     $title = get_string('delete_period', 'report_coursemanager');
     $description = get_string('delete_period_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '50'));
-	
+    
     // Define if reports are displayed in courses and which place to use.
-	$show_report_in_course_choices = array(
-	    get_string('show_report_in_course_choices_none', 'report_coursemanager'),
-		get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
-		get_string('show_report_in_course_choices_popover', 'report_coursemanager')
-	);
+    $show_report_in_course_choices = array(
+        get_string('show_report_in_course_choices_none', 'report_coursemanager'),
+        get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
+        get_string('show_report_in_course_choices_popover', 'report_coursemanager')
+    );
     $name = 'report_coursemanager/show_report_in_course';
     $title = get_string('show_report_in_course', 'report_coursemanager');
     $description = get_string('show_report_in_course_desc', 'report_coursemanager');

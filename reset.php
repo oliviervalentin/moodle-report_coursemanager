@@ -70,21 +70,21 @@ if ($mform->is_cancelled()) {
     $data->reset_start_date_old = $course->startdate;
     $data->reset_end_date_old = $course->enddate;
     $status = reset_course_userdata($data);
-	
-	// Get enroll instances.
-	$instances = enrol_get_instances($course->id, false);
-	$plugins   = enrol_get_plugins(false);
+    
+    // Get enroll instances.
+    $instances = enrol_get_instances($course->id, false);
+    $plugins   = enrol_get_plugins(false);
 
-	// Delete only cohort enrollment methods.
-	foreach($instances as $instance){
-		if ($instance->enrol == 'cohort') {
-			$plugin = $plugins[$instance->enrol];
-			$plugin->delete_instance($instance);
-		}
-	}
-	
-	$data = array();
-	
+    // Delete only cohort enrollment methods.
+    foreach($instances as $instance){
+        if ($instance->enrol == 'cohort') {
+            $plugin = $plugins[$instance->enrol];
+            $plugin->delete_instance($instance);
+        }
+    }
+    
+    $data = array();
+    
     foreach ($status as $item) {
         $line = array();
         $line[] = $item['component'];
@@ -98,11 +98,11 @@ if ($mform->is_cancelled()) {
     echo $OUTPUT->continue_button('view.php');  // Retour accueil.
     echo $OUTPUT->footer();
 
-	// Add event for course resetting.
-	$context = context_course::instance($course->id);
-	$eventparams = array('context' => $context, 'courseid' => $course->id);
-	$event = \report_coursemanager\event\course_global_reset::create($eventparams);
-	$event->trigger();
+    // Add event for course resetting.
+    $context = context_course::instance($course->id);
+    $eventparams = array('context' => $context, 'courseid' => $course->id);
+    $event = \report_coursemanager\event\course_global_reset::create($eventparams);
+    $event->trigger();
 
     exit;
 }

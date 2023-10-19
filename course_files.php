@@ -54,9 +54,9 @@ $PAGE->set_heading('Gestion des cours - Enseignants');
 
 if (!has_capability('moodle/course:update', $context)) {
     echo $OUTPUT->header();
-	echo get_string('capability_problem', 'report_coursemanager');
-	echo $OUTPUT->footer();
-	exit();
+    echo get_string('capability_problem', 'report_coursemanager');
+    echo $OUTPUT->footer();
+    exit();
 }
 
 // First query to retrieve files related to course.
@@ -67,16 +67,16 @@ $sizesql = "SELECT a.component, SUM(a.filesize) as filesize, COUNT(a.contenthash
                     WHERE ".$DB->sql_concat('ctx.path', "'/'")." LIKE ?
                        AND f.filename != '.' AND f.source IS NOT NULL) a
              GROUP BY a.component
-			 ORDER BY a.component";
+             ORDER BY a.component";
 
 $cxsizes = $DB->get_recordset_sql($sizesql, array($contextcheck));
 
-// Query for total files size in course.			
+// Query for total files size in course.            
 $sql = 'SELECT SUM(filesize)
-	FROM {files}
-	WHERE contextid 
-	IN (SELECT id FROM {context} WHERE contextlevel = 70 AND instanceid IN 
-	(SELECT id FROM {course_modules} WHERE course = ?)) ';
+    FROM {files}
+    WHERE contextid 
+    IN (SELECT id FROM {context} WHERE contextlevel = 70 AND instanceid IN 
+    (SELECT id FROM {course_modules} WHERE course = ?)) ';
 $paramsdb = array($course->id);
 $dbresult = $DB->get_field_sql($sql, $paramsdb);
 // Rounded files size in Mo.
@@ -88,8 +88,8 @@ $coursetable->align = array('right', 'left', 'left');
 $coursetable->head = array(
     get_string('plugin', 'report_coursemanager'),
     get_string('size', 'report_coursemanager'),
-	get_string('number_of_files', 'report_coursemanager'), 
-	get_string('comment', 'report_coursemanager')
+    get_string('number_of_files', 'report_coursemanager'), 
+    get_string('comment', 'report_coursemanager')
 );
 $coursetable->data = array();
 $coursetable->width = '50%';
@@ -99,58 +99,58 @@ $chart_sizes = array();
 $chart_labels = array();
 
 foreach ($cxsizes as $cxdata) {
-	// print_object($cxdata);
+    // print_object($cxdata);
     $row = array();
     // If component is not course, retrive file sizes and component for global chart.
-	if ($cxdata->component != 'course' && $cxdata->component != 'contentbank') {
-	    $chart_labels[] = get_string('pluginname', $cxdata->component);
-	    $chart_sizes[] = number_format(ceil($cxdata->filesize / 1048576));
+    if ($cxdata->component != 'course' && $cxdata->component != 'contentbank') {
+        $chart_labels[] = get_string('pluginname', $cxdata->component);
+        $chart_sizes[] = number_format(ceil($cxdata->filesize / 1048576));
     }
-	// Retrieve details for every file.
-	// According to component, we check special elements.
+    // Retrieve details for every file.
+    // According to component, we check special elements.
 
     // ASSIGN : we check submission files only !
-	if ($cxdata->component == 'assignsubmission_file') {
-		// Function to retrieve details for submissions.
-		$details = (report_coursemanager_get_assign_comment($courseid));
-		// Calculate total files size.
-	    $size =  number_format(ceil($details[1] / 1048576));
+    if ($cxdata->component == 'assignsubmission_file') {
+        // Function to retrieve details for submissions.
+        $details = (report_coursemanager_get_assign_comment($courseid));
+        // Calculate total files size.
+        $size =  number_format(ceil($details[1] / 1048576));
         $row[] = (get_string('pluginname', 'mod_assign'));
-		$row[] = $size . "Mo";
-		// Number of files.
-		$row[] = $details[2];
+        $row[] = $size . "Mo";
+        // Number of files.
+        $row[] = $details[2];
     } else {
-		// If it's not an assign, we check only for labels, forums, folders and resources.
-		// For each, we must define component and filearea.
-		if ($cxdata->component == 'mod_label') {
-			$component = 'label';
-			$filearea = 'intro';
-		} else if ($cxdata->component == 'mod_forum') {
-			$component = 'forum';
-			$filearea = 'attachment';
-		} else if ($cxdata->component == 'mod_resource') {
-			$component = 'resource';
-			$filearea = 'content';
-		} else if ($cxdata->component == 'mod_folder') {
-			$component = 'folder';
-			$filearea = 'content';
-		} else {
-			// Other components are not displayed.
-			continue;
-		}
-		// Now that we have component and filearea, we can use function to retrieve comments.
-		$details = (report_coursemanager_get_files_comment($component, $courseid, $filearea));
-		$size = number_format(ceil($cxdata->filesize / 1048576));
+        // If it's not an assign, we check only for labels, forums, folders and resources.
+        // For each, we must define component and filearea.
+        if ($cxdata->component == 'mod_label') {
+            $component = 'label';
+            $filearea = 'intro';
+        } else if ($cxdata->component == 'mod_forum') {
+            $component = 'forum';
+            $filearea = 'attachment';
+        } else if ($cxdata->component == 'mod_resource') {
+            $component = 'resource';
+            $filearea = 'content';
+        } else if ($cxdata->component == 'mod_folder') {
+            $component = 'folder';
+            $filearea = 'content';
+        } else {
+            // Other components are not displayed.
+            continue;
+        }
+        // Now that we have component and filearea, we can use function to retrieve comments.
+        $details = (report_coursemanager_get_files_comment($component, $courseid, $filearea));
+        $size = number_format(ceil($cxdata->filesize / 1048576));
         $row[] = get_string('pluginname', $cxdata->component);
-		$row[] = $size . "Mo";
-		$row[] = $cxdata->countfiles;
+        $row[] = $size . "Mo";
+        $row[] = $cxdata->countfiles;
     }
-	
-	// Now add line to show comments about files.
+    
+    // Now add line to show comments about files.
     $row[] = $details[0];
 
     $coursetable->data[] = $row;
-	$total[] += $size;
+    $total[] += $size;
 }
 $cxsizes->close();
 
@@ -171,29 +171,29 @@ print html_writer::div('
 ');
 print $OUTPUT->heading(get_string('coursesize', 'report_coursemanager'). " - ". format_string($course->fullname));
 if (array_sum($total)>0) {
-	
-	print html_writer::tag('h4',  get_string('totalsize', 'report_coursemanager').$filesize.' Mo');
-	print html_writer::tag('h4', get_string('watchedfilessize', 'report_coursemanager').array_sum($total).' Mo');
-	print html_writer::tag('div', get_string('watchedfilessizedetails', 'report_coursemanager'));
-	// Si corbeille
-	if (get_config('tool_recyclebin', 'coursebinenable') == 1) {
-		print html_writer::tag('p', get_string('warn_recyclebin', 'report_coursemanager')); 
-	} else {
-		print html_writer::tag('h4', '&nbsp;');
-	}
-	echo '<table>';
-	echo '<tr><td>';
-	print html_writer::table($coursetable);
-	echo '</td><td style="min-width: 30%; padding-left: 20px;">';
-	print html_writer::tag('h5', get_string('global_chart', 'report_coursemanager')); 
-	echo $OUTPUT->render($chart_sizes_mod, false).'</td></tr>';
-	echo '</table>';
-	// print html_writer::tag('p', '<div style="max-height: 50% !important"> ' . $OUTPUT->render($chart_sizes_mod) . '</div>');
+    
+    print html_writer::tag('h4',  get_string('totalsize', 'report_coursemanager').$filesize.' Mo');
+    print html_writer::tag('h4', get_string('watchedfilessize', 'report_coursemanager').array_sum($total).' Mo');
+    print html_writer::tag('div', get_string('watchedfilessizedetails', 'report_coursemanager'));
+    // Si corbeille
+    if (get_config('tool_recyclebin', 'coursebinenable') == 1) {
+        print html_writer::tag('p', get_string('warn_recyclebin', 'report_coursemanager')); 
+    } else {
+        print html_writer::tag('h4', '&nbsp;');
+    }
+    echo '<table>';
+    echo '<tr><td>';
+    print html_writer::table($coursetable);
+    echo '</td><td style="min-width: 30%; padding-left: 20px;">';
+    print html_writer::tag('h5', get_string('global_chart', 'report_coursemanager')); 
+    echo $OUTPUT->render($chart_sizes_mod, false).'</td></tr>';
+    echo '</table>';
+    // print html_writer::tag('p', '<div style="max-height: 50% !important"> ' . $OUTPUT->render($chart_sizes_mod) . '</div>');
 
-	
-	// echo $OUTPUT->render($chart_sizes_mod);
+    
+    // echo $OUTPUT->render($chart_sizes_mod);
 } else {
-	print html_writer::tag('p', '<div class=" alert alert-info"><i class="fa fa-glass"></i> ' . get_string('empty_files_course', 'report_coursemanager') . '</div>');
+    print html_writer::tag('p', '<div class=" alert alert-info"><i class="fa fa-glass"></i> ' . get_string('empty_files_course', 'report_coursemanager') . '</div>');
 }
 
 print $OUTPUT->footer();

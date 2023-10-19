@@ -5,7 +5,7 @@
   margin-bottom: 12px;
 }
 #filtercontainer {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 .filterrow {
@@ -58,7 +58,7 @@
     border-radius: 50%;
     color: #ffffff;
     width: 40px;
-	height: 40px;
+    height: 40px;
     font-size: 18px;
     cursor: pointer;
     margin-left: 3px;
@@ -67,10 +67,10 @@ ul#coursemanagerbuttons li {
     display: inline;
 }
 #coursemanager_popover{
-	min-width: 150px;
+    min-width: 150px;
 }
 #collapse_report {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 #reports_zone li {
   margin-bottom: 12px;

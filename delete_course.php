@@ -60,51 +60,51 @@ $all_teachers = get_role_users(3, $context);
 
 // If not yet confirm.
 if (!$confirm) {
-	echo $OUTPUT->header();
-	// Add back button.
-	print html_writer::div('
-	<div class="btn btn-outline-info"><a href="view.php">
-	<i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
-	');
+    echo $OUTPUT->header();
+    // Add back button.
+    print html_writer::div('
+    <div class="btn btn-outline-info"><a href="view.php">
+    <i class="fa fa-arrow-left"></i>  '.get_string('back').'</a></div><br /><br />
+    ');
 
-	echo $OUTPUT->heading(get_string('title_move_confirm', 'report_coursemanager')." ".$infocourse->fullname);
-	if($infocourse->category == get_config('report_coursemanager', 'category_bin')) {
-		echo html_writer::tag('h5', get_string('delete_already_moved'), array('class' => 'alert alert-warning'));
-		echo $OUTPUT->footer();
-		exit();
-	}
+    echo $OUTPUT->heading(get_string('title_move_confirm', 'report_coursemanager')." ".$infocourse->fullname);
+    if($infocourse->category == get_config('report_coursemanager', 'category_bin')) {
+        echo html_writer::tag('h5', get_string('delete_already_moved'), array('class' => 'alert alert-warning'));
+        echo $OUTPUT->footer();
+        exit();
+    }
 
     // Text to inform about this function.
-	echo html_writer::div(get_string('move_confirm', 'report_coursemanager', $a));
+    echo html_writer::div(get_string('move_confirm', 'report_coursemanager', $a));
 
-	if(count($all_teachers) > 1) {
-		$text_warn_several_teachers = get_string('delete_several_teachers', 'report_coursemanager');
-		$text_warn_several_teachers .= "<ul>";
-		
-		$list_teachers = '';
-		foreach($all_teachers as $teacher){
-			$list_teachers .= '<li>'.$teacher->firstname.' '.$teacher->lastname. '</li>';
-		}
-		$text_warn_several_teachers .= $list_teachers;
-		$text_warn_several_teachers .= "</ul>";
-		echo html_writer::div($text_warn_several_teachers, 'alert alert-danger');
-	}
+    if(count($all_teachers) > 1) {
+        $text_warn_several_teachers = get_string('delete_several_teachers', 'report_coursemanager');
+        $text_warn_several_teachers .= "<ul>";
+        
+        $list_teachers = '';
+        foreach($all_teachers as $teacher){
+            $list_teachers .= '<li>'.$teacher->firstname.' '.$teacher->lastname. '</li>';
+        }
+        $text_warn_several_teachers .= $list_teachers;
+        $text_warn_several_teachers .= "</ul>";
+        echo html_writer::div($text_warn_several_teachers, 'alert alert-danger');
+    }
 
-	// Add choices : delete course, or direct links to save questions bank or full course.
-	echo html_writer::tag('h5', get_string('delete_wish', 'report_coursemanager'), array('class' => 'alert alert-warning'));
-	$url_confirm_delete = new moodle_url('delete_course.php', array('confirm' => 1, 'courseid' => $courseid));
+    // Add choices : delete course, or direct links to save questions bank or full course.
+    echo html_writer::tag('h5', get_string('delete_wish', 'report_coursemanager'), array('class' => 'alert alert-warning'));
+    $url_confirm_delete = new moodle_url('delete_course.php', array('confirm' => 1, 'courseid' => $courseid));
     echo html_writer::div(html_writer::link($url_confirm_delete, get_string('button_move_confirm', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-warning') . " ";
-	$url_question_bank = new moodle_url('/question/bank/exportquestions/export.php', array('courseid' => $courseid));
+    $url_question_bank = new moodle_url('/question/bank/exportquestions/export.php', array('courseid' => $courseid));
     echo html_writer::div(html_writer::link($url_question_bank, get_string('button_save_questionbank', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info') . " ";
-	$url_backup_course = new moodle_url('/backup/backup.php', array('id' => $courseid));
+    $url_backup_course = new moodle_url('/backup/backup.php', array('id' => $courseid));
     echo html_writer::div(html_writer::link($url_backup_course, get_string('button_save_course', 'report_coursemanager'), array('class' => 'text-white')), 'btn btn-info');
 
-	echo $OUTPUT->footer();
-	
+    echo $OUTPUT->footer();
+    
 } else if ($confirm) {
     // If confirmed : course is moved in trash category.
-	move_courses(array($courseid), get_config('report_coursemanager', 'category_bin'));
-		
+    move_courses(array($courseid), get_config('report_coursemanager', 'category_bin'));
+        
     // Course parameters updated : course is hidden.
     $datahide = new stdClass;
     $datahide->id = $courseid;
@@ -123,32 +123,32 @@ if (!$confirm) {
     $from->maildisplay = false;
 
     // Send a message to teacher(s).
-	// If only one teacher : send mail for the only teacher in course.
-	if(count($all_teachers) == 1) {
-		$message = get_string('mail_message_delete_oneteacher', 'report_coursemanager', $a);
-		$send = email_to_user($USER, $from, $subject, $message);
-	} else {
-		//If multiple teachers : send 2 different mails.
-		foreach($all_teachers as $teacher){
-			if ($teacher->email == $USER->email){
-				// Mail for teacher who deletes course.
-				$message = get_string('mail_message_delete_main_teacher', 'report_coursemanager', $a);
-				$send = email_to_user($USER, $from, $subject, $message);
-			} else {
-				// Mail for other teachers to warn them.
-				$a->deleter = $USER->firstname." ".$USER->lastname;
-				$message = get_string('mail_message_delete_other_teacher', 'report_coursemanager', $a);
-				$send = email_to_user($teacher, $from, $subject, $message);
-			}
-		}
-	}
+    // If only one teacher : send mail for the only teacher in course.
+    if(count($all_teachers) == 1) {
+        $message = get_string('mail_message_delete_oneteacher', 'report_coursemanager', $a);
+        $send = email_to_user($USER, $from, $subject, $message);
+    } else {
+        //If multiple teachers : send 2 different mails.
+        foreach($all_teachers as $teacher){
+            if ($teacher->email == $USER->email){
+                // Mail for teacher who deletes course.
+                $message = get_string('mail_message_delete_main_teacher', 'report_coursemanager', $a);
+                $send = email_to_user($USER, $from, $subject, $message);
+            } else {
+                // Mail for other teachers to warn them.
+                $a->deleter = $USER->firstname." ".$USER->lastname;
+                $message = get_string('mail_message_delete_other_teacher', 'report_coursemanager', $a);
+                $send = email_to_user($teacher, $from, $subject, $message);
+            }
+        }
+    }
 
-	// Add event for deletion.
-	$context = context_course::instance($courseid);
-	$eventparams = array('context' => $context, 'courseid' => $courseid);
-	$event = \report_coursemanager\event\course_trash_moved::create($eventparams);
-	$event->trigger();
+    // Add event for deletion.
+    $context = context_course::instance($courseid);
+    $eventparams = array('context' => $context, 'courseid' => $courseid);
+    $event = \report_coursemanager\event\course_trash_moved::create($eventparams);
+    $event->trigger();
 
-	$url = new moodle_url('view.php', array('done' => 'course_deleted'));
+    $url = new moodle_url('view.php', array('done' => 'course_deleted'));
         redirect($url);
 }

@@ -22,7 +22,7 @@
         {{/capabilitycreatenote}}
 
     {{#allnotes}}
-	        {{#capabilityupdatenote}}
+            {{#capabilityupdatenote}}
                 <div id="{{elementidcontainer}}" class="sticky" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)" style="background-color:{{backgroundcolor}};">
             {{/capabilityupdatenote}}
             {{^capabilityupdatenote}}
@@ -30,12 +30,12 @@
             {{/capabilityupdatenote}}
                 <div id="{{elementid}}">
                     <div class="headernote">
-	                    {{#capabilityupdatenote}}
+                        {{#capabilityupdatenote}}
                             <i class="fa fa-arrows fa-fw" title="{{#str}}move_cross_pix, stickynotes{{/str}}"></i>
-                        {{/capabilityupdatenote}}	
-						{{^capabilityupdatenote}}
-						    &nbsp;
-						{{/capabilityupdatenote}}
+                        {{/capabilityupdatenote}}    
+                        {{^capabilityupdatenote}}
+                            &nbsp;
+                        {{/capabilityupdatenote}}
                         {{#capability_viewauthor}}
                                {{fullname}}
                         {{/capability_viewauthor}}
