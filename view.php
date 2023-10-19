@@ -115,7 +115,7 @@ if(count($list_user_courses) == 0) {
     echo html_writer::div('<h2>Pas de cours</h2>
         Vous n\'êtes inscrit dans aucun cours', 'alert alert-primary');
 
-// If user is enrolled in at least one course as teacher, let's start !
+// If user is enrolled in at least one course as teacher, let's start !.
 } else {
     // Add a new table to display courses information.
     $count_courses = 0;
@@ -177,8 +177,9 @@ if(count($list_user_courses) == 0) {
             $row[] = html_writer::link("/course/view.php?id=".$course->id, $course->fullname);
 
             // If course is in trash : informations are hidden.
-            // Action menu has only one possibility : contact support to re-establish course.
+            // Action menu has only one possibility : re-establish course out of trash category.
             if($infocourse->category == get_config('report_coursemanager', 'category_bin')) {
+                // All lines are empty, except last one that displays menu.
                 $row[] = html_writer::div('<i class="fa fa-trash"></i> '.get_string('course_state_trash', 'report_coursemanager'), 'course_trash');
                 $row[] = html_writer::label('', null);
                 $row[] = html_writer::label('', null);
@@ -197,53 +198,41 @@ if(count($list_user_courses) == 0) {
                 ';
                 $row[] = html_writer::div($menu, null);
             } else {
+                // Course is not in trash, let's show all information.
+
+                // First, define variables for showing reports in table.
                 $sumup = '';
                 $icons_sumup = '';
                 $string_key = '';
-                // If course is not in trash, let's show all information.
 
-                // Visible or hidden course ?.
+                // Add line : visible or hidden course ?.
                 if ($course->visible == 1) {
                     $row[] = html_writer::div('<i class="fa fa-eye"></i> '.get_string('course_state_visible', 'report_coursemanager'), 'course_visible');
                 } else if ($course->visible == 0) {
                     $row[] = html_writer::div('<i class="fa fa-eye-slash"></i> '.get_string('course_state_hidden', 'report_coursemanager'), 'course_hidden');
                 }
 
-                // Query for total files size in course.            
-                $sql = 'SELECT SUM(filesize)
-                    FROM {files}
-                    WHERE contextid 
-                    IN (SELECT id FROM {context} WHERE contextlevel = 70 AND instanceid IN 
-                    (SELECT id FROM {course_modules} WHERE course = ?)) ';
-                $paramsdb = array($course->id);
-                $dbresult = $DB->get_field_sql($sql, $paramsdb);
-                // Rounded files size in Mo.
-                $filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
+                // Retrieve course weight in table.
+                $weight = $DB->get_record('coursemanager', array('course' => $course->id, 'report' => 'weight'));
 
-                // Test with config variable "total_filesize_threshold".
-                // if total size is null, blue color.
-                if ($filesize == 0) {
+                // Test with config variable "total_filesize_threshold" to define icon and text color.
+                // If total size is null or less than 1 Mo, consider it empty.
+                if ($weight->detail == 0) {
                     $icon_size = 'fa fa-thermometer-empty';
                     $progress = 'text-info';
-//////////////////////////////////////////////////////////////////////////////////////
-////////////////   A MODIFIER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-////////////////////////////////////////////////////////////////////////////////////////
-                } else if ($filesize <= (get_config('report_coursemanager', 'total_filesize_threshold'))) {
-                    // Si la taille totale est inférieure à la moitié de la limite définie dans les paramètres, affichage vert.
+                } else if ($weight->detail <= (get_config('report_coursemanager', 'total_filesize_threshold'))) {
+                    // If total size doesn't exceed threshold, green color.
                     $icon_size = 'fa fa-thermometer-quarter';
                     $progress = 'text-success';
-                // } else if ($filesize > 10 && $filesize < 50) {
-                    // $icon_size = 'fa fa-thermometer-half';
-                    // $progress = 'text-warning';
-                } else if ($filesize > (get_config('report_coursemanager', 'total_filesize_threshold'))) {
-                    // Au-delà de la moitié, on affiche une alerte.
+                } else if ($weight->detail > (get_config('report_coursemanager', 'total_filesize_threshold'))) {
+                    // If total size exceeds limit threshold, red color.
                     $icon_size = 'fa fa-thermometer-three-quarters';
                     $progress = 'text-danger';
                 }
 
                 // Create table line to show files size.
                 $row[] = html_writer::link("course_files.php?courseid=".$course->id, 
-                    '<i class="'.$icon_size.' fa-lg"></i>&nbsp;&nbsp;'.$filesize.' Mo', array('class' => $progress));
+                    '<i class="'.$icon_size.' fa-lg"></i>&nbsp;&nbsp;'.$weight->detail.' Mo', array('class' => $progress));
                 
                 // Table line for number of cohorts.
                 $row[] = html_writer::label($count_cohort, null);
@@ -252,142 +241,61 @@ if(count($list_user_courses) == 0) {
                 // Table line for number of teachers.
                 $row[] = html_writer::label(count($all_teachers), null);
 
-                ///////////////////////////////////////////////////
-                /////  SPECIAL TESTS FOR RECOMMENDATIONS      /////
-                ///////////////////////////////////////////////////
-
-                // 1- TEST FOR TOTAL COURSE SIZE.
-                // If total_course_size exceeds limit, add warning.
-                
-                if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
+                // Get all reports for table coursemanager for recommandations.
+                $reports = $DB->get_records('coursemanager', array('course' => $course->id));
+                foreach ($reports as $report) {
                     $info = new stdClass();
-                    $info->courseid = $course->id;
-                    $sumup .= "<li>".get_string('total_filesize_alert', 'report_coursemanager', $info)."</li><br />";
-                    $icons_sumup .= "<i class='fa fa-lg fa-thermometer-three-quarters text-danger'></i>&nbsp;";
-                    $all_row_classes .= 'heavy-course ';
-                    // $data_key[] = "heavycourse";
-                    // $string_key .= "heavycourse";
-                }
-                    
-                // 2- TEST FOR EMPTY COURSE.
-                // Query to count number of activities in course.
-                $sql_empty_course = 'SELECT COUNT(mcm.id) AS count_modules
-                FROM {course} mc
-                INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
-                INNER JOIN {modules} mm ON (mcm.module = mm.id)
-                WHERE mc.id = ?
-                AND mm.name <> "forum"
-                ';
-                $paramsemptycourse = array($course->id);
-                $dbresultemptycourse = $DB->count_records_sql($sql_empty_course, $paramsemptycourse);
-                
-                // If no result, course only contains announcment forum. Add a warning.
-                if($dbresultemptycourse < 1) {
-                    $sumup .= "<li>".get_string('empty_course_alert', 'report_coursemanager')."</li><br />";
-                    $icons_sumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
-                    $all_row_classes .= "no-content ";
-                    // $data_key[] = "nocontent";
-                    // $string_key .= "no-content";
-                }
-                
-                // 3- TEST FOR TEACHERS VISITS
-                $count_teacher_visit = array();
-                // For each enrolled teacher, check last visit in course.
-                foreach($all_teachers as $teacher){
-                    $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', array('courseid' => $course->id, 'userid' => $teacher->id));
-                    // Difference between now and last access.
-                    $diff = $now - $lastaccess;
-                    // Calculate number of days without connection in course (86 400 equals number of seconds per day).
-                    $time_teacher = floor($diff/86400);
-                    // Si limit is under last_access_teacher, teacher has visited course.
-                    if ($time_teacher <= get_config('report_coursemanager', 'last_access_teacher')) {
-                        // Let's count a visit.
-                        array_push($count_teacher_visit, 'visited_teacher');
+                    // Analysis : depending on each report, add a specific text with information if necessary.
+                    switch ($report->report) {
+                        case 'heavy':
+                            // Get course id for direct link in text.
+                            $info->courseid = $course->id;
+                            $sumup .= "<li>".get_string('total_filesize_alert', 'report_coursemanager', $info)."</li><br />";
+                            $icons_sumup .= "<i class='fa fa-lg fa-thermometer-three-quarters text-danger'></i>&nbsp;";
+                            $all_row_classes .= 'heavy-course ';
+                            break;
+                        case 'no_visit_teacher':
+                            $info->limit_visit = floor(get_config('report_coursemanager', 'last_access_teacher')/30);
+                            // If there are more than one teach in course, add special message.
+                            if (count($all_teachers) > 1) {    
+                                $sumup .= "<li>".get_string('last_access_multiple_teacher_alert', 'report_coursemanager', $info)."</li><br />";
+                            } else {
+                                // If user is the only teacher in course, add message and last access.
+                                $sumup .= "<li>".get_string('last_access_unique_teacher_alert', 'report_coursemanager', $info).".</li><br />";
+                            }
+                            $icons_sumup .= "<i class='fa fa-lg fa-graduation-cap'></i>&nbsp;";
+                            $all_row_classes .= "no-visit-teacher ";
+                            break;
+                        case 'no_visit_student':
+                            $info->limit_visit = floor(get_config('report_coursemanager', 'last_access_student')/30);                    
+                            // Add warning about no visit for students.
+                            $sumup .= "<li>".get_string('last_access_student_alert', 'report_coursemanager', $info).".</li>";
+                            $icons_sumup .= "<i class='fa fa-lg fa-group text-info'></i>&nbsp;";
+                            break;
+                        case 'no_student':
+                            $sumup .= "<li>".get_string('empty_student_alert', 'report_coursemanager').".</li>";
+                            $icons_sumup .= "<i class='fa fa-lg fa-user-o text-info'></i>&nbsp;";
+                            $all_row_classes .= "no-student ";
+                            break;
+                        case 'empty':
+                            $sumup .= "<li>".get_string('empty_course_alert', 'report_coursemanager')."</li><br />";
+                            $icons_sumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
+                            $all_row_classes .= "no-content ";
+                            break;
                     }
                 }
-                $res_count_teacher_visit = array_count_values($count_teacher_visit);
-                // If result is empty, no teacher has visited course.
-                if (!isset($res_count_teacher_visit['visited_teacher'])) {
-                    $info = new stdClass();
-                    $info->date = userdate($lastaccess);
-                    $info->limit_visit = get_config('report_coursemanager', 'last_access_teacher');
-                    // If there are more than one teach in course, add special message.
-                    if (count($all_teachers) > 1) {    
-                        $sumup .= "<li>".get_string('last_access_multiple_teacher_alert', 'report_coursemanager', $info)."</li><br />";
-                    } else {
-                        // If user is the only teacher in course, add message and last access.
-                        $sumup .= "<li>".get_string('last_access_unique_teacher_alert', 'report_coursemanager', $info).".</li><br />";
-                    }
-                    $icons_sumup .= "<i class='fa fa-lg fa-graduation-cap'></i>&nbsp;";
-                    $all_row_classes .= "no-visit-teacher ";
-                    // $data_key[] = "novisitteacher";
-                    // $string_key .= "novisitteacher ";
-                }
-                
-                // 4- TEST FOR STUDENTS VISITS
-                $count_student_visit = array();
-                // If at least one student enrolled.
-                if (count($all_students) > 0) {
-                    // For each student, retrieve last access in course.
-                    foreach($all_students as $student){
-                        $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', array('courseid' => $course->id, 'userid' => $student->id));
-                        // Difference between now and last access.
-                        $diff = $now - $lastaccess;
-                        // Calculate number of days without connection in course (86 400 equals number of seconds per day).
-                        $time_student = floor($diff/86400);
-                        // Si limit is under last_access_student, student has visited course.
-                        if ($time_student <= get_config('report_coursemanager', 'last_access_student')) {
-                            // Let's count a visit.
-                            array_push($count_student_visit, 'visited_student');
-                        }
-                    }
-                    $res_count_student_visit = array_count_values($count_student_visit);
-                    // If result is empty, no student has visited course.
-                    // if ($res_count_student_visit['visited_student'] == 0) {
-                    if (!isset($res_count_student_visit['visited_student'])) {
-                        $info = new stdClass();
-                        $info->limit_visit = floor(get_config('report_coursemanager', 'last_access_student')/30);                    
-                        // Add warning about no visit for students.
-                        $sumup .= "<li>".get_string('last_access_student_alert', 'report_coursemanager', $info).".</li>";
-                        $icons_sumup .= "<i class='fa fa-lg fa-group text-info'></i>&nbsp;";
-                        $all_row_classes .= "no-visit-student ";
-                        // $data_key[] = "novisitstudent";
-                        // $string_key .= "novisitstudent ";
-                    }
-                } else {
-                    // If no students enrolled, add a specific warning
-                    $sumup .= "<li>".get_string('empty_student_alert', 'report_coursemanager').".</li>";
-                    $icons_sumup .= "<i class='fa fa-lg fa-user-o text-info'></i>&nbsp;";
-                    $all_row_classes .= "no-student ";
-                    // $data_key[] = "nostudent";
-                    // $string_key .= "nostudent ";
-                }
-
-                ////////////////////////////////////////////            
-                ///// END FOR RECOMMENDATIONS TEST
-                ////////////////////////////////////////////            
-
+                // End of reports analysis.
+   
                 // If no specific recommendations, add a specific message.
                 if (empty($sumup)) {
                     $sumup = "<p class='course_visible'><i class='fa fa-check'></i> ".get_string('no_advices', 'report_coursemanager')."</p>";
                     $icons_sumup .= "<i class='fa fa-lg fa-thumbs-up text-success'></i>";
                     $all_row_classes .= "ok ";
-                    // $data_key[] = "ok";
-                    // $string_key .= "ok ";
                 }
-                
-            ////////////////////////////////////////////////// créer des classes rows
-                
-                // $data_keys = (array)$data_key;
-                // print_object($data_key);
-                // $row->attributes['data-key'][] = 'abc';
-                // $tagada[] = $i;
-                // $all_row_classes .= $i++;
-                
-                
+
                 // Create button to open Modal containing all recommandations.
                 $row[] = html_writer::label($icons_sumup."<br /><a class='badge badge-pill badge-light' href='#' data-toggle='modal' data-target='#exampleModal".$course->id."'>".get_string('see_advices', 'report_coursemanager')."</a>", null);
-                
+
                 // Code for Modal.
                 echo html_writer::div('
                 <div class="modal fade" id="exampleModal'.$course->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -419,25 +327,20 @@ if(count($list_user_courses) == 0) {
                         <i class="icon fa fa-ellipsis-v fa-fw " ></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">Mettre à la corbeille</a>
-                            <a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">Voir les fichiers</a>
-                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">Réinitialiser</a>
-                            <a class="dropdown-item" href="/enrol/scolarite/manage.php?id='.$course->id.'">Ajouter des cohortes</a>
-                            <a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">Désinscrire des cohortes</a>
-                            <a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">Paramètres</a>
+                            <a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">'.get_string('menudeletecourse', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">'.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">'.get_string('menureset', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="/enrol/scolarite/manage.php?id='.$course->id.'">'.get_string('menuenrolcohorts', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">'.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">'.get_string('menucourseparameters', 'report_coursemanager').'</a>
                         </div>
                     </div>
                 ';
                 $row[] = html_writer::div($menu, null);
             }
 
-/////////////////// DES TEST ! A SUPPRIMER SI INUTILE
-// <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal">Test Modal</a>
-// <a class="dropdown-item" href="view.php?courseid='.$course->id.'&confirm=1">TEST CORB</a>
-
             // All infos are set. Add line to table.
             $table->rowclasses[] = "filterrow ".$all_row_classes;
-            // $table->attributes['data-key'] = $data_keys;
             $table->data[] = $row;
         }
     }
@@ -445,8 +348,7 @@ if(count($list_user_courses) == 0) {
     if ($count_courses > 0) {
         echo html_writer::table($table);
     } else {
-        echo html_writer::div('<h2>Pas de cours</h2>
-        Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant', 'alert alert-primary');
+        echo html_writer::div(get_string('no_course_to_show', 'report_coursemanager'), 'alert alert-primary');
     }
 }
 

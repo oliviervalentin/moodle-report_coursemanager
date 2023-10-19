@@ -7,7 +7,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Course manager';                                                                                    
 $string['title'] = 'Gestion des cours - Enseignants';  
-// $string['region-side-pre'] = 'Right';
 
 // Settings pages.                                                                                                      
 $string['configtitle'] = 'Course Manager settings';                                                                                          
@@ -45,6 +44,14 @@ $string['table_enrolled_teachers'] = 'Enseignants';
 $string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
 
+// Actions du menu.
+$string['menudeletecourse'] = 'Mettre à la corbeille';
+$string['menucoursefilesinfo'] = 'Voir les fichiers';
+$string['menureset'] = 'Réinitialiser';
+$string['menuenrolcohorts'] = 'Ajouter des cohortes';
+$string['menuunenrolcohorts'] = 'Désinscrire les cohortes';
+$string['menucourseparameters'] = 'Paramètres du cours';
+
 // Alertes/préconisations sur l'accueil du tableau de bord. 
 $string['course_state_visible'] = 'Visible';
 $string['course_state_hidden'] = 'Caché';
@@ -53,11 +60,12 @@ $string['see_advices'] = 'Résumé des recommandations';
 $string['advices_for_course'] = 'Préconisations pour le cours ';
 $string['total_filesize_alert'] = '<b>Le poids de ce cours est important.</b><br />Nous vous invitons à consulter <a href="course_files.php?courseid={$a->courseid}">l\'interface de gestion des fichiers de ce cours</a> pour voir les éléments les plus lourds, et éventuellement y apporter des solutions.';
 $string['empty_course_alert'] = '<b>Ce cours semble vide.</b><br />Actuellement, ce cours ne contient que le forum natif de Moodle. Si ce cours n\'a pas vocation à évoluer, nous vous invitons à le supprimer.';
-$string['last_access_multiple_teacher_alert'] = '<b>Aucun enseignant n\'a visité ce cours depuis au moins {$a->limit_visit} jours .</b><br />Votre dernière visite remonte au {$a->date}. Si aucun enseignant n\'utilise ce cours, nous vous invitons à le supprimer.';
-$string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce cours depuis longtemps.</b><br />Votre dernière visite remonte au {$a->date}. Si vous n\'utilisez plus ce cours, nous vous invitons à le supprimer.';
-$string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants récentes.</b><br />Des étudiants sont inscrits à votre cours, mais aucun ne s\'y est connecté <b>depuis {$a->limit_visit} mois ou plus</b>. Si ce cours n\'a plus d\'utilité , nous vous invitons à le supprimer.';
+$string['last_access_multiple_teacher_alert'] = '<b>Pas de visites d\'enseignants depuis plus de {$a->limit_visit} mois.</b><br />Aucun  enseignant inscrits n\'a visité ce cours durant cette période. Si personne ne l\'utilise, pensez à le supprimer.';
+$string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce cours depuis plus de {$a->limit_visit} mois.</b><br />Aucun autre enseignant n\'y figure. Si vous n\'utilisez plus ce cours, pensez à le supprimer.';
+$string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants depuis plus de {$a->limit_visit} mois.</b><br />Aucun étudiant inscrit à votre cours n\'a visité ce cours durant cette période. Si ce cours n\'a plus d\'utilité , pensez à le supprimer.';
 $string['empty_student_alert'] = '<b>Pas d\'étudiants inscrits.</b><br />Aucun utilisateur n\'est inscrit dans ce cours avec le rôle Étudiant. Si ce cours n\'est pas utilisé, pensez à le supprimer.';
 $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'y a pas de remarques particulières sur ce cours quant à son poids ou son utilisation.';
+$string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit à aucun cours en tant qu\'enseignant';
 
 // Page - Suppression des cours. 
 $string['title_move_confirm'] = 'Demande de suppression du cours';
@@ -73,10 +81,6 @@ De même, vous aurez également toujours la possibilité de restaurer le cours h
 <p> Avant de mettre votre cours à la corbeille, nous vous conseillons  de sauvegarder si besoin les fichiers contenus dans le cours 
 ainsi que la banque de questions. <b>Une fois votre cours supprimé, ces éléments seront définitivement perdus et non récupérables.</b></p><br />
 ';
-// <div class="alert alert-danger"><h3>NE SUPPRIMEZ PAS TOUT DE SUITE UN COURS SI D\'AUTRES ENSEIGNANTS LE PARTAGENT AVEC VOUS !</h3>
-// En supprimant un cours, un message d\'alerte est envoyé à tous les enseignants qui y sont inscrit. <b>Avant toute suppression, consultez donc la liste des inscrits et prévenez 
-// les autres enseignants pour savoir si le cours peut être supprimé.<br />
-// Si vous souhaitez juste que ce cours n{apparaisse plus dans la liste de vos cours, vous pouvez vous en <b>désinscrire</b>, ou <b>demandez à un autre enseignant de le faire</b>.<br /></b></div>
 $string['delete_several_teachers'] = '<h4><i class="fa fa-exclamation-triangle"></i> ATTENTION ! D\'AUTRES ENSEIGNANTS SONT INSCRITS DANS CE COURS !</h4>
 Si vous n\'avez pas informé vos collègues de la suppression de ce cours, nous vous invitons à le faire dès à présent.<br/>La demande de suppression d\'un cours enverra en effet une <b>alerte
 à tous les enseignants listés ci-dessous</b> pour leur signifier que vous avez demandé à supprimer ce cours.<br /><br />

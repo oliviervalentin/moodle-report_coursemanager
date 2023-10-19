@@ -61,11 +61,6 @@ class run_reports_task extends \core\task\scheduled_task {
                     
                 } else {
                     // Start reports calculation.
-                    // 1- TEST FOR TOTAL COURSE SIZE.
-                    // If total_course_size exceeds limit, add warning.
-
-                    // Check if course entry exists in database.
-                    $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
 
                     // Query for total files size in course.            
                     $sql = 'SELECT SUM(filesize)
@@ -76,13 +71,34 @@ class run_reports_task extends \core\task\scheduled_task {
                     $paramsdb = array($course->id);
                     $dbresult = $DB->get_field_sql($sql, $paramsdb);
                     $filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
-                    
+
+                    // Check if course weight information exist in database.
+                    $exists_weight = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'weight'));
+                    // Create or update weight general information.
+                    $data_weight = (object)$data_weight;
+                    $data_weight->course = $course->id;
+                    $data_weight->report = 'weight';
+                    $data_weight->detail = $filesize;
+                    if (empty($exists_weight)) {
+                        $res = $DB->insert_record($table, $data_weight);
+                    } else {
+                        // If alert existe, update total filesize.
+                        $data_weight->id = $exists_weight->id;
+                        $res = $DB->update_record($table, $data_weight);
+                    }
+                    unset($data_weight);
+                    unset($exists_weight);
+
+                    // 1- TEST FOR TOTAL COURSE SIZE.
+                    // Calculate course size. If total_course_size exceeds limit, add warning.
                     // If total filesize is bigger than limit defined in parameters, create alert.
+
+                    $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
+
                     if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
                         $data = (object)$data;
                         $data->course = $course->id;
                         $data->report = 'heavy';
-                        $data->detail = $filesize;
                         
                         // If size alert doesn't exist for this course, create it in DB.
                         if (empty($exists)) {
@@ -245,5 +261,7 @@ class run_reports_task extends \core\task\scheduled_task {
             }
         }
     mtrace("... End coursemanager reports.");
+
+    // TO DO : list reports for deleted courses and delete them !!!
     }
 }
