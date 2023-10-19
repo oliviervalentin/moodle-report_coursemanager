@@ -1,0 +1,77 @@
+#myInput {
+  width: 100%; 
+  padding: 10px 20px 10px 20px; 
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+#filtercontainer {
+	margin-bottom: 12px;
+}
+
+.filterrow {
+  display: none;
+}
+
+.show_course {
+  display: table-row;
+}
+
+#no-visit-student.tablefilter:checked~div table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked~div table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked~div table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked~div table tbody tr.no-content,
+#no-student.tablefilter:checked~div table tbody tr.no-student,
+#ok.tablefilter:checked~div table tbody tr.ok,
+#filterrow.tablefilter:checked~div table tbody tr.filterrow,
+#no-visit-student.tablefilter:checked~ table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked~ table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked~ table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked~ table tbody tr.no-content,
+#no-student.tablefilter:checked~ table tbody tr.no-student,
+#ok.tablefilter:checked~ table tbody tr.ok,
+#filterrow.tablefilter:checked~ table tbody tr.filterrow {
+  display: table-row;
+}
+
+.tablefilter+label {
+  cursor: pointer;
+  /* background-color: #666; */
+  /* color: #fff; */
+  /* padding: 3px; */
+}
+
+.tablefilter:checked+label {
+  background-color: #ddd;
+}
+
+.browse_courses {
+  /* position: relative; */
+  /* left: 6% */
+}
+
+.browse_courses tbody tr,
+.tablefilter{
+    display:none;
+}
+.reportbutton {
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    width: 40px;
+	height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 3px;
+}
+ul#coursemanagerbuttons li {
+    display: inline;
+}
+#coursemanager_popover{
+	min-width: 150px;
+}
+#collapse_report {
+	margin-bottom: 8px;
+}
+#reports_zone li {
+  margin-bottom: 12px;
+}

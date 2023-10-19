@@ -1,0 +1,103 @@
+<div id="activite">                                                                                                                                                                                                                           
+    <div id="columns" style="display:flex;" >
+    <div id="contents" style="display:flex; width: 98%;" >
+    {{#allcols}}
+        <div id="column{{columnid}}" class="columnnote" style="width: 100%;">
+        
+        {{! Column title and edit icon}}
+        <h4>{{title}}
+        {{#capability_managecolumn}}
+            <a href="{{editcolumnurl}}"><i class="fa fa-pencil" title="{{#str}}edit_column_pix, stickynotes{{/str}}"></i></a> <a href="{{deletecolumnurl}}"><i class="fa fa-trash" title="{{#str}}delete_column_pix, stickynotes{{/str}}"></i></a>
+        {{/capability_managecolumn}}
+        </h4>
+        {{#capabilitycreatenote}}
+        <div class="createnote">
+            {{^maxnotesreached}}
+                <a href="{{createnoteurl}}"><i class="fa fa-plus-square" title="{{#str}}create_note_pix, stickynotes{{/str}}"></i></a>
+            {{/maxnotesreached}}
+            {{#maxnotesreached}}
+                <i class="fa fa-times-circle" title="{{#str}}max_notes_reached_pix, stickynotes{{/str}}"></i></a>
+            {{/maxnotesreached}}
+        </div>
+        {{/capabilitycreatenote}}
+
+    {{#allnotes}}
+	        {{#capabilityupdatenote}}
+                <div id="{{elementidcontainer}}" class="sticky" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)" style="background-color:{{backgroundcolor}};">
+            {{/capabilityupdatenote}}
+            {{^capabilityupdatenote}}
+                <div id="{{elementidcontainer}}" class="sticky" style="background-color:{{backgroundcolor}};">
+            {{/capabilityupdatenote}}
+                <div id="{{elementid}}">
+                    <div class="headernote">
+	                    {{#capabilityupdatenote}}
+                            <i class="fa fa-arrows fa-fw" title="{{#str}}move_cross_pix, stickynotes{{/str}}"></i>
+                        {{/capabilityupdatenote}}	
+						{{^capabilityupdatenote}}
+						    &nbsp;
+						{{/capabilityupdatenote}}
+                        {{#capability_viewauthor}}
+                               {{fullname}}
+                        {{/capability_viewauthor}}
+                    </div>
+                    <div class="contentnote">
+                    {{message}}
+                       </div>
+                    <div class="footernote">
+                        <div class="vote">
+                        {{#capabilityvote}}
+                        {{#voteenabled}}
+                            {{#myvote}}
+                                <a href="{{voteurl}}"><i class="fa fa-heart" title="{{#str}}heart_full_pix, stickynotes{{/str}}"></i></a>
+                            {{/myvote}}
+                            {{^myvote}}
+                                {{#limitedvote}}
+                                    <i class="fa fa-heart-o grey" title="{{#str}}heart_limited_pix, stickynotes{{/str}}"></i>
+                                {{/limitedvote}}
+                                {{^limitedvote}}
+                                    <a href="{{voteurl}}"><i class="fa fa-heart-o" title="{{#str}}heart_empty_pix, stickynotes{{/str}}"></i></a>
+                                {{/limitedvote}}
+                            {{/myvote}}
+                        {{totalvotes}}
+                        {{/voteenabled}}
+                        {{^voteenabled}}
+                            {{! No vote enabled : nothing !}}
+                        {{/voteenabled}}
+                        {{/capabilityvote}}
+                        </div>
+                        
+                        <div class="editnote">
+                            {{#capabilityupdatenote}}
+                                <a href="{{editnoteurl}}"><i class="fa fa-pencil" title="{{#str}}edit_note_pix, stickynotes{{/str}}"></i></a>
+                            {{/capabilityupdatenote}}
+                            {{#capability_deletenote}}
+                                 <a href="{{deletenoteurl}}"><i class="fa fa-trash" title="{{#str}}delete_note_pix, stickynotes{{/str}}"></i></a>
+                            {{/capability_deletenote}}
+                            
+                            {{! If user cannot edit note, fill with a blank space. If note, the editnote DIV creates an alignment problem }}
+                            {{^capabilityupdatenote}}
+                                &nbsp;
+                            {{/capabilityupdatenote}}
+                            {{^capability_deletenote}}
+                                &nbsp;
+                            {{/capability_deletenote}}
+                        </div>
+                        
+                       </div>
+                   </div>  
+             </div>
+    {{/allnotes}}
+        </div>
+    {{/allcols}}
+    </div>
+    <div id="addcolumn">
+    {{#capability_managecolumn}}
+        <a href="{{createcolumnurl}}">
+        <i class="fa fa-plus-square fa-2x float-right" title="{{#str}}create_column_pix, stickynotes{{/str}}"></i>
+        </a>
+    {{/capability_managecolumn}}
+    </div>
+    
+    </div>
+    
+</div>
