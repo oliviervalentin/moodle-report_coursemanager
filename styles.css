@@ -35,18 +35,14 @@
 
 .tablefilter+label {
   cursor: pointer;
-  /* background-color: #666; */
-  /* color: #fff; */
-  /* padding: 3px; */
+}
+
+#page-teachertools .table-responsive {
+  overflow-x: unset;
 }
 
 .tablefilter:checked+label {
   background-color: #ddd;
-}
-
-.browse_courses {
-  /* position: relative; */
-  /* left: 6% */
 }
 
 .browse_courses tbody tr,
