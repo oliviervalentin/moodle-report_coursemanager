@@ -99,6 +99,6 @@ if ($ADMIN->fulltree) {
 
 }
 
-// $ADMIN->add('reports', new admin_externalpage('report_coursemanager',
-        // get_string('pluginname', 'report_coursemanager'),
-        // new moodle_url('/report/coursemanager/view.php')));
+$ADMIN->add('reports', new admin_externalpage('report_coursemanager',
+        get_string('pluginname', 'report_coursemanager'),
+        new moodle_url('/report/coursemanager/view.php')));
