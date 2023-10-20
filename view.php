@@ -103,6 +103,8 @@ print('
 <label for="no-student" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-user-o\'></i> '.get_string('no_student', 'report_coursemanager').'</label>
 <input type="radio" class="tablefilter" name="course_filter" id="no-content" />
 <label for="no-content" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-battery-empty text-danger\'></i> '.get_string('no_content', 'report_coursemanager').'</label>
+<input type="radio" class="tablefilter" name="course_filter" id="orphan-submissions" />
+<label for="orphan-submissions" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-files-o text-danger\'></i> '.get_string('orphan_submissions_button', 'report_coursemanager').'</label>
 <input type="radio" class="tablefilter" name="course_filter" id="ok" />
 <label for="ok" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-check-circle text-success\'></i> '.get_string('ok', 'report_coursemanager').'</label>
 ');
@@ -280,6 +282,11 @@ if(count($list_user_courses) == 0) {
                             $sumup .= "<li>".get_string('empty_course_alert', 'report_coursemanager')."</li><br />";
                             $icons_sumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
                             $all_row_classes .= "no-content ";
+                            break;
+                        case 'orphan_submissions':
+                            $sumup .= "<li>".get_string('orphan_submissions_alert', 'report_coursemanager')."</li><br />";
+                            $icons_sumup .= "<i class='fa fa-lg fa-files-o text-danger'></i>&nbsp;";
+                            $all_row_classes .= "orphan-submissions ";
                             break;
                     }
                 }

@@ -21,6 +21,7 @@
 #no-visit-teacher.tablefilter:checked~div table tbody tr.no-visit-teacher,
 #no-content.tablefilter:checked~div table tbody tr.no-content,
 #no-student.tablefilter:checked~div table tbody tr.no-student,
+#orphan-submissions.tablefilter:checked~div table tbody tr.orphan-submissions,
 #ok.tablefilter:checked~div table tbody tr.ok,
 #filterrow.tablefilter:checked~div table tbody tr.filterrow,
 #no-visit-student.tablefilter:checked~ table tbody tr.no-visit-student,
@@ -28,6 +29,7 @@
 #no-visit-teacher.tablefilter:checked~ table tbody tr.no-visit-teacher,
 #no-content.tablefilter:checked~ table tbody tr.no-content,
 #no-student.tablefilter:checked~ table tbody tr.no-student,
+#orphan-submissions.tablefilter:checked~ table tbody tr.orphan-submissions,
 #ok.tablefilter:checked~ table tbody tr.ok,
 #filterrow.tablefilter:checked~ table tbody tr.filterrow {
   display: table-row;

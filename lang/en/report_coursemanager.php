@@ -66,6 +66,7 @@ $string['last_access_multiple_teacher_alert'] = '<b>Pas de visites d\'enseignant
 $string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce cours depuis plus de {$a->limit_visit} mois.</b><br />Aucun autre enseignant n\'y figure. Si vous n\'utilisez plus ce cours, pensez à le supprimer.';
 $string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants depuis plus de {$a->limit_visit} mois.</b><br />Aucun étudiant inscrit à votre cours n\'a visité ce cours durant cette période. Si ce cours n\'a plus d\'utilité , pensez à le supprimer.';
 $string['empty_student_alert'] = '<b>Pas d\'étudiants inscrits.</b><br />Aucun utilisateur n\'est inscrit dans ce cours avec le rôle Étudiant. Si ce cours n\'est pas utilisé, pensez à le supprimer.';
+$string['orphan_submissions_alert'] = '<b>Il y a des devoirs "orphelins".</b><br />Actuellement, ce cours contient un ou plusieurs devoirs avec des dépôts invisibles, déposés par des étudiants désinscrits du cours. Ces fichiers peuvent représenter un poids important, pensez à réinitialiser le devoir ou à supprimer l\'activité .';
 $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'y a pas de remarques particulières sur ce cours quant à son poids ou son utilisation.';
 $string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit dans aucun cours avec un rôle permettant de l\'administrer avec cette interface.';
 
@@ -218,6 +219,7 @@ $string['no_visit_student'] = 'Pas de visites d\'étudiant';
 $string['no_visit_teacher'] = 'Pas de visites d\'enseignants';
 $string['no_student'] = 'Aucun étudiant inscrit';
 $string['heavy_course'] = 'Poids important';
+$string['orphan_submissions_button'] = 'Devoirs orphelins';
 $string['ok'] = 'Aucune remarque';
 
 // Taches

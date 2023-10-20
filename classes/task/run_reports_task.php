@@ -38,7 +38,7 @@ class run_reports_task extends \core\task\scheduled_task {
 
     public function execute() {
         mtrace("... Start coursemanager reports.");
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
         $table = 'coursemanager';
         $now = time();
         
@@ -62,6 +62,7 @@ class run_reports_task extends \core\task\scheduled_task {
                 } else {
                     // Start reports calculation.
 
+                    // 0-A CALCULATE TOTAL COURSE SIZE.
                     // Query for total files size in course.
                     $sql = 'SELECT SUM(filesize)
                         FROM {files}
@@ -89,8 +90,21 @@ class run_reports_task extends \core\task\scheduled_task {
                     unset($data_weight);
                     unset($exists_weight);
 
+                    // 0-B CHECK FOR ASSIGNS.
+                    // Query to check if there are assigns, that will trigger orphaned submissions report.
+                    mtrace("... Check for assigns.");
+                    $assignsql = 'SELECT cm.instance
+                        FROM {course_modules} cm
+                        JOIN {course} c ON c.id = cm.course
+                        JOIN {modules} m ON m.id = cm.module
+                        WHERE m.name ="assign"
+                        AND c.id = ?';
+                    $assignparamsdb = array($course->id);
+                    $assigndbresult = $DB->get_records_sql($assignsql, $assignparamsdb);
+                    mtrace("Total des devoirs : ".count($assigndbresult));
+
                     // 1- TEST FOR TOTAL COURSE SIZE.
-                    // Calculate course size. If total_course_size exceeds limit, add warning.
+                    // If total_course_size exceeds limit, add warning.
                     // If total filesize is bigger than limit defined in parameters, create alert.
 
                     $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
@@ -255,9 +269,66 @@ class run_reports_task extends \core\task\scheduled_task {
                         unset($data);
                         unset($count_student_visit);
                     }
-                    
+                    // 5 ORPHANED 
+
+                    if (count($assigndbresult)>0) {
+                        mtrace("...... On cherche les oprhelins");
+                        $sqlassignsorphans = 'SELECT DISTINCT(a.name) AS assign
+                        FROM
+                            {files} AS f, 
+                            {assignsubmission_file} AS asf, 
+                            {assign} AS a, 
+                            {user} AS u, 
+                            {course} AS c,
+                            {course_modules} AS cm
+                        WHERE 
+                        component = "assignsubmission_file"
+                            AND asf.submission=f.itemid
+                            AND a.id = asf.assignment
+                            AND f.userid = u.id
+                            AND filename != "."
+                            AND c.id = a.course
+                            AND c.id = ?
+                            AND a.id = cm.instance
+                            AND u.id  NOT IN 
+                                (SELECT us.id 
+                            FROM 
+                                {course} AS course, 
+                                {enrol} AS en, 
+                                {user_enrolments} AS ue, 
+                                {user} AS us
+                                WHERE c.id=course.id
+                                    AND en.courseid = course.id
+                                    AND ue.enrolid = en.id
+                                    AND us.id = ue.userid
+                                )
+                        ';
+                        $paramsdbassignsorphans = array($course->id);
+                        $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
+
+                        // If at least one result, add warning and show orphan submissions.
+                        $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'orphan_submissions'));
+                        if(count($dbresultassignsorphans) > 0) {
+                            $data = (object)$data;
+                            $data->course = $course->id;
+                            $data->report = 'orphan_submissions';
+                            
+                            // If empty course alert doesn't exist for this course, create it in DB.
+                            if (empty($exists)) {
+                                $res = $DB->insert_record($table, $data);
+                            } else {
+                                // Alert already exist - nothing to do !
+                            }
+                            unset($data);
+                        } elseif(!empty($exists)) {
+                            // In this case, course is not empty. If alert exists, delete it.
+                            $res = $DB->delete_records($table, array('id' => $exists->id));
+                            unset($data);
+                        }
+                        unset($exists);
+                    }
                 }
-                // Tests end?
+                // Tests end.
             }
         }
     mtrace("... End coursemanager reports.");
