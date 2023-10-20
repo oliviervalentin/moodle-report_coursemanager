@@ -49,8 +49,8 @@ class run_reports_task extends \core\task\scheduled_task {
                 $is_teacher = get_user_roles($coursecontext, $USER->id, false);
                     
                 // Let's count teachers and students enrolled in course.
-                $all_teachers = get_role_users(3, $coursecontext);
-                $all_students = get_role_users(5, $coursecontext);    
+                $all_teachers = get_role_users(get_config('report_coursemanager', 'teacher_role_dashboard'), $coursecontext);
+                $all_students = get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext);
 
                 // If course is in trash category, delete all reports.            
                 if($course->category == get_config('report_coursemanager', 'category_bin')) {
@@ -58,11 +58,11 @@ class run_reports_task extends \core\task\scheduled_task {
                     if(!empty($exists)) {
                         $res = $DB->delete_records($table, array('course' => $course->id));
                     }
-                    
+
                 } else {
                     // Start reports calculation.
 
-                    // Query for total files size in course.            
+                    // Query for total files size in course.
                     $sql = 'SELECT SUM(filesize)
                         FROM {files}
                         WHERE contextid 
@@ -239,7 +239,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         }
                         unset($data);
                     } else {
-                        // In this case, no student enrolled in course.                
+                        // In this case, no student enrolled in course.
                         $data = (object)$data;
                         $data->course = $course->id;
                         $data->report = 'no_student';

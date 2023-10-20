@@ -37,6 +37,18 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    // Define which role is defined as student in courses to calculate reports.
+    $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
+    $students = get_archetype_roles('student');
+    $settings->add(
+        new admin_setting_configselect('report_coursemanager/student_role_report',
+            get_string('studentrolereport', 'report_coursemanager'),
+            get_string('studentrolereport_desc', 'report_coursemanager'),
+            '5',
+            $rolesoptions
+        )
+    );
+
     // Define trash category.
     $displaylist = core_course_category::make_categories_list();
     $name = 'report_coursemanager/category_bin';

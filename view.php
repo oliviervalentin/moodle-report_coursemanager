@@ -166,8 +166,8 @@ if(count($list_user_courses) == 0) {
             }
 
             // Let's count teachers and students enrolled in course.
-            $all_teachers = get_role_users(3, $coursecontext);
-            $all_students = get_role_users(5, $coursecontext);    
+            $all_teachers = get_role_users(get_config('report_coursemanager', 'teacher_role_dashboard'), $coursecontext);
+            $all_students = get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext);    
 
             // Create a new line for table.
             // $row[] = new html_table_row();
