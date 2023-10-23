@@ -325,6 +325,12 @@ if(count($list_user_courses) == 0) {
                   </div>
                 </div>
                 ');
+                $pluginmanager = core_plugin_manager::instance();
+                $plugininfo = $pluginmanager->get_plugin_info('enrol_scolarite');
+                $enrolscolline = '';
+                if ($plugininfo && $plugininfo->is_enabled()){
+                    $enrolscolline = '<a class="dropdown-item" href="/enrol/scolarite/manage.php?id='.$course->id.'">'.get_string('menuenrolcohorts', 'report_coursemanager').'</a>';
+                }
 
                 // Create actions menu.
                 $menu = '
@@ -335,8 +341,8 @@ if(count($list_user_courses) == 0) {
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">'.get_string('menudeletecourse', 'report_coursemanager').'</a>
                             <a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">'.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">'.get_string('menureset', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="/enrol/scolarite/manage.php?id='.$course->id.'">'.get_string('menuenrolcohorts', 'report_coursemanager').'</a>
+                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">'.get_string('menureset', 'report_coursemanager').'</a>'
+                            .$enrolscolline.'
                             <a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">'.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>
                             <a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">'.get_string('menucourseparameters', 'report_coursemanager').'</a>
                         </div>

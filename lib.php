@@ -114,8 +114,8 @@ function report_coursemanager_get_assign_comment($courseid) {
         }
         
         // Define the return counts.
-        $assign_count_files_return += $total_assign_count_files;
-        $assign_files_size_return += $total_assign_size;
+        $assign_count_files_return = $total_assign_count_files;
+        $assign_files_size_return = $total_assign_size;
         // Total files size rounded in Mo.
         $rounded_assign_size = number_format(ceil($total_assign_size / 1048576));
 
