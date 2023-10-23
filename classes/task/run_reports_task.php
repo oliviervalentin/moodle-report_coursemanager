@@ -76,7 +76,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     // Check if course weight information exist in database.
                     $exists_weight = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'weight'));
                     // Create or update weight general information.
-                    $data_weight = (object)$data_weight;
+                    $data_weight = new \stdClass();
                     $data_weight->course = $course->id;
                     $data_weight->report = 'weight';
                     $data_weight->detail = $filesize;
@@ -97,7 +97,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         FROM {course_modules} cm
                         JOIN {course} c ON c.id = cm.course
                         JOIN {modules} m ON m.id = cm.module
-                        WHERE m.name ="assign"
+                        WHERE m.name =\'assign\'
                         AND c.id = ?';
                     $assignparamsdb = array($course->id);
                     $assigndbresult = $DB->get_records_sql($assignsql, $assignparamsdb);
@@ -110,7 +110,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
 
                     if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
-                        $data = (object)$data;
+                        $data = new \stdClass();
                         $data->course = $course->id;
                         $data->report = 'heavy';
                         
@@ -140,14 +140,14 @@ class run_reports_task extends \core\task\scheduled_task {
                     INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
                     INNER JOIN {modules} mm ON (mcm.module = mm.id)
                     WHERE mc.id = ?
-                    AND mm.name <> "forum"
+                    AND mm.name <> \'forum\'
                     ';
                     $paramsemptycourse = array($course->id);
                     $dbresultemptycourse = $DB->count_records_sql($sql_empty_course, $paramsemptycourse);
                     
                     // If no result, course only contains announcment forum.
                     if($dbresultemptycourse < 1) {
-                        $data = (object)$data;
+                        $data = new \stdClass();
                         $data->course = $course->id;
                         $data->report = 'empty';
                         
@@ -187,7 +187,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     
                     // If result is empty, no teacher has visited course.
                     if (!isset($res_count_teacher_visit['visited_teacher'])) {
-                        $data = (object)$data;
+                        $data = new \stdClass();
                         $data->course = $course->id;
                         $data->report = 'no_visit_teacher';
                         
@@ -235,13 +235,14 @@ class run_reports_task extends \core\task\scheduled_task {
                         $res_count_student_visit = array_count_values($count_student_visit);
                         // If res_count_student_visit is empty : no student has visited course.
                         if ($i==0) {                    
-                            $data = (object)$data;
+                            $data = new \stdClass();
                             $data->course = $course->id;
                             $data->report = 'no_visit_student';
                             
                             // First, delete entry "zero student" for this course.
-                            $res = $DB->delete_records($table, array('id' => $exists_no_student->id));
-                                                
+                            if ($exists_no_student) {
+                                $res = $DB->delete_records($table, array('id' => $exists_no_student->id));
+                            }
                             if (empty($exists_no_visit_student)) {
                                 $res = $DB->insert_record($table, $data);
                             } else {
@@ -254,13 +255,14 @@ class run_reports_task extends \core\task\scheduled_task {
                         unset($data);
                     } else {
                         // In this case, no student enrolled in course.
-                        $data = (object)$data;
+                        $data = new \stdClass();
                         $data->course = $course->id;
                         $data->report = 'no_student';
                         
                         // First, delete entry "zero student" for this course.
-                        $res = $DB->delete_records($table, array('id' => $exists_no_visit_student->id));
-                        
+                        if ($exists_no_visit_student) {
+                            $res = $DB->delete_records($table, array('id' => $exists_no_visit_student->id));
+                        }
                         if (empty($exists_no_student)) {
                                 $res = $DB->insert_record($table, $data);
                         } else {
@@ -282,11 +284,11 @@ class run_reports_task extends \core\task\scheduled_task {
                             {course} AS c,
                             {course_modules} AS cm
                         WHERE 
-                        component = "assignsubmission_file"
+                        component = \'assignsubmission_file\'
                             AND asf.submission=f.itemid
                             AND a.id = asf.assignment
                             AND f.userid = u.id
-                            AND filename != "."
+                            AND filename != \'.\'
                             AND c.id = a.course
                             AND c.id = ?
                             AND a.id = cm.instance
@@ -309,7 +311,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         // If at least one result, add warning and show orphan submissions.
                         $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'orphan_submissions'));
                         if(count($dbresultassignsorphans) > 0) {
-                            $data = (object)$data;
+                            $data = new \stdClass();
                             $data->course = $course->id;
                             $data->report = 'orphan_submissions';
                             
