@@ -218,7 +218,7 @@ if(count($list_user_courses) == 0) {
 
                 // Test with config variable "total_filesize_threshold" to define icon and text color.
                 // If total size is null or less than 1 Mo, consider it empty.
-                if ($weight->detail == 0) {
+                if (!$weight || $weight->detail == 0) {
                     $icon_size = 'fa fa-thermometer-empty';
                     $progress = 'text-info';
                 } else if ($weight->detail <= (get_config('report_coursemanager', 'total_filesize_threshold'))) {
@@ -233,7 +233,7 @@ if(count($list_user_courses) == 0) {
 
                 // Create table line to show files size.
                 $row[] = html_writer::link("course_files.php?courseid=".$course->id, 
-                    '<i class="'.$icon_size.' fa-lg"></i>&nbsp;&nbsp;'.$weight->detail.' Mo', array('class' => $progress));
+                    '<i class="'.$icon_size.' fa-lg"></i>&nbsp;&nbsp;'.(!$weight ? '':$weight->detail).' Mo', array('class' => $progress));
                 
                 // Table line for number of cohorts.
                 $row[] = html_writer::label($count_cohort, null);

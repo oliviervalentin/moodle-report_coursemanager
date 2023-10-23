@@ -36,7 +36,7 @@ require_once('../../../../config.php');
 
 
 function test() {
-    global $CFG, $DB;
+    global $CFG, $DB, $USER;
     // raise_memory_limit(MEMORY_EXTRA);
     $list_courses = get_courses();
     // print_object($list_courses);exit();
@@ -88,7 +88,7 @@ foreach ($list_courses as $course) {
                 if (!empty($test)) { echo "OK<br />"; } else { echo "FALSE<br />";}
                 
                 if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
-                    $data = (object)$data;
+                    $data = new stdClass();
                     $data->course = $course->id;
                     $data->report = 'heavy';
                     $data->detail = $filesize;
@@ -105,14 +105,14 @@ foreach ($list_courses as $course) {
                 INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
                 INNER JOIN {modules} mm ON (mcm.module = mm.id)
                 WHERE mc.id = ?
-                AND mm.name <> "forum"
+                AND mm.name <> \'forum\'
                 ';
                 $paramsemptycourse = array($course->id);
                 $dbresultemptycourse = $DB->count_records_sql($sql_empty_course, $paramsemptycourse);
                 
                 // If no result, course only contains announcment forum.
                 if($dbresultemptycourse < 1) {
-                    $data = (object)$data;
+                    $data = new stdClass();
                     $data->course = $course->id;
                     $data->report = 'empty';
                     
@@ -139,7 +139,7 @@ foreach ($list_courses as $course) {
                 $res_count_teacher_visit = array_count_values($count_teacher_visit);
                 // If result is empty, no teacher has visited course.
                 if (!isset($res_count_teacher_visit['visited_teacher'])) {
-                    $data = (object)$data;
+                    $data = new stdClass();
                     $data->course = $course->id;
                     $data->report = 'no_visit_teacher';
                     
@@ -180,7 +180,7 @@ foreach ($list_courses as $course) {
                     // If result is empty, no student has visited course.
                     if ($res_count_student_visit['visited_student'] > 1) {
                         echo "PROUT";
-                        $data = (object)$data;
+                        $data = new stdClass();
                         $data->course = $course->id;
                         $data->report = 'no_visit_student';
                         
@@ -189,7 +189,7 @@ foreach ($list_courses as $course) {
                         print ('pas de visites etu <br/>');
                     }
                 } else {
-                    $data = (object)$data;
+                    $data = new stdClass();
                     $data->course = $course->id;
                     $data->report = 'no_student';
                     

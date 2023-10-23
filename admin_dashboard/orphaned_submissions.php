@@ -57,7 +57,7 @@ foreach ($list_courses as $course) {
         FROM {course_modules} cm
         JOIN {course} c ON c.id = cm.course
         JOIN {modules} m ON m.id = cm.module
-        WHERE m.name ="assign"
+        WHERE m.name =\'assign\'
         AND c.id = ?';
     $paramsdb = array($course->id);
     $dbresult = $DB->get_records_sql($sql, $paramsdb);

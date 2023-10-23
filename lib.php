@@ -156,7 +156,7 @@ function report_coursemanager_get_assign_comment($courseid) {
         AND asf.submission=f.itemid
         AND a.id = asf.assignment
         AND f.userid = u.id
-        AND filename != "."
+        AND filename != \'.\'
         AND c.id = a.course
         AND c.id = ?
         AND a.id = cm.instance
