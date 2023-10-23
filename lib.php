@@ -385,6 +385,9 @@ function report_coursemanager_before_standard_top_of_body_html() {
                         case $report->report = 'empty':
                             $final .= "<li><i class='fa fa-battery-empty fa-lg text-dark'></i>  ".get_string('course_alert_empty', 'report_coursemanager', $info)."</li>";
                             break;
+                        case $report->report = 'orphan_submissions':
+                            $final .= "<li><i class='fa fa-files-o fa-lg text-danger'></i>  ".get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)."</li>";
+                            break;
                     }
                 }
                 
@@ -432,6 +435,9 @@ function report_coursemanager_before_standard_top_of_body_html() {
                             break;
                         case $report->report = 'empty':
                             $final .= '<li><button type=\"button\" class=\"reportbutton bg-dark empty\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_content', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info).'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
+                            break;
+                        case $report->report = 'orphan_submissions':
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger orphan_submissions\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('orphan_submissions', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_orphan_submissions', 'report_coursemanager', $info).'\"><i class=\"fa fa-files-o\"></i></button></li>';
                             break;
                     }
                 }

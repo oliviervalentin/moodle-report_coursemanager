@@ -219,12 +219,11 @@ $string['no_visit_student'] = 'Pas de visites d\'étudiant';
 $string['no_visit_teacher'] = 'Pas de visites d\'enseignants';
 $string['no_student'] = 'Aucun étudiant inscrit';
 $string['heavy_course'] = 'Poids important';
-$string['orphan_submissions_button'] = 'Devoirs orphelins';
+$string['orphan_submissions'] = 'Devoirs orphelins';
 $string['ok'] = 'Aucune remarque';
 
 // Taches
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
-
 
 // Alertes - Affichage dans le cours
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';
@@ -232,6 +231,7 @@ $string['course_alert_no_visit_teacher'] = 'Aucun <b>enseignant</b> n\'a visité
 $string['course_alert_no_visit_student'] = 'Aucun <b>étudiant</b> n\'a visité ce cours <b>depuis plus de {$a->no_student_time} jours</b>. S\'il n\'a pas vocation à être conserver, pensez à le supprimer ou à le réinitialiser.<br /><b>{$a->delete_link} | {$a->reset_link}</b>';
 $string['course_alert_no_student'] = '<b>Aucun étudiant n\'est actuellement inscrit dans ce cours</b>. Si ce cours n\'a plus vocation à accueillir des utilisateurs, pensez à le supprimer !<br /><b>{$a->delete_link}</b>';
 $string['course_alert_empty'] = 'Ce cours ne propose <b>aucun contenu</b> en dehors du forum de base. Pensez à le supprimer s\'il n\'est pas utilisé. <br /><b>{$a->delete_link}</b>';
+$string['course_alert_orphan_submissions'] = 'Ce cours contient des activités Devoir, contenant des dépôts effectués par des étudiants qui ne sont plus inscrits au cours. Ces dépôts invisibles peuvent représenter un poids important ! Pensez à réinitialiser ces activités.</b>';
 $string['more_information'] = 'Plus d\'informations';
 $string['text_link_delete'] = 'Supprimer ce cours';
 $string['text_link_reset'] = 'Réinitialiser';
