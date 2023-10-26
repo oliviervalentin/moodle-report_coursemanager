@@ -284,7 +284,8 @@ if(count($list_user_courses) == 0) {
                             $all_row_classes .= "no-content ";
                             break;
                         case 'orphan_submissions':
-                            $sumup .= "<li>".get_string('orphan_submissions_alert', 'report_coursemanager')."</li><br />";
+                            $info->filesize = number_format(ceil($report->detail / 1048576), 0, ',', ''); 
+                            $sumup .= "<li>".get_string('orphan_submissions_alert', 'report_coursemanager', $info)."</li><br />";
                             $icons_sumup .= "<i class='fa fa-lg fa-files-o text-danger'></i>&nbsp;";
                             $all_row_classes .= "orphan-submissions ";
                             break;
