@@ -92,7 +92,6 @@ class run_reports_task extends \core\task\scheduled_task {
 
                     // 0-B CHECK FOR ASSIGNS.
                     // Query to check if there are assigns, that will trigger orphaned submissions report.
-                    mtrace("... Check for assigns.");
                     $assignsql = 'SELECT cm.instance
                         FROM {course_modules} cm
                         JOIN {course} c ON c.id = cm.course
@@ -155,7 +154,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         if (empty($exists)) {
                             $res = $DB->insert_record($table, $data);
                         } else {
-                            // Alert already exist - nothing to do !
+                            // Alert already exist - nothing to do !.
                         }
                         unset($data);
                     } elseif(!empty($exists)) {
@@ -266,16 +265,16 @@ class run_reports_task extends \core\task\scheduled_task {
                         if (empty($exists_no_student)) {
                                 $res = $DB->insert_record($table, $data);
                         } else {
-                            // Alert already exist - nothing to do !
+                            // Alert already exist - nothing to do !.
                         }
                         unset($data);
                         unset($count_student_visit);
                     }
-                    // 5 ORPHANED 
 
+                    // 5- TEST FOR ORPHANS SUBMISSIONS.
+                    // Check if assigns contain assignments uploaded by unenrolled users.
                     if (count($assigndbresult)>0) {
-                        mtrace("...... On cherche les oprhelins");
-                        $sqlassignsorphans = 'SELECT DISTINCT(a.name) AS assign
+                        $sqlassignsorphans = 'SELECT DISTINCT(f.filesize) AS filesize, a.name AS assign
                         FROM
                             {files} AS f, 
                             {assignsubmission_file} AS asf, 
@@ -304,6 +303,7 @@ class run_reports_task extends \core\task\scheduled_task {
                                     AND ue.enrolid = en.id
                                     AND us.id = ue.userid
                                 )
+                            GROUP BY filesize, u.id
                         ';
                         $paramsdbassignsorphans = array($course->id);
                         $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
@@ -311,15 +311,23 @@ class run_reports_task extends \core\task\scheduled_task {
                         // If at least one result, add warning and show orphan submissions.
                         $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'orphan_submissions'));
                         if(count($dbresultassignsorphans) > 0) {
+                            // Calculate total filesize for each course.
+                            $total=0;
+                            foreach($dbresultassignsorphans AS $filesize){
+                                $total += $filesize->filesize;
+                            }
                             $data = new \stdClass();
                             $data->course = $course->id;
                             $data->report = 'orphan_submissions';
-                            
+                            $data->detail = $total;
+
                             // If empty course alert doesn't exist for this course, create it in DB.
                             if (empty($exists)) {
                                 $res = $DB->insert_record($table, $data);
                             } else {
-                                // Alert already exist - nothing to do !
+                                // If exists, update orphans submissions size.
+                                $data->id = $exists->id;
+                                $res = $DB->update_record($table, $data);
                             }
                             unset($data);
                         } elseif(!empty($exists)) {
