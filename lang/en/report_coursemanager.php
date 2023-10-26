@@ -191,6 +191,16 @@ du temps.</p>
 $string['button_delete_cohort_confirm'] = 'Désinscrire les cohortes';
 $string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuellement inscrite dans ce cours !</p>';
 
+// Page - admin - gestion des devoirs orphelins. 
+$string['title_admin_orphan_submissions'] = 'Gestion des dépôts de devoirs orphelins';
+$string['table_assign_name'] = 'Nom du devoir';
+$string['table_files_count'] = 'Nombre de fichiers cachés';
+$string['admin_orphan_submissions_info'] = '<p>Les devoirs orphelins désignent des activités Devoir contenant des dépôts effectués par un utilisateur qui n\'est plus incrit dans le cours. 
+<b>Ces dépôts sont alors invisibles pour les enseignants, qui ne peut les faire apparaître qu\'en réinscrivant les utilisateurs concernés.</b> Si une activité Devoir est réutilisée chaque année
+sans réinitialiser le cours, le poids de ces fichiers peut rapidement devenir important.<br />
+Cette page permet de supprimer ces devoirs invisibles <b>sans toucher aux devoirs déposés par des utilisateurs actuellement inscrits au cours.</b></p>';
+$string['deleteorphansubmissionsconfirm'] = 'Souhaitez-vous supprimer définitivement les dépôts orphelins de ce devoir ? Cette action est irréversible.';
+
 // Messages de confirmation de l'acueil.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
 $string['confirm_cohort_unenrolled_message'] = 'Les cohortes ont bien été désinscrites du cours.';

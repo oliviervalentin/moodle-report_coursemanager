@@ -100,7 +100,6 @@ class run_reports_task extends \core\task\scheduled_task {
                         AND c.id = ?';
                     $assignparamsdb = array($course->id);
                     $assigndbresult = $DB->get_records_sql($assignsql, $assignparamsdb);
-                    mtrace("Total des devoirs : ".count($assigndbresult));
 
                     // 1- TEST FOR TOTAL COURSE SIZE.
                     // If total_course_size exceeds limit, add warning.
