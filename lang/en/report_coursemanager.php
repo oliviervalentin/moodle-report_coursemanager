@@ -191,8 +191,14 @@ du temps.</p>
 $string['button_delete_cohort_confirm'] = 'Désinscrire les cohortes';
 $string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuellement inscrite dans ce cours !</p>';
 
+// Page - admin - accueil
+$string['admin_course_managerinfo'] = '<p>Cette page donne accès aux différents outils du plugin Course Manager réservés aux administrateurs Moodle. Pour accéder aux paramètres du plugin, 
+rendez-vous dans Plugins > Rapports > Course Manager.</p>';
+$string['table_tool_name'] = '<p>Outil</p>';
+$string['table_tool_description'] = '<p>Description</p>';
+
 // Page - admin - gestion des devoirs orphelins. 
-$string['title_admin_orphan_submissions'] = 'Gestion des dépôts de devoirs orphelins';
+$string['title_admin_orphan_submissions'] = '<b>Gestion des dépôts de devoirs orphelins</b>';
 $string['table_assign_name'] = 'Nom du devoir';
 $string['table_files_count'] = 'Nombre de fichiers cachés';
 $string['admin_orphan_submissions_info'] = '<p>Les devoirs orphelins désignent des activités Devoir contenant des dépôts effectués par un utilisateur qui n\'est plus incrit dans le cours. 
@@ -200,6 +206,20 @@ $string['admin_orphan_submissions_info'] = '<p>Les devoirs orphelins désignent 
 sans réinitialiser le cours, le poids de ces fichiers peut rapidement devenir important.<br />
 Cette page permet de supprimer ces devoirs invisibles <b>sans toucher aux devoirs déposés par des utilisateurs actuellement inscrits au cours.</b></p>';
 $string['deleteorphansubmissionsconfirm'] = 'Souhaitez-vous supprimer définitivement les dépôts orphelins de ce devoir ? Cette action est irréversible.';
+
+// Page - admin - cours les plus lourds. 
+$string['title_admin_heavy_courses'] = '<b>Liste des cours les plus lourds</b>';
+$string['admin_heavy_courses_info'] = '<p>Cette page offre un aperçu des cours les plus lourds de votre plateforme.</p><p class="alert alert-warning">En construction</p>';
+
+// Page - admin - répartition des fichiers. 
+$string['title_admin_files_distribution'] = '<b>Répartition des fichiers par zones</b>';
+$string['admin_files_distribution_info'] = '<p>Cet outil offre un aperçu des différentes zones de stockage de la table des fichiers, et le poids total des fichiers qui y sont rattachés. 
+Il permet ainsi de détecter une éventuelle anomalie, sur une zone anormalement chargée, ou d\'avoir un simple panorama des zones les plus sollicitées.</p><p class="text-warning">En construction</p>';
+
+// Page - admin - cours sans enseignants. 
+$string['title_admin_no_teacher_courses'] = '<b>Gestion des cours sans enseignants</b>';
+$string['admin_no_teacher_courses_info'] = '<p>Les cours peuvent se retrouver sans enseignant si la personne qui détenait ce rôle se désinscrit intentionnellement ou non du cours, 
+ou si son compte n\'existe plus. Ce outil permet de recenser les cours concernés, et éventuellement de les basculer dans la catégorie Cours sans enseignants.</p><p class="text-warning">En construction</p>';
 
 // Messages de confirmation de l'acueil.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';

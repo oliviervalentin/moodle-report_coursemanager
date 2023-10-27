@@ -99,9 +99,6 @@ if ($ADMIN->fulltree) {
 
 }
 
-// $ADMIN->add('reports', new admin_externalpage('report_coursemanager',
-//         get_string('pluginname', 'report_coursemanager'),
-//         new moodle_url('/report/coursemanager/admin_dashboard/index.php')));
 $ADMIN->add('reports', new admin_externalpage('report_coursemanager',
         get_string('pluginname', 'report_coursemanager'),
-        new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php')));
+        new moodle_url('/report/coursemanager/admin_dashboard/index.php')));
