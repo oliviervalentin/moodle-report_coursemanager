@@ -48,16 +48,11 @@ $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
-
 if (!empty($delete)) {
     // User has confirmed deletion : orphan submissions are deleted.
     if (!empty($confirm) AND confirm_sesskey()) {
         $context = context_module::instance($instance);
-        print_object($context);
-
         $targetassign = new assign($context,null,null);
-
-        // $test = $prout->remove_submission(7);
 
         $sqllistusersorphansubmissions = "SELECT DISTINCT(u.id), asf.submission
             FROM
@@ -91,29 +86,25 @@ if (!empty($delete)) {
         ";
         $paramslistusersorphansubmissions = array($instance);
         $dbresultlistusersorphansubmissions = $DB->get_records_sql($sqllistusersorphansubmissions,$paramslistusersorphansubmissions);
-        // print_object($dbresultlistusersorphansubmissions);
+
         foreach($dbresultlistusersorphansubmissions as $userorphan) {
-            // echo "supprimer pour étu ".$userorphan->id." le ou les dépôts ".$userorphan->submission."<br />";
             $delete = $targetassign->remove_submission($userorphan->id);
         }
         $returnurl = "orphaned_submissions.php";
         redirect($returnurl);
         exit();
-        // delete_stickynote($note, $modulecontext);
 
-        // // Trigger note deleted event.
+        // TO DO : add event when orphan submissions are deleted.
+        // // Trigger orphan submissions deleted event.
         // $params = array(
         //     'context'  => $modulecontext,
-        //     'objectid' => $note
+        //     'objectid' => $context->instance
         //     );
-        // $event = \mod_stickynotes\event\note_deleted::create($params);
+        // $event = \report_coursemanager\event\orphan_submissions_deleted::create($params);
         // $event->trigger();
     } else {
         // Shows form to confirm before delete.
-        // $modulecontext = context_module::instance($cm->id);
-        // $coursecontext = context_course::instance($course->id);
-        $PAGE->navbar->add(get_string('deletenote', 'stickynotes'));
-        // $PAGE->set_title("TEST");
+        $PAGE->navbar->add(get_string('title_admin_orphan_submissions', 'report_coursemanager'));
         $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 
         echo $OUTPUT->header();
@@ -125,8 +116,6 @@ if (!empty($delete)) {
     echo $OUTPUT->footer();
     exit();
 }
-
-
 
 echo $OUTPUT->header();
 
@@ -157,10 +146,7 @@ foreach ($list_courses as $course) {
     $paramsdb = array($course->id);
     $dbresult = $DB->get_records_sql($sql, $paramsdb);
 
-    // echo "-> Nombre de devoirs : ".count($dbresult)."<br />";
-
     if(count($dbresult) > 0) {
-        // echo "---> Il y a des devoirs, on teste les orphelins !<br />";
         foreach($dbresult as $assigninstance) {
             $sqlassignsorphans = "SELECT DISTINCT(f.filesize) AS filesize, u.id , u.firstname, u.lastname, f.id
                 FROM
@@ -198,15 +184,11 @@ foreach ($list_courses as $course) {
 
             if($dbresultassignsorphans){
                 $row = array ();
-                // echo "----> Résultats pour ".$assigninstance->name."<br />";
-                // echo "------> DEVOIRS ORPHELINS DÉTECTÉS ! <br/>";
-                // echo "Rappel de l'instance : ".$assigninstance->instance."<br/>";
                 $total_size = 0;
                 $total_files = 0;
                 foreach($dbresultassignsorphans as $orphansubmission) {
                     $total_size += $orphansubmission->filesize;
                     $total_files = $total_files+1;
-                    // echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;->".$orphansubmission->firstname. " ". $orphansubmission->lastname." (id ".$orphansubmission->id." |poids : ".$orphansubmission->filesize.")n'est plus inscrit dans ce cours.<br />";
                 }
                 $row[] = html_writer::link("/course/view.php?id=".$course->id, $course->fullname);
                 $row[] = html_writer::link("/mod/assign/view.php?id=".$assigninstance->id, $assigninstance->name);
@@ -217,11 +199,10 @@ foreach ($list_courses as $course) {
                 $table->data[] = $row;
 
             }else {
-                // echo "------> pas d'orphelins dans ce devoir.<br/><br/>";
+                // pas d'orphelins dans ce devoir
             }
 
         }
-        // print_object($row);
     }else {
         // echo "-> Pas d'activité Devoir, on passe.<br /><br/>";
     }
@@ -229,22 +210,3 @@ foreach ($list_courses as $course) {
 
 echo html_writer::table($table);
 echo $OUTPUT->footer();
-
-
-
-// $instance=new stdClass();
-// $instance->instance='4';
-// print_object($instance);
-// $truc01 = assign_get_coursemodule_info($instance);
-// print_object($truc01);
-// $this->instance = '3';
-
-
-
-////////////// A GARDER !!!!!!!!!!!!!!!!
-// $cm = get_coursemodule_from_instance('assign', 3, 0, false, MUST_EXIST);
-// $context = context_module::instance($cm->id);
-
-// $prout = new assign($context,null,null);
-// $module =  $prout->get_course_module();
-// $test = $prout->remove_submission(7);
