@@ -345,8 +345,11 @@ function report_coursemanager_before_standard_top_of_body_html() {
     $is_teacher = get_user_roles($coursecontext, $USER->id, false);
     $role = key($is_teacher);
 
-    // If reports are shown AND user is a teacher, start to retrieve and show reports.
-    if(get_config('report_coursemanager', 'show_report_in_course') != 0 && $is_teacher[$role]->roleid == 3) {
+    // If reports are shown AND user is a teacher OR coursecreator OR admin, start to retrieve and show reports.
+    if(get_config('report_coursemanager', 'show_report_in_course') != 0 
+    && ($is_teacher[$role]->roleid == get_config('report_coursemanager', 'teacher_role_dashboard')) || 
+    ($is_teacher[$role]->roleid <= 2)
+    ) {
         // First, retrieve all reports for course.
         $all_reports = $DB->get_records('coursemanager', array('course' => $PAGE->course->id));
         // Create object to stock reports.
