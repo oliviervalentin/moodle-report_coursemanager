@@ -208,15 +208,19 @@ class run_reports_task extends \core\task\scheduled_task {
                     $exists_no_visit_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_student'));
                     $exists_no_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_student'));
 
-                    // If at least one student enrolled.
+                    // CASE 1 : at least one student enrolled.
                     if (count($all_students) > 0) {
                         $count_student_visit = array();
                         $i=0;
+
+                        // As there are enrolled students, first delete "no student" report if exists.
+                        if ($exists_no_student) {
+                            $res = $DB->delete_records($table, array('id' => $exists_no_student->id));
+                        }
                         
                         // For each student, retrieve last access in course.
                         foreach($all_students as $student){
                             $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', array('courseid' => $course->id, 'userid' => $student->id));
-                            // mtrace(print_r($lastaccess));
                             // Difference between now and last access.
                             $diff = $now - $lastaccess;
                             // Calculate number of days without connection in course (86 400 equals number of seconds per day).
@@ -237,10 +241,6 @@ class run_reports_task extends \core\task\scheduled_task {
                             $data->course = $course->id;
                             $data->report = 'no_visit_student';
                             
-                            // First, delete entry "zero student" for this course.
-                            if ($exists_no_student) {
-                                $res = $DB->delete_records($table, array('id' => $exists_no_student->id));
-                            }
                             if (empty($exists_no_visit_student)) {
                                 $res = $DB->insert_record($table, $data);
                             } else {
@@ -252,7 +252,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         }
                         unset($data);
                     } else {
-                        // In this case, no student enrolled in course.
+                        // CASE 2 : no student enrolled in course.
                         $data = new \stdClass();
                         $data->course = $course->id;
                         $data->report = 'no_student';
@@ -308,7 +308,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
 
                         // If at least one result, add warning and show orphan submissions.
-                        $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'orphan_submissions'));
+                        $existsorphans = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'orphan_submissions'));
                         if(count($dbresultassignsorphans) > 0) {
                             // Calculate total filesize for each course.
                             $total=0;
@@ -321,20 +321,20 @@ class run_reports_task extends \core\task\scheduled_task {
                             $data->detail = $total;
 
                             // If empty course alert doesn't exist for this course, create it in DB.
-                            if (empty($exists)) {
+                            if (empty($existsorphans)) {
                                 $res = $DB->insert_record($table, $data);
                             } else {
                                 // If exists, update orphans submissions size.
-                                $data->id = $exists->id;
+                                $data->id = $existsorphans->id;
                                 $res = $DB->update_record($table, $data);
                             }
                             unset($data);
-                        } elseif(!empty($exists)) {
+                        } elseif(!empty($existsorphans)) {
                             // In this case, course is not empty. If alert exists, delete it.
-                            $res = $DB->delete_records($table, array('id' => $exists->id));
+                            $res = $DB->delete_records($table, array('id' => $existsorphans->id));
                             unset($data);
                         }
-                        unset($exists);
+                        unset($existsorphans);
                     }
                 }
                 // Tests end.
