@@ -105,7 +105,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     // If total_course_size exceeds limit, add warning.
                     // If total filesize is bigger than limit defined in parameters, create alert.
 
-                    $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
+                    $existsheavy = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'heavy'));
 
                     if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
                         $data = new \stdClass();
@@ -113,24 +113,24 @@ class run_reports_task extends \core\task\scheduled_task {
                         $data->report = 'heavy';
                         
                         // If size alert doesn't exist for this course, create it in DB.
-                        if (empty($exists)) {
+                        if (empty($existsheavy)) {
                             $res = $DB->insert_record($table, $data);
                         } else {
                             // If alert existe, possibily change total filesize.
-                            $data->id = $exists->id;
+                            $data->id = $existsheavy->id;
                             $res = $DB->update_record($table, $data);
                         }
                         unset($data);
-                    } elseif(!empty($exists)) {
+                    } elseif(!empty($existsheavy)) {
                         // In this case, filesize doesn't reach limit. If alert exists, delete it.
-                        $res = $DB->delete_records($table, array('id' => $exists->id));
+                        $res = $DB->delete_records($table, array('id' => $existsheavy->id));
                         unset($data);
                     }
-                    unset($exists);
+                    unset($existsheavy);
                     
                     // 2- TEST FOR EMPTY COURSE.
                     // Check if course entry exists in database.
-                    $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'empty'));
+                    $existsempty = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'empty'));
 
                     // Query to count number of activities in course.
                     $sql_empty_course = 'SELECT COUNT(mcm.id) AS count_modules
@@ -150,60 +150,90 @@ class run_reports_task extends \core\task\scheduled_task {
                         $data->report = 'empty';
                         
                         // If empty course alert doesn't exist for this course, create it in DB.
-                        if (empty($exists)) {
+                        if (empty($existsempty)) {
                             $res = $DB->insert_record($table, $data);
                         } else {
                             // Alert already exist - nothing to do !.
                         }
                         unset($data);
-                    } elseif(!empty($exists)) {
+                    } elseif(!empty($existsempty)) {
                         // In this case, course is not empty. If alert exists, delete it.
-                        $res = $DB->delete_records($table, array('id' => $exists->id));
+                        $res = $DB->delete_records($table, array('id' => $existsempty->id));
                         unset($data);
                     }
-                    unset($exists);
+                    unset($existsempty);
 
-                    // 3- TEST FOR TEACHERS VISITS
-                    // Check if course entry exists in database.
-                    $exists = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_teacher'));
+                    // 3- TEST FOR TEACHERS - VISITS AND COURSES WITHOUT TEACHERS
+                    // Check if teachers reports exist.
+                    $existsnoteacherincourse = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_teacher_in_course'));
+                    $existsnovisitteacher = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_teacher'));
 
-                    $count_teacher_visit = array();
-                    // For each enrolled teacher, check last visit in course.
-                    foreach($all_teachers as $teacher){
-                        $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', array('courseid' => $course->id, 'userid' => $teacher->id));
-                        // Difference between now and last access.
-                        $diff = $now - $lastaccess;
-                        // Calculate number of days without connection in course (86 400 equals number of seconds per day).
-                        $time_teacher = floor($diff/86400);
-                        // Si limit is under last_access_teacher, teacher has visited course.
-                        if ($time_teacher <= get_config('report_coursemanager', 'last_access_teacher')) {
-                            // Let's count a visit.
-                            array_push($count_teacher_visit, 'visited_teacher');
+                    // CASE 1 : if teachers are enrolled in course, test for visit.
+                    if (count($all_teachers) > 0) {
+                        // As there are teachers in course, first delete "no teacher in course" report if exists.
+                        if ($existsnoteacherincourse) {
+                            $res = $DB->delete_records($table, array('id' => $existsnoteacherincourse->id));
                         }
-                    }
-                    $res_count_teacher_visit = array_count_values($count_teacher_visit);
-                    
-                    // If result is empty, no teacher has visited course.
-                    if (!isset($res_count_teacher_visit['visited_teacher'])) {
+
+                        // Now check for teachers visits.
+                        $count_teacher_visit = array();
+                        // For each enrolled teacher, check last visit in course.
+                        foreach($all_teachers as $teacher){
+                            $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess', array('courseid' => $course->id, 'userid' => $teacher->id));
+                            // Difference between now and last access.
+                            $diff = $now - $lastaccess;
+                            // Calculate number of days without connection in course (86 400 equals number of seconds per day).
+                            $time_teacher = floor($diff/86400);
+                            // If limit is under last_access_teacher, teacher has visited course.
+                            if ($time_teacher <= get_config('report_coursemanager', 'last_access_teacher')) {
+                                // Let's count a visit.
+                                array_push($count_teacher_visit, 'visited_teacher');
+                            }
+                        }
+                        $res_count_teacher_visit = array_count_values($count_teacher_visit);
+                        
+                        // If result is empty, no teacher has visited course.
+                        if (!isset($res_count_teacher_visit['visited_teacher'])) {
+                            $data = new \stdClass();
+                            $data->course = $course->id;
+                            $data->report = 'no_visit_teacher';
+                            
+                            // If no teacher visit alert doesn't exist for this course, create it in DB.
+                            if (empty($existsnovisitteacher)) {
+                                $res = $DB->insert_record($table, $data);
+                            } else {                
+                                // Alert already exist - nothing to do !
+                            }
+                            unset($data);
+                        } elseif(!empty($existsnovisitteacher)) {
+                            // In this case, at least one teacher has visited course. If alert exists, delete it.
+                            $res = $DB->delete_records($table, array('id' => $existsnovisitteacher->id));
+                            unset($data);
+                        }
+                        unset($existsnovisitteacher);
+                    } else {
+                        // CASE 2 : if no teachers are enrolled in course, add this report.
+
+                        // As there are no teacher in course, first delete "no visit teacher" report if exists.
+                        if ($existsnovisitteacher) {
+                            $res = $DB->delete_records($table, array('id' => $existsnovisitteacher->id));
+                        }
+
                         $data = new \stdClass();
                         $data->course = $course->id;
-                        $data->report = 'no_visit_teacher';
-                        
-                        // If no teacher visit alert doesn't exist for this course, create it in DB.
-                        if (empty($exists)) {
+                        $data->report = 'no_teacher_in_course';
+                            
+                        if (empty($existsnoteacherincourse)) {
                             $res = $DB->insert_record($table, $data);
-                        } else {                
-                            // Alert already exist - nothing to do !
+                        } else {
+                                // $data->id = $exists->id;
+                                // $res = $DB->update_record($table, $data);
                         }
                         unset($data);
-                    } elseif(!empty($exists)) {
-                        // In this case, at least one teacher has visited course. If alert exists, delete it.
-                        $res = $DB->delete_records($table, array('id' => $exists->id));
-                        unset($data);
+                        unset($existsnoteacherincourse);
                     }
-                    unset($exists);
 
-                    // 4- TEST FOR STUDENTS VISITS
+                    // 4- TEST FOR STUDENTS - NO VISITS OR COURSES WITHOUT STUDENTS.
                     // Check if course entry exists in database.
                     $exists_no_visit_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_visit_student'));
                     $exists_no_student = $DB->get_record('coursemanager', array('course'=>$course->id, 'report'=>'no_student'));
