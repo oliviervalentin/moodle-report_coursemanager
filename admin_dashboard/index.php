@@ -54,7 +54,7 @@ $table->head[] = get_string('table_tool_name', 'report_coursemanager');
 $table->head[] = get_string('table_tool_description', 'report_coursemanager');
 
 // Link for orphan submissions tool.
-$url = new moodle_url('/report/coursemanager/admin_dashboard/orphan_submissions.php');
+$url = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php');
 $row = new html_table_row(array( 
     html_writer::link($url, get_string('title_admin_orphan_submissions', 'report_coursemanager')),
     html_writer::div(get_string('admin_orphan_submissions_info', 'report_coursemanager'), null)
@@ -63,8 +63,9 @@ $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 
 // Link for courses without teachers tool.
+$url = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php');
 $row= new html_table_row(array( 
-    html_writer::div(get_string('title_admin_no_teacher_courses', 'report_coursemanager'), null),
+    html_writer::link($url, get_string('title_admin_no_teacher_courses', 'report_coursemanager')),
     html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'), null)
 ));
 $row->attributes['class'] = 'align-top';
