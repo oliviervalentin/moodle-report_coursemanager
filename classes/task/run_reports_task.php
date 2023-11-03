@@ -46,7 +46,6 @@ class run_reports_task extends \core\task\scheduled_task {
         foreach ($list_courses as $course) {
             if ($course->id > 1) {
                 $coursecontext = \context_course::instance($course->id);
-                $courseinfo = get_record('course','id', $course->id);
                 $is_teacher = get_user_roles($coursecontext, $USER->id, false);
                     
                 // Let's count teachers and students enrolled in course.
