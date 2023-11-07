@@ -72,17 +72,10 @@ $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 
 // Link for files distribution in table mdl_files tool.
+$url = new moodle_url('/report/coursemanager/admin_dashboard/files_distribution.php');
 $row = new html_table_row(array( 
-    html_writer::div(get_string('title_admin_files_distribution', 'report_coursemanager'), null),
+    html_writer::link($url, get_string('title_admin_files_distribution', 'report_coursemanager')),
     html_writer::div(get_string('admin_files_distribution_info', 'report_coursemanager'), null)
-));
-$row->attributes['class'] = 'align-top';
-$table->data[] = $row;
-
-// Link for heavy courses tool.
-$row = new html_table_row(array( 
-    html_writer::div(get_string('title_admin_heavy_courses', 'report_coursemanager'), null),
-    html_writer::div(get_string('admin_heavy_courses_info', 'report_coursemanager'), null)
 ));
 $row->attributes['class'] = 'align-top';
 $table->data[] = $row;

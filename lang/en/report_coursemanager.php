@@ -210,14 +210,13 @@ sans réinitialiser le cours, le poids de ces fichiers peut rapidement devenir i
 Cette page permet de supprimer ces devoirs invisibles <b>sans toucher aux devoirs déposés par des utilisateurs actuellement inscrits au cours.</b></p>';
 $string['deleteorphansubmissionsconfirm'] = 'Souhaitez-vous supprimer définitivement les dépôts orphelins de ce devoir ? Cette action est irréversible.';
 
-// Page - admin - cours les plus lourds. 
-$string['title_admin_heavy_courses'] = '<b>Liste des cours les plus lourds</b>';
-$string['admin_heavy_courses_info'] = '<p>Cette page offre un aperçu des cours les plus lourds de votre plateforme.</p><p class="alert alert-warning">En construction</p>';
-
 // Page - admin - répartition des fichiers. 
 $string['title_admin_files_distribution'] = '<b>Répartition des fichiers par zones</b>';
 $string['admin_files_distribution_info'] = '<p>Cet outil offre un aperçu des différentes zones de stockage de la table des fichiers, et le poids total des fichiers qui y sont rattachés. 
-Il permet ainsi de détecter une éventuelle anomalie, sur une zone anormalement chargée, ou d\'avoir un simple panorama des zones les plus sollicitées.</p><p class="alert alert-warning">En construction</p>';
+Il permet ainsi de détecter une éventuelle anomalie, sur une zone anormalement chargée, ou d\'avoir un simple panorama des zones les plus sollicitées.</p>';
+$string['filesdistributiontablecomponent'] = 'Composant';
+$string['filesdistributiontotalweight'] = 'Poids total des fichiers en Mo';
+$string['filesdistributiontotalfiles'] = 'Nombre de fichiers';
 
 // Page - admin - cours sans enseignants. 
 $string['title_admin_no_teacher_courses'] = '<b>Gestion des cours sans enseignants</b>';
