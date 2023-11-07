@@ -85,6 +85,12 @@ if ($ADMIN->fulltree) {
     $title = get_string('delete_period', 'report_coursemanager');
     $description = get_string('delete_period_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '50'));
+
+    // Checkbox for enabling reports mailing.
+    $name = 'report_coursemanager/enable_mailing';
+    $title = get_string('enablemailing', 'report_coursemanager');
+    $description = get_string('enablemailing_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
     
     // Define if reports are displayed in courses and which place to use.
     $show_report_in_course_choices = array(

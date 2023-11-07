@@ -32,6 +32,9 @@ $string['show_report_in_course_desc'] = 'Définit si les rapports sont affichés
 $string['show_report_in_course_choices_none'] = 'Ne pas afficher';
 $string['show_report_in_course_choices_collapse'] = 'Menu déroulant sous la barre d\'admin';
 $string['show_report_in_course_choices_popover'] = 'Icônes à côté du titre';
+$string['enablemailing'] = 'Activer l\'envoi du mailing aux enseignants';
+$string['enablemailing_desc'] = 'Si coché, active l\'envoi des rapports de cours à chaque enseignant. La périodicité du mailing est définie par défaut
+tous les 30 jours, et peut être modifiée dans les tâches programmées.';
 
 // Bannière des cours dans la corbeille. 
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
@@ -261,11 +264,12 @@ $string['no_visit_student'] = 'Pas de visites d\'étudiant';
 $string['no_visit_teacher'] = 'Pas de visites d\'enseignants';
 $string['no_student'] = 'Aucun étudiant inscrit';
 $string['heavy_course'] = 'Poids important';
-$string['orphan_submissions'] = 'Devoirs orphelins';
+$string['orphan_submissions_button'] = 'Devoirs orphelins';
 $string['ok'] = 'Aucune remarque';
 
 // Taches
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
+$string['mailingtask'] = 'Mailing des rapports aux enseignants';
 
 // Alertes - Affichage dans le cours
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';
@@ -279,3 +283,18 @@ $string['text_link_delete'] = 'Supprimer ce cours';
 $string['text_link_reset'] = 'Réinitialiser';
 $string['collapse_show_report'] = 'Afficher le rapport';
 
+// Mailing
+$string['mailingtitle'] = 'Course Manager - Rapport de vos cours';
+$string['mailingintro'] = '<p>Course Manager est un rapport dédié aux enseignants pour gérer leurs cours, qui propose une série d\'outils
+et de conseils pour leur entretien. Ces conseils vous sont résumés dans le mail ci-dessous, qui vous indique les cours concernés pour
+chaque type de rapport.</p>
+<p><b>Ces informations sont des conseils généraux et non un avertissement. Leur but est d\'attirer votre attention
+sur certains aspects de la gestion de vos cours, et de donner des clés pour une bonne pratique de l\'utilisation de Moodle.</b></p>
+<p>Pour plus d\'informations, consultez également votre espace Course Manager en cliquant ici : {$a->coursemanagerlink}';
+$string['mailingoutro'] = '<p>Pour plus d\'informations sur ces rapports, contactez le support.';
+$string['mailingddescreportempty'] = 'Les cours de cette liste ne proposent aucun contenu, à l\'exception du forum de base.';
+$string['mailingddescreportnovisitstudent'] = 'Les cours suivants n\'ont pas enregistré de visite d\'étudiants depuis une longue période.</b> ';
+$string['mailingddescreportnostudent'] = 'Il n\'y a aucun étudiant inscrit dans les cours suivants.';
+$string['mailingddescreportnovisitteacher'] = 'Les cours suivants n\'ont pas enregistré de visite d\'enseignants depuis une longue période';
+$string['mailingddescreportheavy'] = 'Le poids des fichiers rattachés à ce cours est important. Cliquez sur un cours pour afficher la décomposition des fichiers.';
+$string['mailingddescreportorphansubmissions'] = 'Les activités Devoir de ces cours contiennent des dépôts effectués par des étudiants qui ne sont plus inscrits. Ces dépôts invisibles peuvent représenter un poids important !';

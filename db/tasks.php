@@ -34,5 +34,14 @@ $tasks = array(
         'day' => '*',
         'month' => '*',
         'dayofweek' => '*'
+    ),
+    array(
+        'classname' => 'report_coursemanager\task\mailing_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*/30',
+        'month' => '*',
+        'dayofweek' => '*'
     )
 );
