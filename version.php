@@ -21,10 +21,10 @@
  * @copyright  2022 Olivier VALENTIN
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-                                                             
-defined('MOODLE_INTERNAL') || die();                                                                                                
-                                                                                                                                                                                                                             
-$plugin->version = 2023110300;                                                                                                                                                                                
-$plugin->requires = 2020061516;                                                                                                                                                                     
-$plugin->component = 'report_coursemanager';    
-$plugin->maturity = 'MATURITY_BETA';                                                                                                                                                    
+
+defined('MOODLE_INTERNAL') || die();
+
+$plugin->version = 2023110305;
+$plugin->requires = 2020061516;
+$plugin->component = 'report_coursemanager';
+$plugin->maturity = 'MATURITY_BETA';
