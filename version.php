@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Sepecific settings for Lyon 3 template.
+ * Version details for Course Manager.
  *
  * @package    report_coursemanager
  * @copyright  2022 Olivier VALENTIN
@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2023110305;
+$plugin->version = 2023110306;
 $plugin->requires = 2020061516;
 $plugin->component = 'report_coursemanager';
 $plugin->maturity = 'MATURITY_BETA';

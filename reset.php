@@ -18,9 +18,9 @@
  * Reset page, created from the native reset course page. Elements
  * are prechecked to automatically reset course from heaviest elements.
  *
- * @copyright Mark Flach and moodle.com - Olivier VALENTIN
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @package     report_coursemanager
+ * @package    report_coursemanager
+ * @copyright  2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../config.php');
@@ -35,8 +35,8 @@ $context = context_course::instance($id, MUST_EXIST);
 
 require_capability('moodle/course:reset', $context);
 
-if (!$course = $DB->get_record('course', array('id'=>$id))) {
-    print_error("invalidcourseid");
+if (!$course = $DB->get_record('course', ['id' => $id])) {
+    throw new moodle_exception('invalidcourseid');
 }
 
 $strresetcourse = get_string('resetcourse');
@@ -44,25 +44,22 @@ $strresetcourse = get_string('resetcourse');
 // Get site infos.
 $site = get_site();
 
-// Page settings
+// Page settings.
 $PAGE = new moodle_page();
-// $PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
-$PAGE->set_url('/report/coursemanager/reset.php', array('id'=>$id));
+$PAGE->set_url('/report/coursemanager/reset.php', ['id' => $id]);
 $PAGE->set_pagelayout('mycourses');
 $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-// $PAGE->set_secondary_navigation(false);
 
-$mform = new course_reset_form(null, array('courseid' => $id));
+$mform = new course_reset_form(null, ['courseid' => $id]);
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
-
-} else if ($data = $mform->get_data()) { // no magic quotes
+} else if ($data = $mform->get_data()) {
 
     echo $OUTPUT->header();
     echo $OUTPUT->heading($strresetcourse);
@@ -70,37 +67,37 @@ if ($mform->is_cancelled()) {
     $data->reset_start_date_old = $course->startdate;
     $data->reset_end_date_old = $course->enddate;
     $status = reset_course_userdata($data);
-    
+
     // Get enroll instances.
     $instances = enrol_get_instances($course->id, false);
     $plugins   = enrol_get_plugins(false);
 
     // Delete only cohort enrollment methods.
-    foreach($instances as $instance){
+    foreach ($instances as $instance) {
         if ($instance->enrol == 'cohort') {
             $plugin = $plugins[$instance->enrol];
             $plugin->delete_instance($instance);
         }
     }
-    
-    $data = array();
-    
+
+    $data = [];
+
     foreach ($status as $item) {
-        $line = array();
+        $line = [];
         $line[] = $item['component'];
         $line[] = $item['item'];
-        $line[] = ($item['error']===false) ? get_string('ok') : '<div class="notifyproblem">'.$item['error'].'</div>';
+        $line[] = ($item['error'] === false) ? get_string('ok') : '<div class="notifyproblem">'.$item['error'].'</div>';
         $data[] = $line;
     }
 
     echo html_writer::div(get_string('reset_result', 'report_coursemanager'), 'alert alert-success');
 
-    echo $OUTPUT->continue_button('view.php');  // Retour accueil.
+    echo $OUTPUT->continue_button('view.php');
     echo $OUTPUT->footer();
 
     // Add event for course resetting.
     $context = context_course::instance($course->id);
-    $eventparams = array('context' => $context, 'courseid' => $course->id);
+    $eventparams = ['context' => $context, 'courseid' => $course->id];
     $event = \report_coursemanager\event\course_global_reset::create($eventparams);
     $event->trigger();
 

@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Reset page, created from the native reset course page. Elements
- * are prechecked to automatically reset course from heaviest elements.
+ * Restore a course out of trash category.
  *
- * @copyright Mark Flach and moodle.com - Olivier VALENTIN
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @package     report_coursemanager
+ * @package    report_coursemanager
+ * @copyright  2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
 require_once(__DIR__.'/lib.php');
+
 global $COURSE, $DB, $USER, $CFG;
 
 require_login();
@@ -35,8 +35,8 @@ $context = context_course::instance($id, MUST_EXIST);
 
 require_capability('moodle/course:reset', $context);
 
-if (!$course = $DB->get_record('course', array('id'=>$id))) {
-    print_error("invalidcourseid");
+if (!$course = $DB->get_record('course', ['id' => $id])) {
+    throw new moodle_exception('invalidcourseid');
 }
 
 $strresetcourse = get_string('resetcourse');
@@ -44,84 +44,47 @@ $strresetcourse = get_string('resetcourse');
 // Get site infos.
 $site = get_site();
 
-// Page settings
+// Page settings.
 $PAGE = new moodle_page();
 $PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
-$PAGE->set_url('/report/coursemanager/reset.php', array('id'=>$id));
+$PAGE->set_url('/report/coursemanager/reset.php', ['id' => $id]);
 $PAGE->set_pagelayout('mycourses');
 $PAGE->set_pagetype('teachertools');
 
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
-// $PAGE->set_secondary_navigation(false);
 
-$infocourse = $DB->get_record('course', array('id' => $id));
+$infocourse = $DB->get_record('course', ['id' => $id]);
 
 $a = new stdClass();
 $a->delete_period = get_config('report_coursemanager', 'delete_period');
-$name_trash = $DB->get_record('course_categories', array("id" => get_config('report_coursemanager', 'category_bin')));
-$a->trash_category = $name_trash->name;
+$nametrash = $DB->get_record('course_categories', ['id' => get_config('report_coursemanager', 'category_bin')]);
+$a->trash_category = $nametrash->name;
 
 $post = new stdClass();
 $post->courseid = $id;
 
-$formarray = array(
-    'post' => $post
-);
+$formarray = [
+    'post' => $post,
+];
 
 $mform = new form_restore('restore_course.php', $formarray, 'post');
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
 
-} else if ($data = $mform->get_data()) { // no magic quotes
-    // If confirmed : course is restored out of trash.
-    // First, retrieve category id for this course.
-    // $course = $DB->get_record('course', array('id' => $courseid), 'id, category');
-    
-    // Next, get context for course category and the bin category.
-    // $contextcategorytrash = CONTEXT_COURSECAT::instance(get_config('report_coursemanager', 'category_bin'));
-    // $contextcategorytrashid = $contextcategorytrash->id;
-    // $contextcategorystart = CONTEXT_COURSECAT::instance($data->restore_category);
-    // $contextcategorystartid = $contextcategorystart->id;
-    
-    // Assign teacher role in these two categories context.
-    // role_assign(3, $USER->id, $contextcategorytrashid);
-    // role_assign(3, $USER->id, $contextcategorystartid);
-
-    // Assign 2 capabilities to move course.
-    // assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorystart->id, true);
-    // assign_capability('moodle/category:manage', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-    // assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorystart->id, true);
-    // assign_capability('moodle/course:create', CAP_ALLOW, 3, $contextcategorytrash->id, true);
-    
-    // Move course out of trash into category.
-    // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
-        // array('id' => $data->courseid));
-        
-    move_courses(array($data->courseid), $data->restore_category);
-
-    // Unassign the teacher role in categories contexts.
-    // role_unassign(3, $USER->id, $contextcategorytrashid);
-    // role_unassign(3, $USER->id, $contextcategorystartid);
-    
-    // unassign_capability('moodle/category:manage', 3, $contextcategorystart->id);
-    // unassign_capability('moodle/course:create', 3, $contextcategorystart->id);
-    // unassign_capability('moodle/category:manage', 3, $contextcategorytrash->id);
-    // unassign_capability('moodle/course:create', 3, $contextcategorytrash->id);
-
-    // $moveit = \core_course\management\helper::move_courses_into_category($data->restore_category,
-        // array('id' => $data->courseid));
+} else if ($data = $mform->get_data()) {
+    move_courses([$data->courseid], $data->restore_category);
 
     // Add event for course resetting.
     $context = context_course::instance($data->courseid);
-    $eventparams = array('context' => $context, 'courseid' => $data->courseid);
+    $eventparams = ['context' => $context, 'courseid' => $data->courseid];
     $event = \report_coursemanager\event\course_restored::create($eventparams);
     $event->trigger();
 
-    $url = new moodle_url('view.php', array('done' => 'course_restored'));
+    $url = new moodle_url('view.php', ['done' => 'course_restored']);
     redirect($url);
 
     exit;
@@ -130,8 +93,8 @@ if ($mform->is_cancelled()) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('title_restore_confirm', 'report_coursemanager')." ".$infocourse->fullname." V2");
 
-if($infocourse->category != get_config('report_coursemanager', 'category_bin')) {
-    echo html_writer::tag('h5', get_string('restore_already_moved', 'report_coursemanager'), array('class' => 'alert alert-warning'));
+if ($infocourse->category != get_config('report_coursemanager', 'category_bin')) {
+    echo html_writer::tag('h5', get_string('restore_already_moved', 'report_coursemanager'), ['class' => 'alert alert-warning']);
 } else {
     echo html_writer::div(get_string('restore_confirm', 'report_coursemanager', $a));
     $mform->display();

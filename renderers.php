@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Renderer for Lyon 3 template.
+ * Renderer for report Course Manager.
  *
  * @package    report_coursemanager
  * @copyright  2022 Olivier VALENTIN
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/renderer.php');

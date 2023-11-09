@@ -23,7 +23,6 @@
  */
 
 namespace report_coursemanager\event;
-defined('MOODLE_INTERNAL') || die();
 
 class course_trash_moved extends \core\event\base {
     /**

@@ -15,33 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Definition of Report Custom SQL scheduled tasks.
+ * Definition of Course Manager tasks.
  *
- * @package report_coursemanager
- * @category task
- * @copyright 2023
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     report_coursemanager
+ * @category    task
+ * @copyright   2022 Olivier VALENTIN
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
+$tasks = [
+    [
         'classname' => 'report_coursemanager\task\run_reports_task',
         'blocking' => 0,
         'minute' => '*',
         'hour' => '2',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '*'
-    ),
-    array(
+        'dayofweek' => '*',
+    ],
+    [
         'classname' => 'report_coursemanager\task\mailing_task',
         'blocking' => 0,
         'minute' => '*',
         'hour' => '*',
         'day' => '*/30',
         'month' => '*',
-        'dayofweek' => '*'
-    )
-);
+        'dayofweek' => '*',
+    ],
+];

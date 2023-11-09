@@ -23,11 +23,11 @@
  * @copyright   2022 Olivier VALENTIN
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $PAGE, $DB, $USER, $CFG;
 
 require_once(__DIR__ . '/../../../config.php');
-
 require_login();
+
+global $PAGE, $DB, $USER, $CFG;
 
 $site = get_site();
 
@@ -36,7 +36,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/admin_dashboard/files_by_component.php');
 $PAGE->set_pagelayout('mycourses');
-// $PAGE->set_secondary_navigation(false);
 
 $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
@@ -49,30 +48,29 @@ echo html_writer::div(get_string('admin_files_distribution_info', 'report_course
 
 $table = new html_table();
 $table->attributes['class'] = 'admintable generaltable';
-$table->align = array('left', 'left', 'left', 'left');
-$table->head = array ();
+$table->align = ['left', 'left', 'left', 'left'];
+$table->head = [];
 
 // Define headings for table.
 $table->head[] = get_string('filesdistributiontablecomponent', 'report_coursemanager');
 $table->head[] = get_string('filesdistributiontotalweight', 'report_coursemanager');
 $table->head[] = get_string('filesdistributiontotalfiles', 'report_coursemanager');
 
-$sqldistributionfiles = 'SELECT COUNT(f.id) AS totalfiles, ROUND(SUM(f.filesize/1024/1024)) AS totalweight, component
-    FROM {files} AS f
+$sqldistributionfiles = 'SELECT COUNT(id) AS totalfiles, ROUND(SUM(filesize/1024/1024)) AS totalweight, component
+    FROM {files}
     GROUP BY component
     ORDER BY totalweight DESC';
 
 $dbresultdistributionfiles = $DB->get_records_sql($sqldistributionfiles);
 
 foreach ($dbresultdistributionfiles as $component) {
-    $row = array ();
+    $row = [];
     $row[] = html_writer::label($component->component, null);
     $row[] = html_writer::label($component->totalweight, null);
     $row[] = html_writer::label($component->totalfiles, null);
     $table->data[] = $row;
-    }
+}
 
-    // Print the whole table.
-    echo html_writer::table($table);
-
+// Print the whole table.
+echo html_writer::table($table);
 echo $OUTPUT->footer();

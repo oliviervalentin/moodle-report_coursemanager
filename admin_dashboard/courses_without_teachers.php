@@ -15,20 +15,19 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * List coursew with orphans submissions and delete them.
+ * List courses without teachers.
  *
  *
  * @package     report_coursemanager
  * @copyright   2022 Olivier VALENTIN
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $PAGE, $DB, $USER, $CFG;
-
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
-require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
 require_login();
+
+global $PAGE, $DB, $USER, $CFG;
 
 // Declare optional parameters.
 $delete = optional_param('delete', 0, PARAM_INT);
@@ -42,7 +41,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php');
 $PAGE->set_pagelayout('mycourses');
-// $PAGE->set_secondary_navigation(false);
 
 $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
@@ -50,19 +48,19 @@ $PAGE->set_title($site->fullname);
 
 if (!empty($delete)) {
     // User has confirmed deletion : move course in trash category.
-    if (!empty($confirm) AND confirm_sesskey()) {
+    if (!empty($confirm) && confirm_sesskey()) {
         // If confirmed : course is moved in trash category.
-        move_courses(array($instance), get_config('report_coursemanager', 'category_bin'));
-            
+        move_courses([$instance], get_config('report_coursemanager', 'category_bin'));
+
         // Course parameters updated : course is hidden.
         $datahide = new stdClass;
         $datahide->id = $instance;
         $datahide->visible = 0;
         $hide = $DB->update_record('course', $datahide);
 
-        $purgereports = $DB->get_record('coursemanager', array('course'=>$instance));
-        if(!empty($purgereports)) {
-            $res = $DB->delete_records('coursemanager', array('course' => $instance));
+        $purgereports = $DB->get_record('coursemanager', ['course' => $instance]);
+        if (!empty($purgereports)) {
+            $res = $DB->delete_records('coursemanager', ['course' => $instance]);
         }
 
         $returnurl = "courses_without_teachers.php";
@@ -70,13 +68,6 @@ if (!empty($delete)) {
         exit();
 
         // TO DO : add event when course is deleted by admin.
-        // // Trigger orphan submissions deleted event.
-        // $params = array(
-        //     'context'  => $modulecontext,
-        //     'objectid' => $context->instance
-        //     );
-        // $event = \report_coursemanager\event\admin_course_deleted::create($params);
-        // $event->trigger();
     } else {
         // Shows form to confirm before delete.
         $PAGE->navbar->add(get_string('title_admin_no_teacher_courses', 'report_coursemanager'));
@@ -99,13 +90,13 @@ echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_course
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
 
 // Checl for entries in coursemanager table for courses without teachers.
-$existsnoteacherincourse = $DB->get_records('coursemanager', array('report'=>'no_teacher_in_course'));
+$existsnoteacherincourse = $DB->get_records('coursemanager', ['report' => 'no_teacher_in_course']);
 
-if(count($existsnoteacherincourse)>0) {
+if (count($existsnoteacherincourse) > 0) {
     $table = new html_table();
     $table->attributes['class'] = 'admintable generaltable';
-    $table->align = array('left', 'left', 'left', 'left');
-    $table->head = array ();
+    $table->align = ['left', 'left', 'left', 'left'];
+    $table->head = [];
 
     // Define headings for table.
     $table->head[] = get_string('table_course_name', 'report_coursemanager');
@@ -121,56 +112,56 @@ if(count($existsnoteacherincourse)>0) {
     foreach ($existsnoteacherincourse as $course) {
         $coursecontext = \context_course::instance($course->course);
         // Retrieve course general information.
-        $courseinfo = $DB->get_record('course', array('id'=>$course->course));
+        $courseinfo = $DB->get_record('course', ['id' => $course->course]);
         // Count enrolled students.
-        $all_students = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
+        $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
         // Retrieve course weight calculated by task, recorded in coursemanager table.
-        $weight = $DB->get_record('coursemanager', array('report'=>'weight', 'course'=>$course->course));
+        $weight = $DB->get_record('coursemanager', ['report' => 'weight', 'course' => $course->course]);
 
         // Retrieve last user access to course.
         $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess
             FROM {user_lastaccess}
             WHERE courseid = ?';
-        $paramslastaccess  = array($course->course);
+        $paramslastaccess  = [$course->course];
         $dbresultlastaccess  = $DB->get_record_sql($sqllastaccess, $paramslastaccess);
 
         // Calculate number of activities.
-        $sql_empty_course = 'SELECT COUNT(mcm.id) AS count_modules
+        $sqlemptycourse = 'SELECT COUNT(mcm.id) AS count_modules
             FROM {course} mc
             INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
             INNER JOIN {modules} mm ON (mcm.module = mm.id)
             WHERE mc.id = ?
             AND mm.name <> \'forum\'
             ';
-        $paramsemptycourse = array($course->course);
-        $dbresultemptycourse = $DB->count_records_sql($sql_empty_course, $paramsemptycourse);
+        $paramsemptycourse = [$course->course];
+        $dbresultemptycourse = $DB->count_records_sql($sqlemptycourse, $paramsemptycourse);
 
         // Calculate last teacher log and retrieve name of the probable last teacher.
         // Information based on edulevel field of logstore table.
         $sqllastteacherlog = 'SELECT id, userid AS teacher, timecreated AS lastlog
             FROM {logstore_standard_log}
-            WHERE timecreated = (SELECT MAX(timecreated) 
+            WHERE timecreated = (SELECT MAX(timecreated)
                 FROM {logstore_standard_log}
                 WHERE courseid = ?
                 AND edulevel = 1)
             ';
 
-        $paramslastteacherlog  = array($course->course);
+        $paramslastteacherlog  = [$course->course];
         $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
 
-        $lastteacher = $DB->get_record('user', array('id' => $dbresultlastteacherlog->teacher));
+        $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
 
         // Now start to build table rows.
-        $row = array ();
+        $row = [];
         $row[] = html_writer::link("/course/view.php?id=".$courseinfo->id, $courseinfo->fullname);
-        $row[] = html_writer::label($all_students, null);
+        $row[] = html_writer::label($allstudents, null);
         $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
         $row[] = html_writer::label($dbresultemptycourse, null);
         $row[] = html_writer::label($weight->detail.' Mo', null);
         $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog), null);
         $row[] = html_writer::label($lastteacher->lastname.' '.$lastteacher->firstname, null);
-        $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1&instance=".$courseinfo->id."'>
-        ".get_string('text_link_delete', 'report_coursemanager')."</a>";
+        $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1
+        &instance=".$courseinfo->id."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
         $row[] = html_writer::label($deletelink, null);
         $table->data[] = $row;
     }

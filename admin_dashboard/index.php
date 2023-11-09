@@ -22,10 +22,10 @@
  * @copyright   2022 Olivier VALENTIN
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $PAGE, $DB, $USER, $CFG;
-
 require_once(__DIR__ . '/../../../config.php');
 require_login();
+
+global $PAGE, $DB, $USER, $CFG;
 
 $site = get_site();
 
@@ -34,7 +34,6 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/admin_dashboard/index.php');
 $PAGE->set_pagelayout('mycourses');
-// $PAGE->set_secondary_navigation(false);
 
 $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
@@ -46,8 +45,8 @@ echo html_writer::div(get_string('admin_course_managerinfo', 'report_coursemanag
 
 $table = new html_table();
 $table->attributes['class'] = 'table-striped';
-$table->align = array('left', 'left');
-$table->head = array ();
+$table->align = ['left', 'left'];
+$table->head = [];
 
 // Define headings for table.
 $table->head[] = get_string('table_tool_name', 'report_coursemanager');
@@ -55,28 +54,28 @@ $table->head[] = get_string('table_tool_description', 'report_coursemanager');
 
 // Link for orphan submissions tool.
 $url = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php');
-$row = new html_table_row(array( 
+$row = new html_table_row([
     html_writer::link($url, get_string('title_admin_orphan_submissions', 'report_coursemanager')),
-    html_writer::div(get_string('admin_orphan_submissions_info', 'report_coursemanager'), null)
-));
+    html_writer::div(get_string('admin_orphan_submissions_info', 'report_coursemanager'), null),
+]);
 $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 
 // Link for courses without teachers tool.
 $url = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php');
-$row= new html_table_row(array( 
+$row = new html_table_row([
     html_writer::link($url, get_string('title_admin_no_teacher_courses', 'report_coursemanager')),
-    html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'), null)
-));
+    html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'), null),
+]);
 $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 
 // Link for files distribution in table mdl_files tool.
 $url = new moodle_url('/report/coursemanager/admin_dashboard/files_distribution.php');
-$row = new html_table_row(array( 
+$row = new html_table_row([
     html_writer::link($url, get_string('title_admin_files_distribution', 'report_coursemanager')),
-    html_writer::div(get_string('admin_files_distribution_info', 'report_coursemanager'), null)
-));
+    html_writer::div(get_string('admin_files_distribution_info', 'report_coursemanager'), null),
+]);
 $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 

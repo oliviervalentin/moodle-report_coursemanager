@@ -23,7 +23,6 @@
  */
 
 namespace report_coursemanager\event;
-defined('MOODLE_INTERNAL') || die();
 
 class course_files_viewed extends \core\event\base {
     /**

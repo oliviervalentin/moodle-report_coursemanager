@@ -21,18 +21,18 @@
  * @copyright  2022 Olivier VALENTIN
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
 
-$THEME->name = 'coursemanager';                                                                                                             
-$THEME->sheets = [];                                                                                                                                                          
-$THEME->editor_sheets = [];                                                                                                         
-$THEME->parents = ['boost'];                                                                                                        
-$THEME->enable_dock = false;                                                                                                        
-$THEME->yuicssmodules = array();                                                                                                    
-$THEME->rendererfactory = 'theme_overridden_renderer_factory';                                                                      
-$THEME->requiredblocks = '';   
+$THEME->name = 'coursemanager';
+$THEME->sheets = [];
+$THEME->editor_sheets = [];
+$THEME->parents = ['boost'];
+$THEME->enable_dock = false;
+$THEME->yuicssmodules = [];
+$THEME->rendererfactory = 'theme_overridden_renderer_factory';
+$THEME->requiredblocks = '';
 $THEME->addblockposition = BLOCK_ADDBLOCK_POSITION_FLATNAV;
-$THEME->scss = function($theme) {                                                                                                   
-    return report_coursemanager_get_main_scss_content($theme);                                                                               
+$THEME->scss = function($theme) {
+    return report_coursemanager_get_main_scss_content($theme);
 };

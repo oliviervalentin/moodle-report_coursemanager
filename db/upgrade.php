@@ -17,12 +17,10 @@
 /**
  * Upgrade file for Course manager.
  *
- * @package    report_coursemanager
- * @copyright  2022 Olivier VALENTIN
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     report_coursemanager
+ * @copyright   2022 Olivier VALENTIN
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Execute report_coursemanager upgrade from the given old version.
@@ -35,11 +33,10 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2023110305) {
+    if ($oldversion < 2023110306) {
         // Delete unused setting.
         unset_config('teachertools', 'report_coursemanager');
-        upgrade_plugin_savepoint(true, 2023110305, 'report', 'coursemanager');
+        upgrade_plugin_savepoint(true, 2023110306, 'report', 'coursemanager');
     }
-    
     return true;
 }

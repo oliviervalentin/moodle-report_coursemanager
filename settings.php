@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Specific settings for Lyon 3 template.
+ * Settings for plugin Course Manager.
  *
  * @package    report_coursemanager
  * @copyright  2022 Olivier VALENTIN
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
-defined('MOODLE_INTERNAL') || die();      
-                                                                                    
+
+defined('MOODLE_INTERNAL') || die();
+
 if ($ADMIN->fulltree) {
     // Define which role is defined as teacher in courses to retrieve course list on dashboard.
     $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
@@ -91,18 +91,18 @@ if ($ADMIN->fulltree) {
     $title = get_string('enablemailing', 'report_coursemanager');
     $description = get_string('enablemailing_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
-    
+
     // Define if reports are displayed in courses and which place to use.
-    $show_report_in_course_choices = array(
+    $showreportincoursechoices = [
         get_string('show_report_in_course_choices_none', 'report_coursemanager'),
         get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
-        get_string('show_report_in_course_choices_popover', 'report_coursemanager')
-    );
+        get_string('show_report_in_course_choices_popover', 'report_coursemanager'),
+    ];
+
     $name = 'report_coursemanager/show_report_in_course';
     $title = get_string('show_report_in_course', 'report_coursemanager');
     $description = get_string('show_report_in_course_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configselect($name, $title, $description, null, $show_report_in_course_choices));
-
+    $settings->add(new admin_setting_configselect($name, $title, $description, null, $showreportincoursechoices));
 }
 
 $ADMIN->add('reports', new admin_externalpage('report_coursemanager',
