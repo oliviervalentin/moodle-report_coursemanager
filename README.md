@@ -1,62 +1,71 @@
 # moodle-report_coursemanager
 Moodle report for helping teachers to clean and manage courses and contents
 
-
-# Mode d'emploi et readme en cours de rédaction ! #
-
-### ! Le plugin a été conçu pour Moodle 4 ! ###
-Il est toutefois parfaitement possible de le faire fonctionner pour Moodle 3 : dans les fichiers course_files.php, delete_cohort.php, delete_course.php, reset.php et view.php, mettre cette ligne de code en commentaires :
-// $PAGE->set_secondary_navigation(false);
-
 ## Description ##
 
-Ce rapport est à destination des enseignants en tant qu'outil de gestion de leurs cours. En se basant sur des fonctions 
-natives ainsi que sur d'autres fonctions spécifiquement élaborées pour ce rapport, cet outil a pour vocation : 
--    D’ouvrir de nouvelles possibilités qui ne vont pas à l’encontre des permissions de rôle (Supprimer le cours) ;
--    De proposer des fonctions « raccourcies » pour nettoyer son cours (désinscription massive de cohortes, réinitialisation simplifiée, préconisations de nettoyage) ;
--    D’offrir des outils dans le but de mieux visualiser ses données et d’inciter à faire le ménage, notamment en utilisant des techniques « nudge ».
+This report is intended for teachers as a tool for managing their courses. Based on native functions
+as well as other functions specifically developed for this report, this tool aims to:
+- To open up new possibilities that do not go against role permissions (Delete the course);
+- To offer “shortcut” functions to clean your course (bulk unenrollment for cohorts, simplified reset, cleaning recommendations...);
+- To offer tools to better visualize your data and encourage cleaning.
 
-Le plugin propose :
-- une page de rapport complet pour l'enseignant (voir "Donner accès au rapport) avec la liste de tous les cours auxquels l'utilisateur est inscrit en tant qu'enseignant ;
-- le calcul automatique des rapports via une tâche Moodle. Dans l'idéal, à paramétrer toutes les 3-4 heures (retours appréciés)
-- l'affichage sur la page d'accueil du cours des rapports (uniquement visible pour les enseignants).
+If offers for teachers:
+- a complete report for teachers as a dashboard, listing all courses where user is enrolled as teacher ;
+- automated taks for calculating reports and mailing these reports for teachers ;
 
-![image](https://user-images.githubusercontent.com/25584834/179756387-804fa248-e542-4bd8-b8d7-920bf9e8fe0f.png)
-![image](https://user-images.githubusercontent.com/25584834/179756572-ab7bdb9e-00a2-4db9-9960-754194af59c5.png)
+The plugin is completed with special tools for admins:
+- course report for courses without teachers;
+- files distribution depending on their components, directly from table files;
+- special tool to reset assigns from submissions uploaded by unenrolled users. 
 
-## Fonctionnalités ##
+## Installing via uploaded ZIP file ##
 
-- Liste complète des cours où l'utilisateur est inscrit en tant qu'enseignant.
-- Filtrage des cours par type de cours et recherche par nom de cours.
-- Calcul du poids des fichiers contenus dans un cours, avec graph de répartition. Recommendations spécifiques pour les fichiers lourds, les vidéos, les devoirs volumineux ou contenant des fichiers d'utilisateurs non inscrits au cours.
-- Recommandations automatiques sur le poids du cours, l'absence de visites (étudiants ou eneignants), l'absence de contenus, l'absece d'inscrits.
-- Possibilité de déplacer un cours dans une catégorie-corbeille.
-- Réinitialisation de cours simplifiée.
-- Désinscription massive des cohortes inscrites.
-- Evénements liés à différentes actions, afin de mesurer l'utilisation du plugin.
-- Tâche automatique de calcul des rapports de cours.
-- Affichage des rapports directement dans chaque cours soit sous forme de menu déroulant, soit sous forme de popovers Bootstrap.
+1. Log in to your Moodle site as an admin and go to _Site administration >
+   Plugins > Install plugins_.
+2. Upload the ZIP file with the plugin code. You should only be prompted to add
+   extra details if your plugin type is not automatically detected.
+3. Check the plugin validation report and finish the installation.
 
-![image](https://user-images.githubusercontent.com/25584834/179756655-1732b9ed-97cf-4e9b-85d4-d65622159c31.png)
+## Installing manually ##
 
+The plugin can be also installed by putting the contents of this directory to
 
-## Installation ##
-Ajouter le dossier « coursemanager » dans le dossier report de Moodle. L’installation se déroule comme pour un plugin Moodle.
+    {your/moodle/dirroot}/report/coursemanager
 
-## Donner accès au rapport ##
-Le tableau complet des cours est accessible en se rendant directement à l'url du fichier view.php du plugin. A noter que l'accès à ce tableau n'est pas primordial si on souhaite afficher les rapports uniquement dans les cours.
+Afterwards, log in to your Moodle site as an admin and go to _Site administration >
+Notifications_ to complete the installation.
 
-Pour donner accès au rapport, le plus simple est d’ajouter un élément dans la navigation principale en utilisant les custom menu items 
-dans Administration du site > Présentation > Réglages thème et en rajoutant un lien pointant vers /report/coursemanager/view.php
-Le menu s’affiche alors pour tous les utilisateurs, enseignants comme étudiants. Néanmoins, le rapport n’affichera de données que si 
-l’utilisateur qui le consulte est inscrit avec le rôle Enseignant dans au moins un cours.
+Alternatively, you can run
 
-# Version en cours de dévelopement #
-Pour toute question sur le fonctionnement du code, me contacter directement.
-Les textes du fichier de traduction ainsi que les éléments analysés peuvent être directement rattachés à la politique du service TICE que j'occupe. N'hésitez pas à me faire vos retours sur des pistes d'améliorations !
+    $ php admin/cli/upgrade.php
+
+to complete the installation from the command line.
+
+## Who to give access to Course Manager dashboard for teachers ##
+The complete dashboard is accessible by giving direct access link to view.php file. 
+
+To provide this access, the easiest way is to add an item in the main navigation using the custom menu items
+in Site administration > Presentation > Theme settings and adding a link pointing to /report/coursemanager/view.php
+
+The menu is then displayed for all users, teachers and students alike. However, the report will only show data if
+the user who consults it is registered as Teacher in at least one course.
 
 ## Résultats selon les templates ##
-Course Manager a été testé sous Moodle 3.11 et 4.1 avec différents thèmes.
-L'affichage des rapport fonctionne parfaitement pour Almonbd, Boost, Boost Union, Classic, Moove et Trema.
-Pour Academi, Degrade, Eguru et Klass, l'affichage sous forme d'icônes à coté du titre fonctionne, mais l'image est légèrement décalée.
-Pour Adaptable, le fonctionne sous forme d'icône ne fonctionne pas, car la zone visée pour le JS du rapport n'existe pas.
+Course Manager report has been tested for Moodle 4.0 with several templates.
+
+Reports display has been tested with templates Almonbd, Boost, Boost Union, Classic, Moove et Trema.
+Templates Academi, Degrade, Eguru et Klass : icon display next to title works, although icons are slightly shifted.
+Template Adaptable : icon display next to title doesn't work. The zone called by JS doesn't exist in this theme.
+
+## License ##
+
+2022 Olivier VALENTIN
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
