@@ -50,7 +50,7 @@ in Site administration > Presentation > Theme settings and adding a link pointin
 The menu is then displayed for all users, teachers and students alike. However, the report will only show data if
 the user who consults it is registered as Teacher in at least one course.
 
-## Résultats selon les templates ##
+## Displays according to themes ##
 Course Manager report has been tested for Moodle 4.0 with several templates.
 
 Reports display has been tested with templates Almonbd, Boost, Boost Union, Classic, Moove et Trema.
