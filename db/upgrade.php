@@ -33,10 +33,10 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2023110306) {
+    if ($oldversion < 2023110307) {
         // Delete unused setting.
         unset_config('teachertools', 'report_coursemanager');
-        upgrade_plugin_savepoint(true, 2023110306, 'report', 'coursemanager');
+        upgrade_plugin_savepoint(true, 2023110307, 'report', 'coursemanager');
     }
     return true;
 }
