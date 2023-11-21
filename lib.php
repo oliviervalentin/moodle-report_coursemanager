@@ -410,46 +410,22 @@ function report_coursemanager_before_standard_top_of_body_html() {
                     switch($report->report) {
                         case $report->report = 'heavy':
                             $info->size = $report->detail;
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger heavy\" data-html=\"true\"
-                            data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('heavy_course', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_heavy', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-thermometer-three-quarters\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger heavy\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('heavy_course', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_heavy', 'report_coursemanager', $info).'\"><i class=\"fa fa-thermometer-three-quarters\"></i></button></li>';
                             break;
                         case $report->report = 'no_visit_teacher':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_teacher\"
-                            data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('no_visit_teacher', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-graduation-cap\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_teacher\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_visit_teacher', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info).'\"><i class=\"fa fa-graduation-cap\"></i></button></li>';
                             break;
                         case $report->report = 'no_visit_student':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_student\"
-                            data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('no_visit_student', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_no_visit_student', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-group\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_student\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_visit_student', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_visit_student', 'report_coursemanager', $info).'\"><i class=\"fa fa-group\"></i></button></li>';
                             break;
                         case $report->report = 'no_student':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-warning no_student\"
-                            data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('no_student', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_no_student', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-user-o\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-warning no_student\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_student', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_no_student', 'report_coursemanager', $info).'\"><i class=\"fa fa-user-o\"></i></button></li>';
                             break;
                         case $report->report = 'empty':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-dark empty\"
-                            data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('no_content', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_empty', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-battery-empty\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-dark empty\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('no_content', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info).'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
                             break;
                         case $report->report = 'orphan_submissions':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger orphan_submissions\"
-                            data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.
-                            get_string('orphan_submissions', 'report_coursemanager').'\" data-content=\"'.
-                            get_string('course_alert_orphan_submissions', 'report_coursemanager', $info).'\">
-                            <i class=\"fa fa-files-o\"></i></button></li>';
+                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger orphan_submissions\" data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" title=\"'.get_string('orphan_submissions', 'report_coursemanager').'\" data-content=\"'.get_string('course_alert_orphan_submissions', 'report_coursemanager', $info).'\"><i class=\"fa fa-files-o\"></i></button></li>';
                             break;
                     }
                 }
