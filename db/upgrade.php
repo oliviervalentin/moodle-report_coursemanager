@@ -38,5 +38,8 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         unset_config('teachertools', 'report_coursemanager');
         upgrade_plugin_savepoint(true, 2023110307, 'report', 'coursemanager');
     }
+    if ($oldversion < 2023110308) {
+        upgrade_plugin_savepoint(true, 2023110308, 'report', 'coursemanager');
+    }
     return true;
 }
