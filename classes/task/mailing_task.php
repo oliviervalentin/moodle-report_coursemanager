@@ -112,11 +112,12 @@ class mailing_task extends \core\task\scheduled_task {
                         if (!empty($checkreport)) {
                             // Heavy report leads to the specific page about course files.
                             if ($report['report'] == 'heavy') {
-                                $reportresult .= '- <a href="'.$CFG->wwwroot.'/report/coursemanager/course_files.php
-                                ?courseid='.$listcourse->courseid.'">'.$listcourse->coursename.'</a><br />';
+                                $reportresult .= '- <a href="'.$CFG->wwwroot
+                                .'/report/coursemanager/course_files.php?courseid='
+                                .$listcourse->courseid.'">'.$listcourse->coursename.'</a><br />';
                             } else {
-                                $reportresult .= '- <a href="'.$CFG->wwwroot.'/course/view.php
-                                ?id='.$listcourse->courseid.'">'.$listcourse->coursename.'</a><br />';
+                                $reportresult .= '- <a href="'.$CFG->wwwroot.'/course/view.php?id='
+                                .$listcourse->courseid.'">'.$listcourse->coursename.'</a><br />';
                             }
                         }
                     }
