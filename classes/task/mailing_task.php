@@ -39,6 +39,7 @@ class mailing_task extends \core\task\scheduled_task {
 
             // Define $from for mailing.
             $from = new \stdClass;
+            $from->firstname = '';
             $from->lastname = $CFG->supportname;
             $from->email = $CFG->supportname;
             $from->maildisplay = false;
