@@ -133,16 +133,20 @@ class mailing_task extends \core\task\scheduled_task {
 
                 // Mail is sent only if there are reports for a teacher.
                 if (!empty($mailcontent)) {
+                    $teacheruserinfo = \core_user::get_user($teacher->idteacher);
                     $a = new \stdClass;
-                    $a->coursemanagerlink = $CFG->wwwroot.'/report/coursemanager/view.php';
                     $a->no_student_time = get_config('report_coursemanager', 'last_access_student');
                     $a->no_teacher_time = get_config('report_coursemanager', 'last_access_teacher');
+                    $mailing_introduction = str_replace(
+                        array('%coursemanagerlink%', '%userfirstname%', '%userlastname%'),
+                        array($CFG->wwwroot.'/report/coursemanager/view.php', $teacheruserinfo->firstname, $teacheruserinfo->lastname),
+                        get_config('report_coursemanager', 'mailing_introduction')
+                    );
 
-                    $finalcontent .= get_string('mailingintro', 'report_coursemanager', $a);
+                    $finalcontent .= $mailing_introduction;
                     $finalcontent .= $mailcontent;
                     $finalcontent .= get_string('mailingoutro', 'report_coursemanager');
 
-                    $teacheruserinfo = \core_user::get_user($teacher->idteacher);
                     $send = email_to_user($teacheruserinfo, $from,
                     get_string('mailingtitle', 'report_coursemanager'), $finalcontent);
 

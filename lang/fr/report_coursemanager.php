@@ -54,6 +54,12 @@ $string['show_report_in_course_choices_popover'] = 'Icônes à côté du titre';
 $string['enablemailing'] = 'Activer l\'envoi du mailing aux enseignants';
 $string['enablemailing_desc'] = 'Si coché, active l\'envoi des rapports de cours à chaque enseignant. La périodicité du mailing est définie par défaut
 tous les 30 jours, et peut être modifiée dans les tâches programmées.';
+$string['mailingintro_setting'] = 'Introduction du mail';
+$string['mailingintro_setting_desc'] = 'Message d\'introduction pour le mailing envoyé aux enseignants.<br>
+Vous pouvez utiliser les variables suivantes :<br>
+%userfirstname% : prénom de l\'utilisateur<br>
+%userlastname% : nom de l\'utilisateur<br>
+%coursemanagerlink% : lien vers le gestionnaire de cours';
 
 // Bannière des cours dans la corbeille.
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
@@ -298,12 +304,10 @@ $string['collapse_show_report'] = 'Afficher le rapport';
 
 // Mailing.
 $string['mailingtitle'] = 'Course Manager - Rapport de vos cours';
-$string['mailingintro'] = '<p>Course Manager est un rapport dédié aux enseignants pour gérer leurs cours, qui propose une série d\'outils
-et de conseils pour leur entretien. Ces conseils vous sont résumés dans le mail ci-dessous, qui vous indique les cours concernés pour
-chaque type de rapport.</p>
-<p><b>Ces informations sont des conseils généraux et non un avertissement. Leur but est d\'attirer votre attention
-sur certains aspects de la gestion de vos cours, et de donner des clés pour une bonne pratique de l\'utilisation de Moodle.</b></p>
-<p>Pour plus d\'informations, consultez également votre espace Course Manager en cliquant ici : {$a->coursemanagerlink}';
+$string['mailingintro'] = '<p>Bonjour %userfirstname%,</p>
+<p>Course Manager est un rapport dédié aux enseignants pour gérer leurs cours, qui propose une série d\'outils et de conseils pour leur entretien. Ces conseils vous sont résumés dans le mail ci-dessous, qui vous indique les cours concernés pour chaque type de rapport.</p>
+<p><b>Ces informations sont des conseils généraux et non un avertissement. Leur but est d\'attirer votre attention sur certains aspects de la gestion de vos cours, et de donner des clés pour une bonne pratique de l\'utilisation de Moodle.</b></p>
+<p>Pour plus d\'informations, consultez également votre espace <a href="%coursemanagerlink%">Course Manager</a>';
 $string['mailingoutro'] = '<p>Pour plus d\'informations sur ces rapports, contactez le support.';
 $string['mailingddescreportempty'] = 'Les cours de cette liste ne proposent aucun contenu, à l\'exception du forum de base.';
 $string['mailingddescreportnovisitstudent'] = 'Les cours suivants n\'ont pas enregistré de visite d\'étudiants depuis une longue période.</b> ';

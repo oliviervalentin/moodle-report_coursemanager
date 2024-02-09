@@ -92,6 +92,20 @@ if ($ADMIN->fulltree) {
     $description = get_string('enablemailing_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
+    // Introduction for report mailing
+    $name = 'report_coursemanager/mailing_introduction';
+    $title = get_string('mailingintro_setting', 'report_coursemanager');
+    $description = get_string('mailingintro_setting_desc', 'report_coursemanager');
+    $settings->add(
+        new admin_setting_configtextarea(
+            $name,
+            $title,
+            $description,
+            get_string('mailingintro', 'report_coursemanager'),
+            PARAM_RAW
+        )
+    );
+
     // Define if reports are displayed in courses and which place to use.
     $showreportincoursechoices = [
         get_string('show_report_in_course_choices_none', 'report_coursemanager'),
