@@ -86,6 +86,13 @@ if ($ADMIN->fulltree) {
     $description = get_string('delete_period_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '50'));
 
+    // Roles that should receive the warning email when deleting a course
+    $settings->add(new admin_setting_configmultiselect('report_coursemanager/delete_send_mail',
+            get_string('delete_send_mail', 'report_coursemanager'),
+            get_string('delete_send_mail_desc', 'report_coursemanager'),
+            array('3'), $rolesoptions)
+    );
+
     // Checkbox for enabling reports mailing.
     $name = 'report_coursemanager/enable_mailing';
     $title = get_string('enablemailing', 'report_coursemanager');

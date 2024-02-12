@@ -46,6 +46,8 @@ $string['last_access_student_desc'] = 'mber of days since student didn\'t visit 
 $string['delete_period'] = 'Time indication for course deletion';
 $string['delete_period_desc'] = 'This information gives an approximative period for course deletion from bin category.
  You can write something like "in the beginning of july" or "at the end of the year". This information will be displayed in the mail when teacher deletes a course and in course deletion page.';
+$string['delete_send_mail'] = 'Roles to prevent when deleting a course';
+$string['delete_send_mail_desc'] = 'Select the role(s) that will be notified by email when a course is deleted';
 $string['show_report_in_course'] = 'Report display in course';
 $string['show_report_in_course_desc'] = 'Defines place in course where reports are displayed';
 $string['show_report_in_course_choices_none'] = 'Do not display reports in course';
