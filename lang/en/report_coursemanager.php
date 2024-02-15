@@ -53,6 +53,12 @@ $string['show_report_in_course_choices_collapse'] = 'Scrolling menu under course
 $string['show_report_in_course_choices_popover'] = 'Icons next to course title';
 $string['enablemailing'] = 'Activate reports mailing';
 $string['enablemailing_desc'] = 'If checked, activates automated task for reports mailing. Default periodicity is every 30 days.';
+$string['mailingintro_setting'] = 'Email content';
+$string['mailingintro_setting_desc'] = 'Introduction of the report mailing.<br>
+You can use the following variables :<br>
+%userfirstname% : User\'s first name<br>
+%userlastname% : User\'s last name<br>
+%coursemanagerlink% : Course Manager\'s link';
 
 // Banner for courses in categorby bin.
 $string['trash'] = 'This course is in the category for deleted courses.';
@@ -279,10 +285,10 @@ $string['collapse_show_report'] = 'Show report';
 
 // Mailing.
 $string['mailingtitle'] = 'Course Manager - Reports for your courses';
-$string['mailingintro'] = '<p>Course Manager is a tool report for helping teacher to manage their courses using calculated reports.
-This mail summarizes these reports, and indicates which courses are concerned by problems.</p>
+$string['mailingintro'] = '<p>Hello %userfirstname%,</p>
+<p>Course Manager is a tool report for helping teacher to manage their courses using calculated reports. This mail summarizes these reports, and indicates which courses are concerned by problems.</p>
 <p><b>These reports are only intended to attract your attention on certain aspects of managing your courses, and to give keys to good practice in using Moodle</b></p>
-<p>For more information, visit your personnal Course Manager dashboard : {$a->coursemanagerlink}';
+<p>For more information, visit your personnal <a href="%coursemanagerlink%">Course Manager dashboard</a>';
 $string['mailingoutro'] = '<p>For more information about these reports, please contact Moodle admin or Support service.';
 $string['mailingddescreportempty'] = 'Theses courses have no contents, eventually except native Moodle forum.';
 $string['mailingddescreportnovisitstudent'] = 'Students have not visited theses courses for a long time.</b> ';
