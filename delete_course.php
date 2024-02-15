@@ -54,7 +54,13 @@ $a = new stdClass();
 $a->delete_period = get_config('report_coursemanager', 'delete_period');
 
 // Get all users enrolled as teacher in course.
-$allteachers = get_role_users(get_config('report_coursemanager', 'teacher_role_dashboard'), $context);
+$allteachers_config = explode(',',get_config('report_coursemanager', 'delete_send_mail'));
+$allteachers = array();
+if (!empty(get_config('report_coursemanager', 'delete_send_mail'))) {
+    foreach ($allteachers_config as $teacher) {
+        $allteachers = $allteachers + get_role_users($teacher, $context);
+    }
+}
 
 // If not yet confirm.
 if (!$confirm) {
@@ -74,7 +80,6 @@ if (!$confirm) {
 
     // Text to inform about this function.
     echo html_writer::div(get_string('move_confirm', 'report_coursemanager', $a));
-
     if (count($allteachers) > 1) {
         $textwarnseveralteachers = get_string('delete_several_teachers', 'report_coursemanager');
         $textwarnseveralteachers .= "<ul>";

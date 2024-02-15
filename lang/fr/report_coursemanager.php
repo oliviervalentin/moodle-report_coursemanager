@@ -46,6 +46,8 @@ $string['last_access_student_desc'] = 'Nombre de jours sans visite d\'un étudia
 $string['delete_period'] = 'Période pour la suppression des cours';
 $string['delete_period_desc'] = 'Affiche la période approximative de suppression des cours de la catégorie corbeille. Inscrire un texte comme "début juillet", ou
  "dans la première quinzaine de mai" pour l\'intégrer à la description de la page de suppression.';
+$string['delete_send_mail'] = 'Rôles à prévenir lors de la suppression d\'un cours';
+$string['delete_send_mail_desc'] = 'Sélectionnez le ou les rôles qui seront avertis par mail lors de la suppression d\'un cours';
 $string['show_report_in_course'] = 'Affichage des rapports dans les cours';
 $string['show_report_in_course_desc'] = 'Définit si les rapports sont affichés dans les cours et à quel endroit.';
 $string['show_report_in_course_choices_none'] = 'Ne pas afficher';
