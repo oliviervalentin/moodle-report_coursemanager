@@ -3,20 +3,81 @@ Moodle report for helping teachers to clean and manage courses and contents
 
 ## Description ##
 
-This report is intended for teachers as a tool for managing their courses. Based on native functions
-as well as other functions specifically developed for this report, this tool aims to:
-- To open up new possibilities that do not go against role permissions (Delete the course);
-- To offer “shortcut” functions to clean your course (bulk unenrollment for cohorts, simplified reset, cleaning recommendations...);
-- To offer tools to better visualize your data and encourage cleaning.
+Course Manager is mainly adressed to teachers : it gives them a tool to manage their courses (shortcuts, trash, unenroll cohorts…) and reports concerning their courses : weight, empty courses, no students enrolled…
+For admins, Course Manager gives some special tools, with the same goal : clean Moodle from courses problems : orphan submissions, courses without teachers…
 
-If offers for teachers:
-- a complete report for teachers as a dashboard, listing all courses where user is enrolled as teacher ;
-- automated taks for calculating reports and mailing these reports for teachers ;
+The main goal is to raise awarness among teachers of what they store in their courses, if their courses are alive or not… and encourage them to clean Moodle by :
 
-The plugin is completed with special tools for admins:
-- course report for courses without teachers;
-- files distribution depending on their components, directly from table files;
-- special tool to reset assigns from submissions uploaded by unenrolled users. 
+-    opening functions which don’t  go against system permissions (such a trash category) ;
+-    giving shortcuts function to clean course (reports, bulk uneroll cohorts, simple reinit) ;
+-    offering visualization tools to encourage to clean courses.
+
+## Teacher dashboard ##
+
+This tool offers a view of every course a teacher is enrolled in. Each course display informations (visible course, weight, number of studens and teachers enrolled…), reports list, and offers tool such as shortcuts to enroll functions, put course in trash category…
+
+## Which reports are calculated ? ##
+An automatic task running at night will calculate reports that will be shown to teachers in dashboard and in each course if chosen :
+-	Heavy courses : fix a limit for what will be considered as heavy (in Mo)
+-	Empty courses : courses with only native forum
+-	No students : courses wihtout any students enrolled
+-	No visits : courses with no visits by students, but by teachers too !
+-	Orphan submissions : warns teachers if some assigns contain submissions from unenrolled students.
+
+This plugin offers too a mailing list that will send every month a complete report to each teacher, and remind them courses concerned by those reports.
+
+## Which reports for admin ? ##
+
+Three special tools are available for admins :
+-	Filearea report : calculates files weight according to their file area, that can help to detect problems.
+-	Orphan submission : this report offers possibility to clean assigns from submissions uploaded by enrolled students in a course which is not reinitialized. Those files can represent a very heavy weight !
+-	Courses without teachers : this report lists all courses without teachers, and offers a tool to move them in trash category.
+
+## Settings ##
+
+This plugin offers possibility to set every threshold that will trigger a report :
+-	Limit weight for a file or course ;
+-	Roles concerned (teacher and student)
+-	Number of days without visit for teachers and students
+
+Admin can decide too if reports will be pushed in each course (next to title or under title).
+
+## How to give access to teacher dashbord ? ##
+
+If you want to give access to dashboard, you must add in navigation, in a block or any other way a direct link to this tool : /report/coursemanager/view.php file. 
+You can use for example the custom menu items setting in Admin > Appearance > Theme settings.
+
+Reports display has been tested with several Moodle templates such as Almonbd, Boost, Boost Union, Classic, Moove and Trema.
+Themes Academi, Degrade, Eguru and Klass : the icon display mode works, showing a small gap for icons
+Theme Adaptable : icon display mode doesn’t work, because targetted zone doesn’t exist in this template.
+
+## Installing via uploaded ZIP file ##
+
+    Log in to your Moodle site as an admin and go to Site administration > Plugins > Install plugins.
+    Upload the ZIP file with the plugin code. You should only be prompted to add extra details if your plugin type is not automatically detected.
+    Check the plugin validation report and finish the installation.
+
+## Installing manually ##
+
+The plugin can be also installed by putting the contents of this directory to
+
+{your/moodle/dirroot}/report/coursemanager
+
+Afterwards, log in to your Moodle site as an admin and go to Site administration > Notifications to complete the installation.
+
+Alternatively, you can run
+
+$ php admin/cli/upgrade.php
+
+to complete the installation from the command line.
+
+## License ##
+
+2022 Olivier VALENTIN
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## Installing via uploaded ZIP file ##
 
