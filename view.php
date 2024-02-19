@@ -33,7 +33,6 @@ $done = optional_param('done', 0, PARAM_RAW);
 $site = get_site();
 
 $PAGE = new moodle_page();
-$PAGE->requires->js( new moodle_url($CFG->wwwroot . '/report/coursemanager/test.js'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/view.php');
@@ -330,7 +329,7 @@ if (count($listusercourses) == 0) {
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        '.get_string('closereportmodal', 'report_coursemanage').'</button>
+                        '.get_string('closereportmodal', 'report_coursemanager').'</button>
                       </div>
                     </div>
                   </div>
