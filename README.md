@@ -28,7 +28,7 @@ This plugin offers too a mailing list that will send every month a complete repo
 
 ## Which reports for admin ? ##
 
-Three special tools are available for admins :
+Three special tools are available for admins in Site admin > Report section :
 -	Filearea report : calculates files weight according to their file area, that can help to detect problems.
 -	Orphan submission : this report offers possibility to clean assigns from submissions uploaded by enrolled students in a course which is not reinitialized. Those files can represent a very heavy weight !
 -	Courses without teachers : this report lists all courses without teachers, and offers a tool to move them in trash category.
