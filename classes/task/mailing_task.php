@@ -44,6 +44,10 @@ class mailing_task extends \core\task\scheduled_task {
             $from->email = $CFG->supportname;
             $from->maildisplay = false;
             $from->mailformat = 1;
+            $from->firstnamephonetic = '';
+            $from->lastnamephonetic = '';
+            $from->middlename = '';
+            $from->alternatename = '';
 
             $table = 'coursemanager';
             $teacherrole = get_config('report_coursemanager', 'teacher_role_dashboard');
@@ -105,6 +109,8 @@ class mailing_task extends \core\task\scheduled_task {
                     ],
                 ];
                 foreach ($allreports as $report) {
+                    // Initiallize report content.
+                    $reportresult = '';
                     // For each report, we test each course for a teacher.
                     foreach ($dbresultlistcoursesforteacher as $listcourse) {
                         // If a report exists for a course, add course name to the list with direct link.
@@ -135,6 +141,7 @@ class mailing_task extends \core\task\scheduled_task {
 
                 // Mail is sent only if there are reports for a teacher.
                 if (!empty($mailcontent)) {
+                    $finalcontent = '';
                     $teacheruserinfo = \core_user::get_user($teacher->idteacher);
                     $a = new \stdClass;
                     $a->no_student_time = get_config('report_coursemanager', 'last_access_student');
