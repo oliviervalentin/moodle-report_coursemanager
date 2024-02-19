@@ -141,6 +141,7 @@ class mailing_task extends \core\task\scheduled_task {
 
                 // Mail is sent only if there are reports for a teacher.
                 if (!empty($mailcontent)) {
+                    // Initialize final content.
                     $finalcontent = '';
                     $teacheruserinfo = \core_user::get_user($teacher->idteacher);
                     $a = new \stdClass;
