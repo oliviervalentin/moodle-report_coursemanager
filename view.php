@@ -275,6 +275,7 @@ if (count($listusercourses) == 0) {
                             // Add warning about no visit for students.
                             $sumup .= "<li>".get_string('last_access_student_alert', 'report_coursemanager', $info).".</li>";
                             $iconssumup .= "<i class='fa fa-lg fa-group text-info'></i>&nbsp;";
+                            $allrowclasses .= "no-visit-student ";
                             break;
                         case 'no_student':
                             $sumup .= "<li>".get_string('empty_student_alert', 'report_coursemanager').".</li>";
