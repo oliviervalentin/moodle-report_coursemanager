@@ -272,44 +272,6 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
     return $all;
 }
 
-class form_restore extends moodleform {
-    /**
-     * Form definition for course restore.
-     *
-     * @return void
-     */
-    public function definition() {
-        global $CFG, $USER, $DB;
-        $mform = $this->_form;
-        $datas = $this->_customdata['post'];
-
-        $displaylist = core_course_category::make_categories_list();
-        $mform->addElement('select', 'restore_category', get_string('select_restore_category', 'report_coursemanager'),
-        $displaylist);
-
-        $mform->addElement('hidden', 'courseid');
-        $mform->setType('courseid', PARAM_INT);
-        $mform->setDefault('courseid', $datas->courseid);
-        $this->add_action_buttons(true, get_string('button_restore_confirm', 'report_coursemanager'));
-    }
-
-    /**
-     * Form validation.
-     *
-     * @param array $data  data from the form.
-     * @param array $files files uplaoded.
-     *
-     * @return array of errors.
-     */
-    public function validation($data, $files) {
-        $errors = parent::validation($data, $files);
-        if (empty($data['restore_category'])) {
-            $errors['message'] = get_string('error_category', 'report_coursemanager');
-        }
-        return $errors;
-    }
-}
-
 function report_coursemanager_before_standard_top_of_body_html() {
     global $DB, $PAGE, $USER;
 

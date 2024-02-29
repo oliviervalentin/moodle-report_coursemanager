@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
-class course_reset_form extends moodleform {
+class report_coursemanager_reset_form extends moodleform {
     public function definition () {
         global $CFG, $COURSE, $DB;
 

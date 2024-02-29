@@ -55,7 +55,7 @@ $PAGE->set_pagetype('teachertools');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
-$mform = new course_reset_form(null, ['courseid' => $id]);
+$mform = new report_coursemanager_reset_form(null, ['courseid' => $id]);
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');

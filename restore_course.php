@@ -24,6 +24,7 @@
 
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
+require_once('restore_form.php');
 require_once(__DIR__.'/lib.php');
 
 global $COURSE, $DB, $USER, $CFG;
@@ -71,7 +72,7 @@ $formarray = [
     'sesskey' => sesskey(),
 ];
 
-$mform = new form_restore('restore_course.php', $formarray, 'post');
+$mform = new report_coursemanager_form_restore('restore_course.php', $formarray, 'post');
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
