@@ -257,6 +257,12 @@ $string['tablelastteacher'] = 'Dernier enseignant actif';
 $string['deletecoursewithoutteachersconfirm'] = 'Souhaitez-vous déplacer ce cours dans la catégorie Corbeille définie par Course Manager ?';
 $string['emptytablenoteacherincourses'] = 'Pas de résultats : tous les cours contiennent au moins un enseignant';
 
+// Page - admin - statistiques.
+$string['title_admin_stats'] = '<b>Statistiques</b>';
+$string['admin_stats_info'] = '<p>Cette page propose des statistiques généralement basée sur les rapports produits par Course Manager.
+Il propose également des informations concernant certains aspects étudiés par le plugin, comme les courses sans enseignants ou le 
+nombre de cours dans la corbeille.</p>';
+
 // Messages de confirmation de l'acueil.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
 $string['confirm_cohort_unenrolled_message'] = 'Les cohortes ont bien été désinscrites du cours.';

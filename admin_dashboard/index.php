@@ -79,6 +79,15 @@ $row = new html_table_row([
 $row->attributes['class'] = 'align-top';
 $table->data[] = $row;
 
+// Link for stats page.
+$url = new moodle_url('/report/coursemanager/admin_dashboard/stats.php');
+$row = new html_table_row([
+    html_writer::link($url, get_string('title_admin_stats', 'report_coursemanager')),
+    html_writer::div(get_string('admin_stats_info', 'report_coursemanager'), null),
+]);
+$row->attributes['class'] = 'align-top';
+$table->data[] = $row;
+
 echo html_writer::table($table);
 
 echo $OUTPUT->footer();

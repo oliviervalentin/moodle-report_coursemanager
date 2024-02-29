@@ -239,6 +239,11 @@ $string['tablelastteacher'] = 'Last active teacher';
 $string['deletecoursewithoutteachersconfirm'] = 'Do you want to move this course in bin category ?';
 $string['emptytablenoteacherincourses'] = 'No result : all courses have a teacher';
 
+// Admin page for statistics.
+$string['title_admin_stats'] = '<b>Statistics</b>';
+$string['admin_stats_info'] = '<p>This page shows statistics most based on reports produced by Course Manager plugins. It also offers statistics on several 
+aspects regarding Course Manager features, such as courses without teachers or courses in trash category.</p>';
+
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohorts deleted';
 $string['confirm_cohort_unenrolled_message'] = 'All cohorts have been unenrolled from course.';
