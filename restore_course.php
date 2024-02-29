@@ -68,6 +68,7 @@ $post->courseid = $id;
 
 $formarray = [
     'post' => $post,
+    'sesskey' => sesskey(),
 ];
 
 $mform = new form_restore('restore_course.php', $formarray, 'post');
@@ -76,6 +77,7 @@ if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
 
 } else if ($data = $mform->get_data()) {
+    require_sesskey();
     move_courses([$data->courseid], $data->restore_category);
 
     // Add event for course resetting.

@@ -39,6 +39,7 @@ $site = get_site();
 
 // Page settings.
 $PAGE = new moodle_page();
+$PAGE->set_context($context);
 $PAGE->set_heading($site->fullname);
 
 $PAGE->set_url('/report/coursemanager/delete_course.php');
