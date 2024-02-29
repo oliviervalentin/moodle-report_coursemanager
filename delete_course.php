@@ -97,7 +97,7 @@ if (!$confirm) {
     echo html_writer::tag('h5', get_string('delete_wish', 'report_coursemanager'),
     ['class' => 'alert alert-warning']);
     $urlconfirmdelete = new moodle_url('delete_course.php',
-    ['confirm' => 1, 'courseid' => $courseid]);
+    ['confirm' => 1, 'courseid' => $courseid, 'sesskey' => sesskey()]);
     echo html_writer::div(html_writer::link($urlconfirmdelete, get_string('button_move_confirm', 'report_coursemanager'),
     ['class' => 'text-white']), 'btn btn-warning') . " ";
     $urlquestionbank = new moodle_url('/question/bank/exportquestions/export.php',
@@ -113,6 +113,7 @@ if (!$confirm) {
 
 } else if ($confirm) {
     // If confirmed : course is moved in trash category.
+    require_sesskey();
     move_courses([$courseid], get_config('report_coursemanager', 'category_bin'));
 
     // Course parameters updated : course is hidden.

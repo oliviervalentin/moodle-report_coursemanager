@@ -63,10 +63,10 @@ Vous pouvez utiliser les variables suivantes :<br>
 %userlastname% : nom de l\'utilisateur<br>
 %coursemanagerlink% : lien vers le gestionnaire de cours';
 
-// Bannière des cours dans la corbeille.
+// Banner for courses in categorby bin.
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
 
-// Tableau de résumés des cours.
+// Dashboard.
 $string['table_course_name'] = 'Nom du cours';
 $string['table_course_state'] = 'Etat';
 $string['table_files_weight'] = 'Poids des fichiers';
@@ -76,7 +76,7 @@ $string['table_enrolled_teachers'] = 'Enseignants';
 $string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
 
-// Actions du menu.
+// Actions.
 $string['menudeletecourse'] = 'Mettre à la corbeille';
 $string['menucoursefilesinfo'] = 'Voir les fichiers';
 $string['menureset'] = 'Réinitialiser';
@@ -84,7 +84,7 @@ $string['menuenrolcohorts'] = 'Ajouter des cohortes';
 $string['menuunenrolcohorts'] = 'Désinscrire les cohortes';
 $string['menucourseparameters'] = 'Paramètres du cours';
 
-// Alertes/préconisations sur l'accueil du tableau de bord.
+// Alerts and reports on dashboard
 $string['course_state_visible'] = 'Visible';
 $string['course_state_hidden'] = 'Caché';
 $string['course_state_trash'] = 'Corbeille';
@@ -101,7 +101,7 @@ $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'
 $string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit dans aucun cours avec un rôle permettant de l\'administrer avec cette interface.';
 $string['closereportmodal'] = 'Fermer la fenêtre de rapport';
 
-// Page - Suppression des cours.
+// Page for course deletion.
 $string['title_move_confirm'] = 'Demande de suppression du cours';
 $string['move_confirm'] = '
 <div class="alert alert-danger"><h5>Lisez attentivement les indications ci-dessous !</h5></div>
@@ -138,7 +138,7 @@ Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille de
 'enseignants.<br />';
 $string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégorie Corbeille.';
 
-// Page - restauration des cours.
+// Page - Course restore.
 $string['title_restore_confirm'] = 'Restauration d\'un cours de la Corbeille';
 $string['restore_confirm'] = '<p>Cette page vous permet de restaurer un cours initialement prévu pour être supprimé, en le déplaçant
 hors de la catégorie Corbeille de Moodle.</p>
@@ -148,7 +148,7 @@ $string['restore_already_moved'] = 'Ce cours n\'est pas dans la catégorie Corbe
 $string['error_category'] = 'Mauvaise catégorie sélectionnée';
 $string['select_restore_category'] = 'Choisissez la catégorie de restauration du cours';
 
-// Page - gestion des fichiers.
+// Page - Files information.
 $string['coursesize'] = 'Taille du cours';
 $string['coursereport'] = 'EXPLICATIONS - A venir !';
 $string['totalsize'] = 'Poids total des fichiers du cours : ';
@@ -182,7 +182,7 @@ $string['global_chart'] = 'Répartition des poids de fichiers par activité';
 $string['warn_recyclebin'] = '<p class="alert alert-info"><i class="fa fa-info-circle"></i> <b>Attention</b> : la Corbeille de cours est activée sur ce site. Si vous
 avez supprimé des fichiers, ils seront comptabilisés tant que la corbeille n\'est pas vidée par un enseignant ou par la tâche synchronisée de Moodle.</p>';
 
-// Page - réinitialisation globale.
+// Page for global reset.
 $string['reset_info'] = '<p class="alert alert-success"><i class="fa fa-info-circle"></i> La fonction de réinitialisation d\'un cours permet de supprimer une série de données personnelles rattachées à votre cours. <b>La réinitialisation ne supprimera pas vos activités ou ressources disponibles dans votre cours</b>. Elle sert uniquement à retirer certaines données de votre cours.</p>
 <p>En lançant la réinitialisation depuis cette page, cela entraînera la suppression :<ul>
 <li>des <b>suivis d\'achèvements</b> des ressources et activités ;</li>
@@ -204,7 +204,7 @@ $string['reset_result'] = '<p><b>Votre cours a été réinitialisé.</b></p>
  les cohortes ont été retirées. Si vous souhaitez réinitialiser d\'autres activités (wiki, feedback, base de données...), utilisez la fonction de réinitialisation
  depuis votre cours.</p>';
 
-// Page - désinscription des cohortes.
+// Page of bulk unenroll cohorts.
 $string['title_delete_cohort_confirm'] = 'Désinscription des cohortes';
 $string['delete_cohort_confirm'] = 'A l\'aide de cette fonction, vous avez la possibilité de désinscrire les étudiants en supprimant les cohortes invitées dans votre cours.<br />
 Pour rappel, la suppression des cohortes fera également disparaître les données des étudiants telles que les messages de forum ou les notes.<br />
@@ -215,12 +215,12 @@ représenter une place importante dans votre cours. Pensez à également réinit
 $string['button_delete_cohort_confirm'] = 'Désinscrire les cohortes';
 $string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuellement inscrite dans ce cours !</p>';
 
-// Page - admin - accueil.
+// Admin dashboard page.
 $string['admin_course_managerinfo'] = '<p>Cette page donne accès aux différents outils du plugin Course Manager réservés aux administrateurs Moodle. Pour accéder aux paramètres du plugin, rendez-vous dans Plugins > Rapports > Course Manager.</p>';
 $string['table_tool_name'] = '<p>Outil</p>';
 $string['table_tool_description'] = '<p>Description</p>';
 
-// Page - admin - gestion des devoirs orphelins.
+// Admin page for orphan submissions.
 $string['title_admin_orphan_submissions'] = '<b>Gestion des dépôts de devoirs orphelins</b>';
 $string['table_assign_name'] = 'Nom du devoir';
 $string['table_files_count'] = 'Nombre de fichiers cachés';
@@ -232,7 +232,7 @@ $string['deleteorphansubmissionsconfirm'] = 'Souhaitez-vous supprimer définitiv
 $string['noassign'] = 'Il n\'y a aucune activité Devoir dans les cours de cette plateforme.';
 $string['deleteorphans'] = 'Supprimer les devoirs orphelins';
 
-// Page - admin - répartition des fichiers.
+// Admin page for files distribution in files table.
 $string['title_admin_files_distribution'] = '<b>Répartition des fichiers par zones</b>';
 $string['admin_files_distribution_info'] = '<p>Cet outil offre un aperçu des différentes zones de stockage de la table des fichiers, et le poids total des fichiers qui y sont rattachés.
  Il permet ainsi de détecter une éventuelle anomalie, sur une zone anormalement chargée, ou d\'avoir un simple panorama des zones les plus sollicitées.</p>';
@@ -240,7 +240,7 @@ $string['filesdistributiontablecomponent'] = 'Composant';
 $string['filesdistributiontotalweight'] = 'Poids total des fichiers en Mo';
 $string['filesdistributiontotalfiles'] = 'Nombre de fichiers';
 
-// Page - admin - cours sans enseignants.
+// Admin page for courses without teachers.
 $string['title_admin_no_teacher_courses'] = '<b>Gestion des cours sans enseignants</b>';
 $string['admin_no_teacher_courses_info'] = '<p>Les cours peuvent se retrouver sans enseignant si la personne qui détenait ce rôle se désinscrit intentionnellement ou non du cours,
  ou si son compte n\'existe plus. Cet outil permet de recenser les cours concernés, et éventuellement de les basculer dans la catégorie Cours sans enseignants.</p>';
@@ -257,13 +257,13 @@ $string['tablelastteacher'] = 'Dernier enseignant actif';
 $string['deletecoursewithoutteachersconfirm'] = 'Souhaitez-vous déplacer ce cours dans la catégorie Corbeille définie par Course Manager ?';
 $string['emptytablenoteacherincourses'] = 'Pas de résultats : tous les cours contiennent au moins un enseignant';
 
-// Page - admin - statistiques.
+// Admin page for statistics.
 $string['title_admin_stats'] = '<b>Statistiques</b>';
 $string['admin_stats_info'] = '<p>Cette page propose des statistiques généralement basée sur les rapports produits par Course Manager.
 Il propose également des informations concernant certains aspects étudiés par le plugin, comme les courses sans enseignants ou le 
 nombre de cours dans la corbeille.</p>';
 
-// Messages de confirmation de l'acueil.
+// Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
 $string['confirm_cohort_unenrolled_message'] = 'Les cohortes ont bien été désinscrites du cours.';
 $string['confirm_course_deleted_title'] = 'Cours supprimé';
@@ -272,7 +272,7 @@ $string['confirm_course_restored_title'] = 'Cours restauré';
 $string['confirm_course_restored_message'] = 'Le cours a été déplacé hors de la corbeille et ne sera plus supprimé. Note : le cours restauré n\'est pas visible
  par les étudiants, modifiez les paramètres du cours si nécessaire.';
 
-// Description des événements.
+// Events.
 $string['course_dashboard_viewed'] = 'Tableau de bord Enseignants consulté';
 $string['course_trash_moved'] = 'Cours déplacé dans la catégorie Corbeille';
 $string['course_files_viewed'] = 'Page des fichiers de cours consultée';
@@ -280,10 +280,11 @@ $string['course_global_reset'] = 'Cours réinitialisé';
 $string['course_cohort_unenrolled'] = 'Cohortes désinscrites';
 $string['course_restored'] = 'Cours restauré hors de la catégorie Corbeille';
 
-// Autres.
+// Other.
 $string['capability_problem'] = 'Vous n\'avez pas la permission d\'afficher cette page.';
+$string['unknown'] = 'Inconnu';
 
-// Filtres.
+// Dashboard filters.
 $string['text_filter'] = 'Saisissez quelques caractères du nom du cours';
 $string['all_courses'] = 'Tous les cours';
 $string['no_content'] = 'Pas de contenus';
@@ -294,11 +295,11 @@ $string['heavy_course'] = 'Poids important';
 $string['orphan_submissions_button'] = 'Devoirs orphelins';
 $string['ok'] = 'Aucune remarque';
 
-// Taches.
+// Tasks.
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
 $string['mailingtask'] = 'Mailing des rapports aux enseignants';
 
-// Alertes - Affichage dans le cours.
+// Warning displays in courses.
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';
 $string['course_alert_no_visit_teacher'] = 'Aucun <b>enseignant</b> n\'a visité ce cours <b>depuis plus de {$a->no_teacher_time} jours</b>. Pensez à supprimer ce cours si vous ne l\'utilisez plus.<br /><b>{$a->delete_link}</b>';
 $string['course_alert_no_visit_student'] = 'Aucun <b>étudiant</b> n\'a visité ce cours <b>depuis plus de {$a->no_student_time} jours</b>. S\'il n\'a pas vocation à être conserver, pensez à le supprimer ou à le réinitialiser.<br /><b>{$a->delete_link} | {$a->reset_link}</b>';

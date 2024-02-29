@@ -152,7 +152,14 @@ if (count($existsnoteacherincourse) > 0) {
         $paramslastteacherlog  = [$course->course];
         $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
 
-        $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
+        if ($dbresultlastteacherlog) {
+            $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
+            $namelastteacher = $lastteacher->lastname.' '.$lastteacher->firstname;
+            $lastlog = date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog);
+        } else {
+            $namelastteacher = get_string('unknown', 'report_coursemanager');
+            $lastlog = get_string('unknown', 'report_coursemanager');
+        }
 
         // Now start to build table rows.
         $row = [];
@@ -161,8 +168,9 @@ if (count($existsnoteacherincourse) > 0) {
         $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
         $row[] = html_writer::label($dbresultemptycourse, null);
         $row[] = html_writer::label($weight->detail.' Mo', null);
-        $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog), null);
-        $row[] = html_writer::label($lastteacher->lastname.' '.$lastteacher->firstname, null);
+        $row[] = html_writer::label($lastlog, null);
+        $row[] = html_writer::label($namelastteacher, null);
+        
         $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1
         &instance=".$courseinfo->id."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
         $row[] = html_writer::label($deletelink, null);

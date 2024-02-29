@@ -102,8 +102,11 @@ if (!empty($delete)) {
 
         echo $OUTPUT->header();
         echo $OUTPUT->heading(get_string('title_admin_orphan_submissions', 'report_coursemanager'));
+
+        $urlconfirmdelete = new moodle_url('orphaned_submissions.php', ['confirm' => 1, 'delete' => 1, 'instance' => $instance, 'sesskey' => sesskey()]);
+
         echo $OUTPUT->confirm(get_string('deleteorphansubmissionsconfirm', 'report_coursemanager'),
-                "orphaned_submissions.php?delete=1&confirm=1&instance=".$instance,
+                $urlconfirmdelete,
                 $CFG->wwwroot . '/report/coursemanager/admin_dashboard/orphaned_submissions.php');
     }
     echo $OUTPUT->footer();

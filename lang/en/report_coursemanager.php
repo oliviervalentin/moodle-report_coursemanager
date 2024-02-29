@@ -132,7 +132,7 @@ Before this, you still can access this course if you wish to retrieve datas.<br 
 If you want to restore this course, move it out of bin category in Course Manager dashboard.<br />';
 $string['delete_already_moved'] = 'This course is already in bin category.';
 
-// Page - restauration des cours.
+// Page - Course restore.
 $string['title_restore_confirm'] = 'Restore course';
 $string['restore_confirm'] = '<p>This page will take a course out of bin category and restore it in an other category.</p>
 <p class="alert alert-info"><i class="fa fa-info-circle"></i> NOTE : don\'t restore this course in  <b>"{$a->trash_category}"</b> : this category is reserved for courses to be deleted in <b>{$a->delete_period}</b>.</p>';
@@ -141,7 +141,7 @@ $string['restore_already_moved'] = 'This course is not in bin category !.';
 $string['error_category'] = 'Wrong category selected';
 $string['select_restore_category'] = 'Choose category to move course';
 
-// Page - gestion des fichiers.
+// Page - Files information.
 $string['coursesize'] = 'Course size';
 $string['totalsize'] = 'Total files size : ';
 $string['watchedfilessize'] = 'Total size for most watched files : ';
@@ -262,6 +262,7 @@ $string['course_restored'] = 'Course restored out of bin category';
 
 // Other.
 $string['capability_problem'] = 'ou do not have permission to view this page.';
+$string['unknown'] = 'Unknown';
 
 // Dashboard filters.
 $string['text_filter'] = 'Enter a few characters of the course name';

@@ -84,13 +84,15 @@ if ($count == 0) {
     echo $OUTPUT->box_start('generalbox', 'notice');
     echo html_writer::tag('p', get_string('delete_cohort_confirm', 'report_coursemanager'));
 
-    $urlconfirmdelete = new moodle_url('delete_cohort.php', ['confirm' => 1, 'id' => $courseid]);
+    $urlconfirmdelete = new moodle_url('delete_cohort.php', ['confirm' => 1, 'id' => $courseid, 'sesskey' => sesskey()]);
     echo html_writer::div(html_writer::link($urlconfirmdelete,
     get_string('button_delete_cohort_confirm', 'report_coursemanager'), ['class' => 'text-white']), 'btn btn-info') . " ";
 
     echo $OUTPUT->box_end();
     echo $OUTPUT->footer();
 } else if ($confirm) {
+    // Before delete, check sesskey.
+    require_sesskey();
     // If confirmed, all cohort enrollment are deleted.
     foreach ($instances as $instance) {
         if ($instance->enrol == 'cohort') {
