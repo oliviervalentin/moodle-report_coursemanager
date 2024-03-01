@@ -48,7 +48,7 @@ $PAGE->set_context($context);
 $PAGE->set_url('/report/coursemanager/course_files.php');
 $PAGE->set_pagelayout('mycourses');
 
-$PAGE->set_pagetype('teachertools');
+$PAGE->set_pagetype('report-coursemanager');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 $PAGE->set_heading('Gestion des cours - Enseignants');

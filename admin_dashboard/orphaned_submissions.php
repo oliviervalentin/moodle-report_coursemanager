@@ -45,7 +45,7 @@ $PAGE->set_heading(get_string('title', 'report_coursemanager'));
 $PAGE->set_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php');
 $PAGE->set_pagelayout('mycourses');
 
-$PAGE->set_pagetype('teachertools');
+$PAGE->set_pagetype('report-coursemanager');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 

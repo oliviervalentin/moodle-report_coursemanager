@@ -1,18 +1,18 @@
-#myInput {
+#page-report-coursemanager #myInput {
   width: 100%; 
   padding: 10px 20px 10px 20px; 
   border: 1px solid #ddd;
   margin-bottom: 12px;
 }
-#filtercontainer {
+#page-report-coursemanager #filtercontainer {
     margin-bottom: 12px;
 }
 
-.filterrow {
+#page-report-coursemanager .filterrow {
   display: none;
 }
 
-.show_course {
+#page-report-coursemanager .show_course {
   display: table-row;
 }
 
@@ -35,19 +35,19 @@
   display: table-row;
 }
 
-.tablefilter+label {
+#page-report-coursemanager .tablefilter+label {
   cursor: pointer;
 }
 
-#page-teachertools .table-responsive {
+#page-report-coursemanager .table-responsive {
   overflow-x: unset;
 }
 
-.tablefilter:checked+label {
+#page-report-coursemanager .tablefilter:checked+label {
   background-color: #ddd;
 }
 
-.browse_courses tbody tr,
+#page-report-coursemanager .browse_courses tbody tr,
 .tablefilter{
     display:none;
 }
