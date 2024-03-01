@@ -305,6 +305,9 @@ $string['mailingddescreportnovisitteacher'] = 'Teachers including you have not v
 $string['mailingddescreportheavy'] = 'Total files size in this course seems to be heavy. Click on a course name to see files report.';
 $string['mailingddescreportorphansubmissions'] = 'Somme assigns in these courses have hidden submissions, uploaded by unenrolled students. These files can represent a heavy weight.';
 
-
 // Privacy.
 $string['privacy:no_data_reason'] = 'Course Manager plugin does not store any personal datas. It only calculates reports by studying courses contents (settings, enrolled students and teachers, number of activities...).';
+
+// Capabilities.
+$string['coursemanager:viewreport'] = 'View reports in course if enabled';
+$string['coursemanager:admintools'] = 'Use admin tools in Report section';

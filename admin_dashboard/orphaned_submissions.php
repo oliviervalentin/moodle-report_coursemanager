@@ -26,7 +26,9 @@ require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot.'/course/lib.php');
 require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
+// Login and check capabilities.
 require_login();
+require_capability('report/coursemanager:admintools', context_system::instance());
 
 global $PAGE, $DB, $USER, $CFG;
 

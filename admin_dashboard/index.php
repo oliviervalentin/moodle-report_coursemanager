@@ -23,7 +23,10 @@
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once(__DIR__ . '/../../../config.php');
+
+// Login and check capabilities.
 require_login();
+require_capability('report/coursemanager:admintools', context_system::instance());
 
 global $PAGE, $DB, $USER, $CFG;
 

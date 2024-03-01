@@ -33,4 +33,12 @@ $capabilities = array(
             'coursecreator' => CAP_ALLOW,
         )
     ),
+    'report/coursemanager:admintools' => array(
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => array(
+            'manager' => CAP_ALLOW,
+        )
+    ),
 );
