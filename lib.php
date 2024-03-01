@@ -281,13 +281,20 @@ function report_coursemanager_before_standard_top_of_body_html() {
 
     // If plugin param is set to show report, let's start.
     $coursecontext = context_course::instance($PAGE->course->id);
+    $displayreportteacher = 0;
     $isteacher = get_user_roles($coursecontext, $USER->id, false);
-    $role = key($isteacher);
 
-    // If reports are shown AND user is a teacher OR coursecreator OR admin, start to retrieve and show reports.
+    // If user has teacher role as defined in plugin settings, set variable to display reports.
+    if($isteacher) {
+        $role = key($isteacher);
+        if ($isteacher[$role]->roleid == get_config('report_coursemanager', 'teacher_role_dashboard')) {
+            $displayreportteacher = 1;
+        }
+    }
+
+    // Check if reports are enabled, and check if user has variable or capability (admin) to see reports.
     if (get_config('report_coursemanager', 'show_report_in_course') != 0
-    && ($isteacher[$role]->roleid == get_config('report_coursemanager', 'teacher_role_dashboard')) ||
-    ($isteacher[$role]->roleid <= 2)
+    && ($displayreportteacher == 1 || has_capability('report/coursemanager:viewreport', $coursecontext))
     ) {
         // First, retrieve all reports for course.
         $allreports = $DB->get_records('coursemanager', ['course' => $PAGE->course->id]);
