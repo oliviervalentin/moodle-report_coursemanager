@@ -38,8 +38,8 @@ $tasks = [
     [
         'classname' => 'report_coursemanager\task\mailing_task',
         'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
+        'minute' => 'R',
+        'hour' => '4',
         'day' => '*/30',
         'month' => '*',
         'dayofweek' => '*',
