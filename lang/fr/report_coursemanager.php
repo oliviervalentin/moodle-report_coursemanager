@@ -44,8 +44,7 @@ $string['last_access_teacher_desc'] = 'Nombre de jours sans visite d\'un enseign
 $string['last_access_student'] = 'Seuil dernière visite étudiant';
 $string['last_access_student_desc'] = 'Nombre de jours sans visite d\'un étudiant à partir duquel on affiche une alerte.';
 $string['delete_period'] = 'Période pour la suppression des cours';
-$string['delete_period_desc'] = 'Affiche la période approximative de suppression des cours de la catégorie corbeille. Inscrire un texte comme "début juillet", ou
- "dans la première quinzaine de mai" pour l\'intégrer à la description de la page de suppression.';
+$string['delete_period_desc'] = 'Affiche la période approximative de suppression des cours de la catégorie corbeille. Inscrire un texte comme "début juillet", ou "dans la première quinzaine de mai" pour l\'intégrer à la description de la page de suppression.';
 $string['delete_send_mail'] = 'Rôles à prévenir lors de la suppression d\'un cours';
 $string['delete_send_mail_desc'] = 'Sélectionnez le ou les rôles qui seront avertis par mail lors de la suppression d\'un cours';
 $string['show_report_in_course'] = 'Affichage des rapports dans les cours';
@@ -84,7 +83,7 @@ $string['menuenrolcohorts'] = 'Ajouter des cohortes';
 $string['menuunenrolcohorts'] = 'Désinscrire les cohortes';
 $string['menucourseparameters'] = 'Paramètres du cours';
 
-// Alerts and reports on dashboard
+// Alerts and reports on dashboard.
 $string['course_state_visible'] = 'Visible';
 $string['course_state_hidden'] = 'Caché';
 $string['course_state_trash'] = 'Corbeille';
@@ -121,21 +120,16 @@ $string['button_save_questionbank'] = 'Sauvegarder la banque de questions';
 $string['button_save_course'] = 'Sauvegarder tout le cours';
 $string['mail_subject_delete'] = 'Cours supprimé - {$a->course}';
 $string['mail_message_delete_oneteacher'] = 'Bonjour,<br />
-Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, 
-ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
+Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
 Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours.';
 $string['mail_message_delete_main_teacher'] = 'Bonjour,<br />
-Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, 
-ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
+Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
 Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours.<br />
 NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous
 êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
 $string['mail_message_delete_other_teacher'] = 'Bonjour,<br />
-Le cours {$a->course}, dans lequel vous êtes inscrit⋅e comme enseignant⋅e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente 
-de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des 
-ressources.<br />
-Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours, sous réserve de prévenir les autres 
-enseignants.<br />';
+Le cours {$a->course}, dans lequel vous êtes inscrit⋅e comme enseignant⋅e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
+Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours, sous réserve de prévenir les autres enseignants.<br />';
 $string['delete_already_moved'] = 'Ce cours est déjà déplacé dans la catégorie Corbeille.';
 
 // Page - Course restore.
@@ -260,8 +254,7 @@ $string['emptytablenoteacherincourses'] = 'Pas de résultats : tous les cours co
 // Admin page for statistics.
 $string['title_admin_stats'] = '<b>Statistiques</b>';
 $string['admin_stats_info'] = '<p>Cette page propose des statistiques généralement basée sur les rapports produits par Course Manager.
-Il propose également des informations concernant certains aspects étudiés par le plugin, comme les courses sans enseignants ou le 
-nombre de cours dans la corbeille.</p>';
+Il propose également des informations concernant certains aspects étudiés par le plugin, comme les courses sans enseignants ou le nombre de cours dans la corbeille.</p>';
 
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';

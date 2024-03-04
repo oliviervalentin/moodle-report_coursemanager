@@ -55,10 +55,10 @@ $a = new stdClass();
 $a->delete_period = get_config('report_coursemanager', 'delete_period');
 
 // Get all users enrolled as teacher in course.
-$allteachers_config = explode(',',get_config('report_coursemanager', 'delete_send_mail'));
-$allteachers = array();
+$allteachersconfig = explode(',', get_config('report_coursemanager', 'delete_send_mail'));
+$allteachers = [];
 if (!empty(get_config('report_coursemanager', 'delete_send_mail'))) {
-    foreach ($allteachers_config as $teacher) {
+    foreach ($allteachersconfig as $teacher) {
         $allteachers = $allteachers + get_role_users($teacher, $context);
     }
 }

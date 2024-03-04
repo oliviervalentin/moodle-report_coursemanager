@@ -83,7 +83,7 @@ $string['menuenrolcohorts'] = 'Add cohorts';
 $string['menuunenrolcohorts'] = 'Bulk unenroll cohorts';
 $string['menucourseparameters'] = 'Course settings';
 
-// Alerts and reports on dashboard
+// Alerts and reports on dashboard.
 $string['course_state_visible'] = 'Visible';
 $string['course_state_hidden'] = 'Hidden';
 $string['course_state_trash'] = 'To delete';
@@ -127,8 +127,8 @@ you still can access this course if you wish to retrieve datas.<br />
 If you want to restore this course, move it out of bin category in Course Manager dashboard.
 NOTE : {$a->count_teacher} other teachers was enrolled. A mail was sent to warn them you have deleted this course. As they are teachers too, they can restore it or recover datas if needed.';
 $string['mail_message_delete_other_teacher'] = 'Hello,<br />
-Course {$a->course}, has been moved in trash category by {$a->deleter}, before complete deletion in {$a->delete_period}. 
-Before this, you still can access this course if you wish to retrieve datas.<br />
+Course {$a->course}, has been moved in trash category by {$a->deleter}, before complete deletion in {$a->delete_period}.
+ Before this, you still can access this course if you wish to retrieve datas.<br />
 If you want to restore this course, move it out of bin category in Course Manager dashboard.<br />';
 $string['delete_already_moved'] = 'This course is already in bin category.';
 
@@ -169,12 +169,12 @@ $string['warn_orphans_help'] = '<p>Files submitted bu unenrolled students are st
 <li>deleting assigns with orphan submissions ;</li>
 <li>resetting activities or the whole course.</li></ul></p>';
 $string['global_chart'] = 'Distribution of file weights by activities';
-$string['warn_recyclebin'] = '<p class="alert alert-info"><i class="fa fa-info-circle"></i> <b>Notice that</b> recycle bin is activated on Moodle. Deleted files 
-will be included in this chart as long as teacher doesn\'t empty trash.</p>';
+$string['warn_recyclebin'] = '<p class="alert alert-info"><i class="fa fa-info-circle"></i> <b>Notice that</b> recycle bin is activated on Moodle. Deleted files
+ will be included in this chart as long as teacher doesn\'t empty trash.</p>';
 
 // Page for global reset.
-$string['reset_info'] = '<p class="alert alert-success"><i class="fa fa-info-circle"></i> Reset function can delete students personal datas in your course. 
-<b>It does not delete your files or activities</b></p>
+$string['reset_info'] = '<p class="alert alert-success"><i class="fa fa-info-circle"></i> Reset function can delete students personal datas in your course.
+ <b>It does not delete your files or activities</b></p>
 <p>using this course reset will delete :<ul>
 <li><b>completion datas</b> ;</li>
 <li><b>grades in gradebook</b> ;</li>
@@ -193,8 +193,8 @@ $string['reset_result'] = '<p><b>Course has been reseted.</b></p>
 // Page of bulk unenroll cohorts.
 $string['title_delete_cohort_confirm'] = 'Unenroll cohorts';
 $string['delete_cohort_confirm'] = 'This function will unenroll all cohorts in your course.<br />
-Please note that unenrolling cohorts will make disappear datas as forum messages, </b> but not quiz attemps or assigns submissions</b>. 
-Please consider using reset function to delete personal datas.
+Please note that unenrolling cohorts will make disappear datas as forum messages, </b> but not quiz attemps or assigns submissions</b>.
+ Please consider using reset function to delete personal datas.
 <p class="alert alert-primary"><i class="fa fa-question-circle-o"></i> <b>WARNING :</b> depending on number of cohorts to be unenrolled, this process may take time.</p>
 ';
 $string['button_delete_cohort_confirm'] = 'Unenroll cohorts';
@@ -209,7 +209,7 @@ $string['table_tool_description'] = '<p>Description</p>';
 $string['title_admin_orphan_submissions'] = '<b>Manage orphan submissions</b>';
 $string['table_assign_name'] = 'Assign name';
 $string['table_files_count'] = 'Number of hidden files';
-$string['admin_orphan_submissions_info'] = '<p>Orphan submissions are files submitted by students which are no longer enrolled in course. 
+$string['admin_orphan_submissions_info'] = '<p>Orphan submissions are files submitted by students which are no longer enrolled in course.
  <b>Those files are unvisible for teachers, and can be seen only by re-enrolling students.</b> If assigns are used every year without being reseted, those hidden files
  can represent an important weight in Moodle.<br />
  This tool can delete these hidden files <b>without deleting files submitted by students which are still enrolled in course.<b></p>';
@@ -241,8 +241,8 @@ $string['emptytablenoteacherincourses'] = 'No result : all courses have a teache
 
 // Admin page for statistics.
 $string['title_admin_stats'] = '<b>Statistics</b>';
-$string['admin_stats_info'] = '<p>This page shows statistics most based on reports produced by Course Manager plugins. It also offers statistics on several 
-aspects regarding Course Manager features, such as courses without teachers or courses in trash category.</p>';
+$string['admin_stats_info'] = '<p>This page shows statistics most based on reports produced by Course Manager plugins. It also offers statistics on several aspects regarding Course Manager features, such as courses without teachers or courses in trash category.</p>';
+$string['stats_title_courses'] = 'Courses Statistics';
 
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohorts deleted';

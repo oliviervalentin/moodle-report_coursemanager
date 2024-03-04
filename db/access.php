@@ -24,21 +24,21 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$capabilities = array(
-    'report/coursemanager:viewreport' => array(
+$capabilities = [
+    'report/coursemanager:viewreport' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
-        )
-    ),
-    'report/coursemanager:admintools' => array(
+        ],
+    ],
+    'report/coursemanager:admintools' => [
         'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
-        )
-    ),
-);
+        ],
+    ],
+];

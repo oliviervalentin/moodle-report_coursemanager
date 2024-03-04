@@ -72,25 +72,29 @@ echo html_writer::div(get_string('admin_stats_info', 'report_coursemanager'));
 //     $table->data[] = $row;
 // }
 
+//
+
 $content = '
     <div class="container">
+        <h1>'.get_string('stats_title_courses', 'report_coursemanager').'</h1>
         <div class="row">
-            <div class="col thead-dark">
+            <div class="col">
+                Total cours Moodle
+            </div>
+            <div class="col">
+                Cours dans la corbeille
+            </div>
+            <div class="col">
+                Cours hors corbeille
+            </div>
+        </div>
+        <h1>Le titre 2</h1>
+        <div class="row">
+            <div class="col">
                 1 of 2
             </div>
             <div class="col">
                 2 of 2
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                1 of 3
-            </div>
-            <div class="col">
-                2 of 3
-            </div>
-            <div class="col">
-                3 of 3
             </div>
         </div>
     </div>
