@@ -147,13 +147,13 @@ class mailing_task extends \core\task\scheduled_task {
                     $a = new \stdClass;
                     $a->no_student_time = get_config('report_coursemanager', 'last_access_student');
                     $a->no_teacher_time = get_config('report_coursemanager', 'last_access_teacher');
-                    $mailing_introduction = str_replace(
+                    $mailingintroduction = str_replace(
                         array('%coursemanagerlink%', '%userfirstname%', '%userlastname%'),
                         array($CFG->wwwroot.'/report/coursemanager/view.php', $teacheruserinfo->firstname, $teacheruserinfo->lastname),
                         get_config('report_coursemanager', 'mailing_introduction')
                     );
 
-                    $finalcontent .= $mailing_introduction;
+                    $finalcontent .= $mailingintroduction;
                     $finalcontent .= $mailcontent;
                     $finalcontent .= get_string('mailingoutro', 'report_coursemanager');
 

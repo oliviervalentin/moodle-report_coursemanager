@@ -85,7 +85,6 @@ if (!empty($delete)) {
     exit();
 }
 
-
 echo $OUTPUT->header();
 
 echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'));
@@ -172,7 +171,7 @@ if (count($existsnoteacherincourse) > 0) {
         $row[] = html_writer::label($weight->detail.' Mo', null);
         $row[] = html_writer::label($lastlog, null);
         $row[] = html_writer::label($namelastteacher, null);
-        
+
         $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1
         &instance=".$courseinfo->id."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
         $row[] = html_writer::label($deletelink, null);

@@ -24,8 +24,6 @@
 
 namespace report_coursemanager\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_coursemanager implementing null_provider.
  *
