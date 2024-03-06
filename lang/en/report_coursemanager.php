@@ -62,13 +62,13 @@ You can use the following variables :<br>
 %userlastname% : User\'s last name<br>
 %coursemanagerlink% : Course Manager\'s link';
 
-// Banner for courses in categorby bin.
+// Banner for courses in category bin.
 $string['trash'] = 'This course is in the category for deleted courses.';
 
 // Dashboard.
 $string['table_course_name'] = 'Course name';
 $string['table_course_state'] = 'Visibility';
-$string['table_files_weight'] = 'Files total sizz';
+$string['table_files_weight'] = 'Total files size';
 $string['table_enrolled_cohorts'] = 'Cohorts';
 $string['table_enrolled_students'] = 'Students';
 $string['table_enrolled_teachers'] = 'Teachers';
@@ -104,13 +104,11 @@ $string['closereportmodal'] = 'Close window';
 $string['title_move_confirm'] = 'Course deletion';
 $string['move_confirm'] = '
 <div class="alert alert-danger"><h5>read carefully before deleting</h5></div>
-<p><b>This page allows you to put in trash a course you don\'t use anymore.</b><br/>If confirmed, this course will be moved in a specfic category and hidden to students. it will be then deleted by Moodle admin <b>{$a->delete_period}</b>.</p>
-
+<p><b>This page allows you to put in trash a course you don\'t use anymore.</b><br/>If confirmed, this course will be moved in a specific category and hidden to students. It will be then deleted by Moodle admin <b>{$a->delete_period}</b>.</p>
 <p> Before deletion, you still can access this course, or restore it if needed. Use course restore action in Course Manager dashboard.</p>
-
 <p> Before deletion, consider making a backup of important files or questions bank. Those data can\'t be retrieved after complete deletion.';
 $string['delete_several_teachers'] = '<h4><i class="fa fa-exclamation-triangle"></i> WARNING : THERE ARE MULTIPLE TEACHERS IN THIS COURSE !</h4>
-If these teachers are not informed, please do it now..<br/>Course deletion will send an <b>automatic mail alert for every teacher in this course</b> to warn them.<br /><br />
+If these teachers are not informed, please do it now.<br/>Course deletion will send an <b>automatic mail alert for every teacher in this course</b> to warn them.<br /><br />
 <h5>Other teachers in this course :</h5>';
 $string['delete_wish'] = 'What do you want to do ?';
 $string['button_move_confirm'] = 'Confirm deletion';
@@ -118,17 +116,15 @@ $string['button_save_questionbank'] = 'Backup questions bank';
 $string['button_save_course'] = 'Backup course';
 $string['mail_subject_delete'] = 'Course deleted - {$a->course}';
 $string['mail_message_delete_oneteacher'] = 'Hello,<br />
-Course {$a->course} has been moved in trash category before complete deltion in {$a->delete_period}. Before this,
+Course {$a->course} has been moved in trash category before complete deletion in {$a->delete_period}. Before this,
 you still can access this course if you wish to retrieve datas.<br />
 If you want to restore this course, move it out of bin category in Course Manager dashboard.';
 $string['mail_message_delete_main_teacher'] = 'hello,<br />
-Course {$a->course} has been moved in trash category before complete deltion in {$a->delete_period}. Before this,
-you still can access this course if you wish to retrieve datas.<br />
+Course {$a->course} has been moved in trash category before complete deletion in {$a->delete_period}. Before this, you still can access this course if you wish to retrieve datas.<br />
 If you want to restore this course, move it out of bin category in Course Manager dashboard.
 NOTE : {$a->count_teacher} other teachers was enrolled. A mail was sent to warn them you have deleted this course. As they are teachers too, they can restore it or recover datas if needed.';
 $string['mail_message_delete_other_teacher'] = 'Hello,<br />
-Course {$a->course}, has been moved in trash category by {$a->deleter}, before complete deletion in {$a->delete_period}.
- Before this, you still can access this course if you wish to retrieve datas.<br />
+Course {$a->course}, has been moved in trash category by {$a->deleter}, before complete deletion in {$a->delete_period}. Before this, you still can access this course if you wish to retrieve datas.<br />
 If you want to restore this course, move it out of bin category in Course Manager dashboard.<br />';
 $string['delete_already_moved'] = 'This course is already in bin category.';
 
@@ -154,7 +150,7 @@ $string['warn_heavy_assign'] = 'Theses assigns represent a heavy files size :';
 $string['warn_heavy_assign_help'] = '<b>Watch out these assigns</b> and consider resetting or deleting them when there won\'t be used anymore.';
 $string['empty_files_course'] = 'This course seems to contain no files yet.';
 $string['warn_big_files'] = 'These files have an <b>important weight</b> :';
-$string['warn_big_files_help'] = 'If a file size is imoprtant, consider :
+$string['warn_big_files_help'] = 'If a file size is important, consider :
 <ul>
 <li>zipping it ;</li>
 <li>if it contains pictures, try to decrease their resolutions ;</li>
@@ -227,7 +223,7 @@ $string['filesdistributiontotalfiles'] = 'Number of files';
 // Admin page for courses without teachers.
 $string['title_admin_no_teacher_courses'] = '<b>Manage courses without teachers</b>';
 $string['admin_no_teacher_courses_info'] = '<p>This tool lists all courses where no user is enrolled as teacher, and possibly move them in bin category if needed.</p>';
-$string['adminnoteachercoursesnote'] = '<ul class="alert alert-info"><li>Informations concerning course weight et number of activities are not calculated in real time.</li>
+$string['adminnoteachercoursesnote'] = '<ul class="alert alert-info"><li>Informations concerning course weight and number of activities are not calculated in real time.</li>
 <li>Informations concerning last teacher log are based on edulevel filed in logstore database. Modified permissions can distort this result.</li></ul>';
 $string['tablecountenrolledstudents'] = 'Students';
 $string['tablelastaccess'] = 'Last access in course';
