@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../../../config.php');
 require_login();
 require_capability('report/coursemanager:admintools', context_system::instance());
 
-global $PAGE, $DB, $USER, $CFG;
+global $PAGE, $DB, $CFG;
 
 $site = get_site();
 
@@ -47,54 +47,182 @@ echo $OUTPUT->header();
 echo html_writer::div(get_string('title_admin_stats', 'report_coursemanager'));
 echo html_writer::div(get_string('admin_stats_info', 'report_coursemanager'));
 
-// $table = new html_table();
-// $table->attributes['class'] = 'admintable generaltable';
-// $table->align = ['left', 'left', 'left', 'left'];
-// $table->head = [];
+// Retrieve some settings values.
+$a = new stdClass();
+$a->categorytrash = get_config('report_coursemanager', 'category_bin');
+$a->totalfilesizethreshold = get_config('report_coursemanager', 'total_filesize_threshold');
+$a->lastaccessteacher = get_config('report_coursemanager', 'last_access_teacher');
+$a->lastaccessstudent = get_config('report_coursemanager', 'last_access_student');
 
-// // Define headings for table.
-// $table->head[] = get_string('filesdistributiontablecomponent', 'report_coursemanager');
-// $table->head[] = get_string('filesdistributiontotalweight', 'report_coursemanager');
-// $table->head[] = get_string('filesdistributiontotalfiles', 'report_coursemanager');
+// Total number of courses on Moodle.
+$totalcountcourses = $DB->count_records('course');
 
-// $sqldistributionfiles = 'SELECT COUNT(id) AS totalfiles, ROUND(SUM(filesize/1024/1024)) AS totalweight, component
-//     FROM {files}
-//     GROUP BY component
-//     ORDER BY totalweight DESC';
+// Number of courses in trash category.
+$sqltotalcoursesintrash = "SELECT COUNT(*)
+    FROM {course} c
+    JOIN {course_categories} cc ON cc.id = c.category
+    WHERE c.category = ?
+";
+$totalcoursesintrash = $DB->count_records_sql($sqltotalcoursesintrash, [$a->categorytrash]);
 
-// $dbresultdistributionfiles = $DB->get_records_sql($sqldistributionfiles);
+// Files weight for courses in trash category.
+$sqlfilestrash = "SELECT ROUND(SUM(filesize)/1024/1024)
+    FROM {files}
+    WHERE contextid IN
+        (SELECT id FROM {context} WHERE contextlevel = 70 AND instanceid IN
+            (SELECT id FROM {course_modules} WHERE course IN
+                (SELECT c.id
+                FROM {course} c
+                JOIN {course_categories} cc ON cc.id = c.category
+                WHERE c.category = ?
+                )
+            )
+        )";
+$totalfilestrash = $DB->get_field_sql($sqlfilestrash, [$a->categorytrash]);
 
-// foreach ($dbresultdistributionfiles as $component) {
-//     $row = [];
-//     $row[] = html_writer::label($component->component, null);
-//     $row[] = html_writer::label($component->totalweight, null);
-//     $row[] = html_writer::label($component->totalfiles, null);
-//     $table->data[] = $row;
-// }
+// Count heavy courses in Course Manager table.
+$countheavycourses = $DB->count_records('coursemanager', ['report' => 'heavy']);
 
-//
+// Heaviest course.
+$sqlheaviestcourse = "SELECT course, MAX(detail) AS weight
+    FROM {coursemanager}
+    WHERE report = 'weight'
+    ";
+$heaviestcourse = $DB->get_record_sql($sqlheaviestcourse);
+$infoheaviest = get_course($heaviestcourse->course);
+
+// Count empty courses in Course Manager table.
+$countemptycourses = $DB->count_records('coursemanager', ['report' => 'empty']);
+
+// Count courses with orphan submissions in Course Manager table.
+$countorphansubmissionscourses = $DB->count_records('coursemanager', ['report' => 'orphan_submissions']);
+
+// Sum filesize in Mo for orphan submissions.
+$sqltotalorphans = "SELECT ROUND(SUM(detail)/1024/1024)
+    FROM {coursemanager}
+    WHERE report = 'orphan_submissions'
+    ";
+$totalorphans = $DB->get_field_sql($sqltotalorphans);
+
+// Count courses without teachers in Course Manager table.
+$countnoteachers = $DB->count_records('coursemanager', ['report' => 'no_teacher_in_course']);
+
+// Count courses without teachers visits  in Course Manager table.
+$countnovisitteachers = $DB->count_records('coursemanager', ['report' => 'no_visit_teacher']);
+
+// Count courses without students in Course Manager table.
+$countnostudents = $DB->count_records('coursemanager', ['report' => 'no_student']);
+
+// Count courses without students visits in Course Manager table.
+$countnovisitstudents = $DB->count_records('coursemanager', ['report' => 'no_visit_student']);
 
 $content = '
     <div class="container">
-        <h1>'.get_string('stats_title_courses', 'report_coursemanager').'</h1>
+        <h1 class="display-4">'.get_string('stats_title_courses', 'report_coursemanager').'</h1>
         <div class="row">
-            <div class="col">
-                Total cours Moodle
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-graduation-cap"></i>  '.$totalcountcourses.'</p>
+                </div>
             </div>
-            <div class="col">
-                Cours dans la corbeille
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses_trash', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_trash_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-trash"></i>  '.$totalcoursesintrash.'</p>
+                </div>
             </div>
-            <div class="col">
-                Cours hors corbeille
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_weight_courses_trash', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_weight_courses_trash_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-thermometer-three-quarters"></i>  '.$totalfilestrash.' Mo</p>
+                </div>
             </div>
         </div>
-        <h1>Le titre 2</h1>
+        <h1 class="display-4">'.get_string('stats_title_contents', 'report_coursemanager').'</h1>
         <div class="row">
-            <div class="col">
-                1 of 2
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_heavy_courses', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_heavy_courses_desc', 'report_coursemanager', $a).'</small>
+                <p class="card-text display-4"><i class="fa fa-thermometer-three-quarters"></i>  '.$countheavycourses.'</p>
+                </div>
             </div>
-            <div class="col">
-                2 of 2
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_heaviest_course', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_heaviest_course_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-trophy"></i>  '.$heaviestcourse->weight.' Mo</p>
+                <p class="card-text text-muted"><i class="fa fa-globe"></i> <a href="'.$CFG->wwwroot.'/course/view.php?id='
+                .$heaviestcourse->course.'">'.$infoheaviest->fullname.'</a></p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_empty_courses', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_empty_courses_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-battery-empty"></i>  '.$countemptycourses.'</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_courses_orphan_submissions', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_courses_orphan_submissions_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$countorphansubmissionscourses.'</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_weight_courses_orphan_submissions', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_weight_courses_orphan_submissions_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-files-o"></i>  '.$totalorphans.' Mo</p>
+                </div>
+            </div>
+        </div>
+        <h1 class="display-4">'.get_string('stats_title_enrolls_visits', 'report_coursemanager').'</h1>
+        <div class="row">
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses_without_teachers', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_without_teachers_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-graduation-cap"></i>  '.$countnoteachers.'</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses_without_visit_teachers', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_without_visit_teachers_desc', 'report_coursemanager', $a).'</small>
+                <p class="card-text display-4"><i class="fa fa-graduation-cap"></i>  '.$countnovisitteachers.'</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses_without_students', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_without_students_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa-user-o"></i>  '.$countnostudents.'</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_count_courses_without_visit_students', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_count_courses_without_visit_students_desc', 'report_coursemanager', $a).'</small>
+                <p class="card-text display-4"><i class="fa fa-group"></i>  '.$countnovisitstudents.'</p>
+                </div>
             </div>
         </div>
     </div>

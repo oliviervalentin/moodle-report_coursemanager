@@ -255,6 +255,34 @@ $string['emptytablenoteacherincourses'] = 'Pas de résultats : tous les cours co
 $string['title_admin_stats'] = '<b>Statistiques</b>';
 $string['admin_stats_info'] = '<p>Cette page propose des statistiques généralement basée sur les rapports produits par Course Manager.
 Il propose également des informations concernant certains aspects étudiés par le plugin, comme les courses sans enseignants ou le nombre de cours dans la corbeille.</p>';
+$string['stats_title_courses'] = 'Statistiques des cours';
+$string['stats_count_courses'] = 'Nombre de cours';
+$string['stats_count_courses_desc'] = 'Nombre total de cours Moodle sur votre instance.';
+$string['stats_count_courses_trash'] = 'Cours à la corbeille';
+$string['stats_count_courses_trash_desc'] = 'Nombre de cours se trouvant dans la catégorie Corbeille de Course Manager.';
+$string['stats_weight_courses_trash'] = 'Poids de la corbeille';
+$string['stats_weight_courses_trash_desc'] = 'Poids total des fichiers des cours de la catégorie Corbeille de Course Manager.';
+$string['stats_title_contents'] = 'Contenus et poids des cours';
+$string['stats_heavy_courses'] = 'Cours lourds';
+$string['stats_heavy_courses_desc'] = 'Cours pesant plus de {$a->totalfilesizethreshold} Mo (limite définie dans les paramètres de Course Manager).';
+$string['stats_empty_courses'] = 'Cours vides';
+$string['stats_empty_courses_desc'] = 'Nombre de cours contenant uniquement le forum des annonces.';
+$string['stats_courses_orphan_submissions'] = 'Cours contenant des devoirs orphelins';
+$string['stats_courses_orphan_submissions_desc'] = 'Nombre de cours avec des Devoirs contenant des fichiers déposés par des étudiants désinscrits.';
+$string['stats_weight_courses_orphan_submissions'] = 'Poids des devoirs orphelins';
+$string['stats_weight_courses_orphan_submissions_desc'] = 'Somme des fichiers considérés comme devoirs orphelins';
+$string['stats_heaviest_course'] = 'Cours le plus lourd';
+$string['stats_heaviest_course_desc'] = 'Cours pesant le plus lourd sur votre instance d\'après les rapports Course Manager.';
+$string['stats_title_enrolls_visits'] = 'Inscriptions et visites';
+$string['stats_count_courses_without_teachers'] = 'Cours sans enseignants';
+$string['stats_count_courses_without_teachers_desc'] = 'Nombre de cours sans utilisateurs inscrits comme enseignant';
+$string['stats_count_courses_without_visit_teachers'] = 'Cours sans visite d\'enseignants';
+$string['stats_count_courses_without_visit_teachers_desc'] = 'Nombre de cours où aucun enseignant ne s\'est connecté depuis plus de {$a->lastaccessteacher} jours.';
+$string['stats_count_courses_without_students'] = 'Cours sans étudiants';
+$string['stats_count_courses_without_students_desc'] = 'Nombre de cours sans utilisateurs inscrits comme étudiant.';
+$string['stats_count_courses_without_visit_students'] = 'Cours sans visite d\'étudiants';
+$string['stats_count_courses_without_visit_students_desc'] = 'Nombre de cours où aucun étudiant ne s\'est connecté depuis plus de {$a->lastaccessstudent} jours.';
+
 
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';
