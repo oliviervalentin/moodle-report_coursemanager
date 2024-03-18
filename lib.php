@@ -349,9 +349,9 @@ function report_coursemanager_before_standard_top_of_body_html() {
                 }
 
                 // Generate HTML for collapse button and create.
-                $button = '<button id=\"collapse_report\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\"
-                data-target=\"#reports_zone\">'.get_string('collapse_show_report', 'report_coursemanager').
-                '</button><div id=\"reports_zone\" class=\"collapse alert alert-warning\"><ul>'.$final.'</ul></div>';
+                $button = '<button id=\"collapse_report\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\" '
+                .'data-target=\"#reports_zone\">'.get_string('collapse_show_report', 'report_coursemanager')
+                .'</button><div id=\"reports_zone\" class=\"collapse alert alert-warning\"><ul>'.$final.'</ul></div>';
 
                 // JS function to push a div under admin nav.
                 $js = 'function reportZone() {
