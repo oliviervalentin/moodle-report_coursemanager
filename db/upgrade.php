@@ -44,8 +44,8 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
     if ($oldversion < 2024021601) {
         upgrade_plugin_savepoint(true, 2024021601, 'report', 'coursemanager');
     }
-    if ($oldversion < 2024021605) {
-        upgrade_plugin_savepoint(true, 2024021605, 'report', 'coursemanager');
+    if ($oldversion < 2024021606) {
+        upgrade_plugin_savepoint(true, 2024021606, 'report', 'coursemanager');
     }
     return true;
 }
