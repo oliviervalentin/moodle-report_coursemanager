@@ -193,7 +193,8 @@ if (count($listusercourses) == 0) {
                         <i class="icon fa fa-ellipsis-v fa-fw " ></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="restore_course.php?courseid='.$course->id.'">Rétablir le cours</a>
+                            <a class="dropdown-item" href="restore_course.php?courseid='.$course->id.'">'.
+                            get_string('menurestorecourse', 'report_coursemanager').'</a>
                         </div>
                     </div>
                 ';

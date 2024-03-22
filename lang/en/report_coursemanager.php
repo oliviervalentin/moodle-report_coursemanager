@@ -82,6 +82,7 @@ $string['menureset'] = 'Reset course';
 $string['menuenrolcohorts'] = 'Add cohorts';
 $string['menuunenrolcohorts'] = 'Bulk unenroll cohorts';
 $string['menucourseparameters'] = 'Course settings';
+$string['menurestorecourse'] = 'Restore course';
 
 // Alerts and reports on dashboard.
 $string['course_state_visible'] = 'Visible';

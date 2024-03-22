@@ -82,6 +82,7 @@ $string['menureset'] = 'Réinitialiser';
 $string['menuenrolcohorts'] = 'Ajouter des cohortes';
 $string['menuunenrolcohorts'] = 'Désinscrire les cohortes';
 $string['menucourseparameters'] = 'Paramètres du cours';
+$string['menurestorecourse'] = 'Restaurer le cours';
 
 // Alerts and reports on dashboard.
 $string['course_state_visible'] = 'Visible';
