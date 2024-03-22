@@ -390,6 +390,4 @@ $eventparams = ['context' => $context];
 $event = \report_coursemanager\event\course_dashboard_viewed::create($eventparams);
 $event->trigger();
 
-unset($_GET);
-
 echo $OUTPUT->footer();
