@@ -15,9 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Shows number of files and total weight in table mdl_file
- * distributed by component.
- *
+ * Shows number of files and total weight in table mdl_file distributed by component.
  *
  * @package     report_coursemanager
  * @copyright   2022 Olivier VALENTIN

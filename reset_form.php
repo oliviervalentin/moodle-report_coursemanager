@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Course Manager form, derivated from the native reset form created by Petr Skoda.
- * Elements to reset are pre-checked in form.
+ * Course Manager form, derivated from the native reset form created by Petr Skoda. Elements to reset are pre-checked in form.
  *
  * @package    report_coursemanager
  * @copyright  2022 Olivier VALENTIN
