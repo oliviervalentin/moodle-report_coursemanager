@@ -60,9 +60,9 @@ if (!empty($delete)) {
         $datahide->visible = 0;
         $hide = $DB->update_record('course', $datahide);
 
-        $purgereports = $DB->get_record('coursemanager', ['course' => $instance]);
+        $purgereports = $DB->get_record('report_coursemanager_reports', ['course' => $instance]);
         if (!empty($purgereports)) {
-            $res = $DB->delete_records('coursemanager', ['course' => $instance]);
+            $res = $DB->delete_records('report_coursemanager_reports', ['course' => $instance]);
         }
 
         $returnurl = "courses_without_teachers.php";
@@ -91,7 +91,7 @@ echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_course
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
 
 // Checl for entries in coursemanager table for courses without teachers.
-$existsnoteacherincourse = $DB->get_records('coursemanager', ['report' => 'no_teacher_in_course']);
+$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
 
 if (count($existsnoteacherincourse) > 0) {
     $table = new html_table();
@@ -117,7 +117,7 @@ if (count($existsnoteacherincourse) > 0) {
         // Count enrolled students.
         $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
         // Retrieve course weight calculated by task, recorded in coursemanager table.
-        $weight = $DB->get_record('coursemanager', ['report' => 'weight', 'course' => $course->course]);
+        $weight = $DB->get_record('report_coursemanager_reports', ['report' => 'weight', 'course' => $course->course]);
 
         // Retrieve last user access to course.
         $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess

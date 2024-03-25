@@ -216,7 +216,7 @@ if (count($listusercourses) == 0) {
                 }
 
                 // Retrieve course weight in table.
-                $weight = $DB->get_record('coursemanager', ['course' => $course->id, 'report' => 'weight']);
+                $weight = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'weight']);
 
                 // Test with config variable "total_filesize_threshold" to define icon and text color.
                 // If total size is null or less than 1 Mo, consider it empty.
@@ -246,7 +246,7 @@ if (count($listusercourses) == 0) {
                 $row[] = html_writer::label(count($allteachers), null);
 
                 // Get all reports for table coursemanager for recommandations.
-                $reports = $DB->get_records('coursemanager', ['course' => $course->id]);
+                $reports = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
                 foreach ($reports as $report) {
                     $info = new stdClass();
                     // Analysis : depending on each report, add a specific text with information if necessary.

@@ -47,5 +47,12 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
     if ($oldversion < 2024021606) {
         upgrade_plugin_savepoint(true, 2024021606, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024021608) {
+        $table = new xmldb_table('coursemanager');
+        if ($dbman->table_exists($table)) {
+            $dbman->rename_table($table, 'report_coursemanager_reports');
+        }
+        upgrade_plugin_savepoint(true, 2024021608, 'report', 'coursemanager');
+    }
     return true;
 }

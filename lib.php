@@ -297,7 +297,7 @@ function report_coursemanager_before_standard_top_of_body_html() {
     && ($displayreportteacher == 1 || has_capability('report/coursemanager:viewreport', $coursecontext))
     ) {
         // First, retrieve all reports for course.
-        $allreports = $DB->get_records('coursemanager', ['course' => $PAGE->course->id]);
+        $allreports = $DB->get_records('report_coursemanager_reports', ['course' => $PAGE->course->id]);
         // Create object to stock reports.
         $final = '';
 

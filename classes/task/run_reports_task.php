@@ -33,7 +33,7 @@ class run_reports_task extends \core\task\scheduled_task {
     public function execute() {
         mtrace("... Start coursemanager reports.");
         global $CFG, $DB, $USER;
-        $table = 'coursemanager';
+        $table = 'report_coursemanager_reports';
         $now = time();
 
         $listcourses = get_courses();
@@ -48,7 +48,7 @@ class run_reports_task extends \core\task\scheduled_task {
 
                 // If course is in trash category, delete all reports.
                 if ($course->category == get_config('report_coursemanager', 'category_bin')) {
-                    $exists = $DB->get_record('coursemanager', ['course' => $course->id]);
+                    $exists = $DB->get_record('report_coursemanager_reports', ['course' => $course->id]);
                     if (!empty($exists)) {
                         $res = $DB->delete_records($table, ['course' => $course->id]);
                     }
@@ -67,7 +67,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     $filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
 
                     // Check if course weight information exist in database.
-                    $existsweight = $DB->get_record('coursemanager', ['course' => $course->id, 'report' => 'weight']);
+                    $existsweight = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'weight']);
                     // Create or update weight general information.
                     $dataweight = new \stdClass();
                     $dataweight->course = $course->id;
@@ -98,7 +98,7 @@ class run_reports_task extends \core\task\scheduled_task {
                     // If total_course_size exceeds limit, add warning.
                     // If total filesize is bigger than limit defined in parameters, create alert.
 
-                    $existsheavy = $DB->get_record('coursemanager', ['course' => $course->id, 'report' => 'heavy']);
+                    $existsheavy = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'heavy']);
 
                     if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
                         $data = new \stdClass();
@@ -123,7 +123,7 @@ class run_reports_task extends \core\task\scheduled_task {
 
                     // 2- TEST FOR EMPTY COURSE.
                     // Check if course entry exists in database.
-                    $existsempty = $DB->get_record('coursemanager', ['course' => $course->id, 'report' => 'empty']);
+                    $existsempty = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'empty']);
 
                     // Query to count number of activities in course.
                     $sqlemptycourse = 'SELECT COUNT(mcm.id) AS count_modules
@@ -156,9 +156,9 @@ class run_reports_task extends \core\task\scheduled_task {
 
                     // 3- TEST FOR TEACHERS - VISITS AND COURSES WITHOUT TEACHERS
                     // Check if teachers reports exist.
-                    $existsnoteacherincourse = $DB->get_record('coursemanager',
+                    $existsnoteacherincourse = $DB->get_record('report_coursemanager_reports',
                     ['course' => $course->id, 'report' => 'no_teacher_in_course']);
-                    $existsnovisitteacher = $DB->get_record('coursemanager',
+                    $existsnovisitteacher = $DB->get_record('report_coursemanager_reports',
                     ['course' => $course->id, 'report' => 'no_visit_teacher']);
 
                     // CASE 1 : if teachers are enrolled in course, test for visit.
@@ -224,9 +224,9 @@ class run_reports_task extends \core\task\scheduled_task {
 
                     // 4- TEST FOR STUDENTS - NO VISITS OR COURSES WITHOUT STUDENTS.
                     // Check if course entry exists in database.
-                    $existsnovisitstudent = $DB->get_record('coursemanager',
+                    $existsnovisitstudent = $DB->get_record('report_coursemanager_reports',
                     ['course' => $course->id, 'report' => 'no_visit_student']);
-                    $existsnostudent = $DB->get_record('coursemanager',
+                    $existsnostudent = $DB->get_record('report_coursemanager_reports',
                     ['course' => $course->id, 'report' => 'no_student']);
 
                     // CASE 1 : at least one student enrolled.
@@ -322,7 +322,7 @@ class run_reports_task extends \core\task\scheduled_task {
                         $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
 
                         // If at least one result, add warning and show orphan submissions.
-                        $existsorphans = $DB->get_record('coursemanager',
+                        $existsorphans = $DB->get_record('report_coursemanager_reports',
                         ['course' => $course->id, 'report' => 'orphan_submissions']);
                         if (count($dbresultassignsorphans) > 0) {
                             // Calculate total filesize for each course.

@@ -81,40 +81,40 @@ $sqlfilestrash = "SELECT ROUND(SUM(filesize)/1024/1024)
 $totalfilestrash = $DB->get_field_sql($sqlfilestrash, [$a->categorytrash]);
 
 // Count heavy courses in Course Manager table.
-$countheavycourses = $DB->count_records('coursemanager', ['report' => 'heavy']);
+$countheavycourses = $DB->count_records('report_coursemanager_reports', ['report' => 'heavy']);
 
 // Heaviest course.
 $sqlheaviestcourse = "SELECT course, MAX(detail) AS weight
-    FROM {coursemanager}
+    FROM {report_coursemanager_reports}
     WHERE report = 'weight'
     ";
 $heaviestcourse = $DB->get_record_sql($sqlheaviestcourse);
 $infoheaviest = get_course($heaviestcourse->course);
 
 // Count empty courses in Course Manager table.
-$countemptycourses = $DB->count_records('coursemanager', ['report' => 'empty']);
+$countemptycourses = $DB->count_records('report_coursemanager_reports', ['report' => 'empty']);
 
 // Count courses with orphan submissions in Course Manager table.
-$countorphansubmissionscourses = $DB->count_records('coursemanager', ['report' => 'orphan_submissions']);
+$countorphansubmissionscourses = $DB->count_records('report_coursemanager_reports', ['report' => 'orphan_submissions']);
 
 // Sum filesize in Mo for orphan submissions.
 $sqltotalorphans = "SELECT ROUND(SUM(detail)/1024/1024)
-    FROM {coursemanager}
+    FROM {report_coursemanager_reports}
     WHERE report = 'orphan_submissions'
     ";
 $totalorphans = $DB->get_field_sql($sqltotalorphans);
 
 // Count courses without teachers in Course Manager table.
-$countnoteachers = $DB->count_records('coursemanager', ['report' => 'no_teacher_in_course']);
+$countnoteachers = $DB->count_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
 
 // Count courses without teachers visits  in Course Manager table.
-$countnovisitteachers = $DB->count_records('coursemanager', ['report' => 'no_visit_teacher']);
+$countnovisitteachers = $DB->count_records('report_coursemanager_reports', ['report' => 'no_visit_teacher']);
 
 // Count courses without students in Course Manager table.
-$countnostudents = $DB->count_records('coursemanager', ['report' => 'no_student']);
+$countnostudents = $DB->count_records('report_coursemanager_reports', ['report' => 'no_student']);
 
 // Count courses without students visits in Course Manager table.
-$countnovisitstudents = $DB->count_records('coursemanager', ['report' => 'no_visit_student']);
+$countnovisitstudents = $DB->count_records('report_coursemanager_reports', ['report' => 'no_visit_student']);
 
 $content = '
     <div class="container">
