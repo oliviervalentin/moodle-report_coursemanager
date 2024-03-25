@@ -1,6 +1,6 @@
 #page-report-coursemanager #courseInput {
-    width: 100%; 
-    padding: 10px 20px 10px 20px; 
+    width: 100%;
+    padding: 10px 20px 10px 20px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
 }
@@ -35,7 +35,7 @@
     display: table-row;
 }
 
-#page-report-coursemanager .tablefilter +label {
+#page-report-coursemanager .tablefilter + label {
     cursor: pointer;
 }
 
@@ -43,13 +43,13 @@
     overflow-x: unset;
 }
 
-#page-report-coursemanager .tablefilter:checked +label {
+#page-report-coursemanager .tablefilter:checked + label {
     background-color: #ddd;
 }
 
 #page-report-coursemanager .browse_courses tbody tr,
 .tablefilter {
-    display:none;
+    display: none;
 }
 .reportbutton {
     border: none;
