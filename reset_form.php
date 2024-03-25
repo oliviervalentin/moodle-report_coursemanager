@@ -39,19 +39,19 @@ class report_coursemanager_reset_form extends moodleform {
         // Delete course completions.
         $mform->addElement('hidden', 'reset_completion', get_string('deletecompletiondata', 'completion'));
         $mform->setDefault('reset_completion', 1);
-        $mform->setType('reset_completion', PARAM_RAW);
+        $mform->setType('reset_completion', PARAM_INT);
         // Delete grades.
         $mform->addElement('hidden', 'reset_gradebook_grades', get_string('removeallcoursegrades', 'grades'));
         $mform->setDefault('reset_gradebook_grades', 1);
-        $mform->setType('reset_gradebook_grades', PARAM_RAW);
+        $mform->setType('reset_gradebook_grades', PARAM_INT);
         // Delete groups.
         $mform->addElement('hidden', 'reset_groups_remove', get_string('deleteallgroups', 'group'));
         $mform->setDefault('reset_groups_remove', 1);
-        $mform->setType('reset_groups_remove', PARAM_RAW);
+        $mform->setType('reset_groups_remove', PARAM_INT);
         // Delete groupings.
         $mform->addElement('hidden', 'reset_groupings_remove', get_string('deleteallgroupings', 'group'));
         $mform->setDefault('reset_groupings_remove', 1);
-        $mform->setType('reset_groupings_remove', PARAM_RAW);
+        $mform->setType('reset_groupings_remove', PARAM_INT);
 
         // Create array for unsupported activities (useless here).
         $unsupportedmods = [];
@@ -80,19 +80,19 @@ class report_coursemanager_reset_form extends moodleform {
                                 $mform->addElement('hidden', 'reset_assign_submissions',
                                 get_string('deleteallsubmissions', 'assign'));
                                 $mform->setDefault('reset_assign_submissions', 1);
-                                $mform->setType('reset_assign_submissions', PARAM_RAW);
+                                $mform->setType('reset_assign_submissions', PARAM_INT);
                             }
                             // For forum : delete messages.
                             if ($modname == "forum") {
                                 $mform->addElement('hidden', 'reset_forum_all', get_string('resetforumsall', 'forum'));
                                 $mform->setDefault('reset_forum_all', 1);
-                                $mform->setType('reset_forum_all', PARAM_RAW);
+                                $mform->setType('reset_forum_all', PARAM_INT);
                             }
                             // For quiz : delete attempts.
                             if ($modname == "quiz") {
                                 $mform->addElement('hidden', 'reset_quiz_attempts', get_string('removeallquizattempts', 'quiz'));
                                 $mform->setDefault('reset_quiz_attempts', 1);
-                                $mform->setType('reset_quiz_attempts', PARAM_RAW);
+                                $mform->setType('reset_quiz_attempts', PARAM_INT);
                             }
                         } else if (!function_exists($modresetserdata)) {
                             // If no reset function, add to unsupported activities (useless here).

@@ -28,7 +28,7 @@ global $DB, $USER;
 require_login();
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
-$done = optional_param('done', 0, PARAM_RAW);
+$done = optional_param('done', 0, PARAM_TEXT);
 
 $site = get_site();
 
