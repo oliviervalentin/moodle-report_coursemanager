@@ -27,6 +27,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
+/**
+ * Class for displaying course restore form.
+ *
+ * @copyright  2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class report_coursemanager_form_restore extends moodleform {
     /**
      * Form definition for course restore.

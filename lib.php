@@ -33,7 +33,6 @@ global $COURSE, $OUTPUT, $PAGE, $CFG;
  * @param int $courseid Course ID.
  * @return array.
  */
-
 function report_coursemanager_get_assign_comment($courseid) {
     global $DB, $CFG, $OUTPUT;
 
@@ -155,7 +154,6 @@ function report_coursemanager_get_assign_comment($courseid) {
  * @param string $filearea The name of the file area.
  * @return array.
  */
-
 function report_coursemanager_get_files_comment($component, $courseid, $filearea) {
     global $DB, $CFG, $OUTPUT;
 
@@ -228,6 +226,11 @@ function report_coursemanager_get_files_comment($component, $courseid, $filearea
     return $all;
 }
 
+/**
+ * Push DIV zone in course home page to show reports.
+ *
+ * @return string.
+ */
 function report_coursemanager_before_standard_top_of_body_html() {
     global $DB, $PAGE, $USER;
 

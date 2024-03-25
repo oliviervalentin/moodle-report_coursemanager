@@ -27,8 +27,19 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
+/**
+ * Class for displaying reset form.
+ *
+ * @copyright  2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class report_coursemanager_reset_form extends moodleform {
-    public function definition () {
+    /**
+     * Form definition for course reset.
+     *
+     * @return void
+     */
+    public function definition() {
         global $CFG, $COURSE, $DB;
 
         $mform =& $this->_form;

@@ -24,12 +24,26 @@
 
 namespace report_coursemanager\task;
 
+/**
+ * Class for reports calculation.
+ *
+ * @copyright  2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class run_reports_task extends \core\task\scheduled_task {
+    /**
+     * Get a descriptive name for this task (shown to admins).
+     *
+     * @return string
+     */
     public function get_name() {
         // Shown in admin screens.
         return get_string('runreportstask', 'report_coursemanager');
     }
 
+    /**
+     * Execute the scheduled task.
+     */
     public function execute() {
         mtrace("... Start coursemanager reports.");
         global $CFG, $DB, $USER;

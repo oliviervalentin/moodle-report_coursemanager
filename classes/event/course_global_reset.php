@@ -24,6 +24,13 @@
 
 namespace report_coursemanager\event;
 
+/**
+ * The report_coursemanager global course resetted event class.
+ *
+ * @package    report_coursemanager
+ * @copyright   2022 Olivier VALENTIN
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class course_global_reset extends \core\event\base {
     /**
      * Init method.
