@@ -176,7 +176,7 @@ foreach ($listcourses as $course) {
                         AND ue.enrolid = en.id
                         AND us.id = ue.userid
                     )
-                GROUP BY filesize, u.id
+                GROUP BY filesize, u.id, u.firstname, u.lastname, f.id
             ";
             $paramsdbassignsorphans = [$assigninstance->instance];
             $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);

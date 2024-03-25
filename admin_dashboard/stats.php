@@ -87,6 +87,7 @@ $countheavycourses = $DB->count_records('report_coursemanager_reports', ['report
 $sqlheaviestcourse = "SELECT course, MAX(detail) AS weight
     FROM {report_coursemanager_reports}
     WHERE report = 'weight'
+    GROUP BY course
     ";
 $heaviestcourse = $DB->get_record_sql($sqlheaviestcourse);
 $infoheaviest = get_course($heaviestcourse->course);
