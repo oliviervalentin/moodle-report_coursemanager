@@ -67,7 +67,8 @@ class run_reports_task extends \core\task\scheduled_task {
                     $filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
 
                     // Check if course weight information exist in database.
-                    $existsweight = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'weight']);
+                    $existsweight = $DB->get_record('report_coursemanager_reports',
+                        ['course' => $course->id, 'report' => 'weight']);
                     // Create or update weight general information.
                     $dataweight = new \stdClass();
                     $dataweight->course = $course->id;

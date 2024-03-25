@@ -140,7 +140,7 @@ if (count($existsnoteacherincourse) > 0) {
         // Calculate last teacher log and retrieve name of the probable last teacher.
         // Information based on edulevel field of logstore table.
         // Ignore if the user is a site admin.
-        $adminlist =array_keys(get_admins()); 
+        $adminlist = array_keys(get_admins());
         list($notinsql, $notinparams) = $DB->get_in_or_equal($adminlist, SQL_PARAMS_NAMED, 'param', false);
         $sqllastteacherlog = 'SELECT id, userid AS teacher, timecreated AS lastlog
                     FROM {logstore_standard_log}
@@ -149,7 +149,7 @@ if (count($existsnoteacherincourse) > 0) {
                         WHERE courseid = :courseid
                         AND edulevel = 1
                         AND userid'. $notinsql. ')';
-        $paramslastteacherlog = ['courseid' => $course->course]+ $notinparams;
+        $paramslastteacherlog = ['courseid' => $course->course] + $notinparams;
         $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
 
         if ($dbresultlastteacherlog) {
