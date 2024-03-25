@@ -1,60 +1,60 @@
 #page-report-coursemanager #courseInput {
-  width: 100%; 
-  padding: 10px 20px 10px 20px; 
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
+    width: 100%; 
+    padding: 10px 20px 10px 20px; 
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
 }
 #page-report-coursemanager #filtercontainer {
     margin-bottom: 12px;
 }
 
 #page-report-coursemanager .filterrow {
-  display: none;
+    display: none;
 }
 
 #page-report-coursemanager .show_course {
-  display: table-row;
+    display: table-row;
 }
 
-#no-visit-student.tablefilter:checked~div table tbody tr.no-visit-student,
-#heavy-course.tablefilter:checked~div table tbody tr.heavy-course,
-#no-visit-teacher.tablefilter:checked~div table tbody tr.no-visit-teacher,
-#no-content.tablefilter:checked~div table tbody tr.no-content,
-#no-student.tablefilter:checked~div table tbody tr.no-student,
-#orphan-submissions.tablefilter:checked~div table tbody tr.orphan-submissions,
-#ok.tablefilter:checked~div table tbody tr.ok,
-#filterrow.tablefilter:checked~div table tbody tr.filterrow,
-#no-visit-student.tablefilter:checked~ table tbody tr.no-visit-student,
-#heavy-course.tablefilter:checked~ table tbody tr.heavy-course,
-#no-visit-teacher.tablefilter:checked~ table tbody tr.no-visit-teacher,
-#no-content.tablefilter:checked~ table tbody tr.no-content,
-#no-student.tablefilter:checked~ table tbody tr.no-student,
-#orphan-submissions.tablefilter:checked~ table tbody tr.orphan-submissions,
-#ok.tablefilter:checked~ table tbody tr.ok,
-#filterrow.tablefilter:checked~ table tbody tr.filterrow {
-  display: table-row;
+#no-visit-student.tablefilter:checked ~ div table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked ~ div table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked ~ div table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked ~ div table tbody tr.no-content,
+#no-student.tablefilter:checked ~ div table tbody tr.no-student,
+#orphan-submissions.tablefilter:checked ~ div table tbody tr.orphan-submissions,
+#ok.tablefilter:checked ~ div table tbody tr.ok,
+#filterrow.tablefilter:checked ~ div table tbody tr.filterrow,
+#no-visit-student.tablefilter:checked ~ table tbody tr.no-visit-student,
+#heavy-course.tablefilter:checked ~ table tbody tr.heavy-course,
+#no-visit-teacher.tablefilter:checked ~ table tbody tr.no-visit-teacher,
+#no-content.tablefilter:checked ~ table tbody tr.no-content,
+#no-student.tablefilter:checked ~ table tbody tr.no-student,
+#orphan-submissions.tablefilter:checked ~ table tbody tr.orphan-submissions,
+#ok.tablefilter:checked ~ table tbody tr.ok,
+#filterrow.tablefilter:checked ~ table tbody tr.filterrow {
+    display: table-row;
 }
 
-#page-report-coursemanager .tablefilter+label {
-  cursor: pointer;
+#page-report-coursemanager .tablefilter +label {
+    cursor: pointer;
 }
 
 #page-report-coursemanager .table-responsive {
-  overflow-x: unset;
+    overflow-x: unset;
 }
 
-#page-report-coursemanager .tablefilter:checked+label {
-  background-color: #ddd;
+#page-report-coursemanager .tablefilter:checked +label {
+    background-color: #ddd;
 }
 
 #page-report-coursemanager .browse_courses tbody tr,
-.tablefilter{
+.tablefilter {
     display:none;
 }
 .reportbutton {
     border: none;
     border-radius: 50%;
-    color: #ffffff;
+    color: #fff;
     width: 40px;
     height: 40px;
     font-size: 18px;
@@ -64,12 +64,12 @@
 ul#coursemanagerbuttons li {
     display: inline;
 }
-#coursemanager_popover{
+#coursemanager_popover {
     min-width: 150px;
 }
 #collapse_report {
     margin-bottom: 8px;
 }
 #reports_zone li {
-  margin-bottom: 12px;
+    margin-bottom: 12px;
 }
