@@ -147,7 +147,7 @@ foreach ($listcourses as $course) {
 
     if (count($dbresult) > 0) {
         foreach ($dbresult as $assigninstance) {
-            $sqlassignsorphans = "SELECT DISTINCT(f.filesize) AS filesize, u.id , u.firstname, u.lastname, f.id
+            $sqlassignsorphans = "SELECT DISTINCT(f.filesize) AS filesize
                 FROM
                 {files} AS f,
                 {assignsubmission_file} AS asf,
@@ -176,7 +176,7 @@ foreach ($listcourses as $course) {
                         AND ue.enrolid = en.id
                         AND us.id = ue.userid
                     )
-                GROUP BY filesize, u.id, u.firstname, u.lastname, f.id
+                GROUP BY filesize
             ";
             $paramsdbassignsorphans = [$assigninstance->instance];
             $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);

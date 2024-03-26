@@ -84,10 +84,9 @@ $totalfilestrash = $DB->get_field_sql($sqlfilestrash, [$a->categorytrash]);
 $countheavycourses = $DB->count_records('report_coursemanager_reports', ['report' => 'heavy']);
 
 // Heaviest course.
-$sqlheaviestcourse = "SELECT course, MAX(detail) AS weight
+$sqlheaviestcourse = "SELECT course, detail AS weight
     FROM {report_coursemanager_reports}
-    WHERE report = 'weight'
-    GROUP BY course
+    WHERE detail = (SELECT MAX(detail) FROM {report_coursemanager_reports})
     ";
 $heaviestcourse = $DB->get_record_sql($sqlheaviestcourse);
 $infoheaviest = get_course($heaviestcourse->course);
