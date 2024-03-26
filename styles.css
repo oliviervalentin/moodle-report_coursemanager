@@ -51,7 +51,7 @@
 .tablefilter {
     display: none;
 }
-.reportbutton {
+.report_coursemanager-reportbutton {
     border: none;
     border-radius: 50%;
     color: #fff;
@@ -67,9 +67,9 @@ ul#coursemanagerbuttons li {
 #coursemanager_popover {
     min-width: 150px;
 }
-#collapse_report {
+#coursemanager_collapse_report {
     margin-bottom: 8px;
 }
-#reports_zone li {
+#coursemanager_reports_zone li {
     margin-bottom: 12px;
 }

@@ -308,9 +308,11 @@ function report_coursemanager_before_standard_top_of_body_html() {
                 }
 
                 // Generate HTML for collapse button and create.
-                $button = '<button id=\"collapse_report\" class=\"btn btn-primary collasped\" data-toggle=\"collapse\" '
-                .'data-target=\"#reports_zone\">'.get_string('collapse_show_report', 'report_coursemanager')
-                .'</button><div id=\"reports_zone\" class=\"collapse alert alert-warning\"><ul>'.$final.'</ul></div>';
+                $button = '<button id=\"coursemanager_collapse_report\" class=\"btn btn-primary collasped\" '
+                .'data-toggle=\"collapse\" data-target=\"#coursemanager_reports_zone\">'
+                .get_string('collapse_show_report', 'report_coursemanager')
+                .'</button><div id=\"coursemanager_reports_zone\" class=\"collapse alert alert-warning\"><ul>'
+                .$final.'</ul></div>';
 
                 // JS function to push a div under admin nav.
                 $js = 'function reportZone() {
@@ -338,42 +340,47 @@ function report_coursemanager_before_standard_top_of_body_html() {
                     switch($report->report) {
                         case $report->report = 'heavy':
                             $info->size = $report->detail;
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger heavy\" '
+                            $final .= '<li><button type=\"button\" class=\"report_coursemanager-reportbutton bg-danger heavy\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('heavy_course', 'report_coursemanager').'\" '
                             .'data-content=\"'.get_string('course_alert_heavy', 'report_coursemanager', $info)
                             .'\"><i class=\"fa fa-thermometer-three-quarters\"></i></button></li>';
                             break;
                         case $report->report = 'no_visit_teacher':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_teacher\" '
+                            $final .= '<li><button type=\"button\" '
+                            .'class=\"report_coursemanager-reportbutton bg-info no_visit_teacher\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('no_visit_teacher', 'report_coursemanager')
                             .'\" data-content=\"'.get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info)
                             .'\"><i class=\"fa fa-graduation-cap\"></i></button></li>';
                             break;
                         case $report->report = 'no_visit_student':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-info no_visit_student\" '
+                            $final .= '<li><button type=\"button\" '
+                            .'class=\"report_coursemanager-reportbutton bg-info no_visit_student\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('no_visit_student', 'report_coursemanager')
                             .'\" data-content=\"'.get_string('course_alert_no_visit_student', 'report_coursemanager', $info)
                             .'\"><i class=\"fa fa-group\"></i></button></li>';
                             break;
                         case $report->report = 'no_student':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-warning no_student\" '
+                            $final .= '<li><button type=\"button\" '
+                            .'class=\"report_coursemanager-reportbutton bg-warning no_student\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('no_student', 'report_coursemanager')
                             .'\" data-content=\"'.get_string('course_alert_no_student', 'report_coursemanager', $info)
                             .'\"><i class=\"fa fa-user-o\"></i></button></li>';
                             break;
                         case $report->report = 'empty':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-dark empty\" '
+                            $final .= '<li><button type=\"button\" '
+                            .'class=\"report_coursemanager-reportbutton bg-dark empty\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('no_content', 'report_coursemanager')
                             .'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info)
                             .'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
                             break;
                         case $report->report = 'orphan_submissions':
-                            $final .= '<li><button type=\"button\" class=\"reportbutton bg-danger orphan_submissions\" '
+                            $final .= '<li><button type=\"button\" '
+                            .'class=\"report_coursemanager-reportbutton bg-danger orphan_submissions\" '
                             .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                             .'title=\"'.get_string('orphan_submissions_button', 'report_coursemanager')
                             .'\" data-content=\"'.get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)
