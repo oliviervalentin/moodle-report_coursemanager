@@ -89,7 +89,9 @@ $sqlheaviestcourse = "SELECT course, detail AS weight
     WHERE detail = (SELECT MAX(detail) FROM {report_coursemanager_reports})
     ";
 $heaviestcourse = $DB->get_record_sql($sqlheaviestcourse);
-$infoheaviest = get_course($heaviestcourse->course);
+if (!empty($heaviestcourse)) {
+    $infoheaviest = get_course($heaviestcourse->course);
+}
 
 // Count empty courses in Course Manager table.
 $countemptycourses = $DB->count_records('report_coursemanager_reports', ['report' => 'empty']);
@@ -98,11 +100,13 @@ $countemptycourses = $DB->count_records('report_coursemanager_reports', ['report
 $countorphansubmissionscourses = $DB->count_records('report_coursemanager_reports', ['report' => 'orphan_submissions']);
 
 // Sum filesize in Mo for orphan submissions.
-$sqltotalorphans = "SELECT ROUND(SUM(detail)/1024/1024)
-    FROM {report_coursemanager_reports}
-    WHERE report = 'orphan_submissions'
-    ";
-$totalorphans = $DB->get_field_sql($sqltotalorphans);
+if (!empty($countorphansubmissionscourses)) {
+    $sqltotalorphans = "SELECT ROUND(SUM(detail)/1024/1024)
+        FROM {report_coursemanager_reports}
+        WHERE report = 'orphan_submissions'
+        ";
+    $totalorphans = $DB->get_field_sql($sqltotalorphans);
+}
 
 // Count courses without teachers in Course Manager table.
 $countnoteachers = $DB->count_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
@@ -155,7 +159,11 @@ $content = '
                 <p class="card-text display-4"><i class="fa fa-thermometer-three-quarters"></i>  '.$countheavycourses.'</p>
                 </div>
             </div>
-            <div class="card text-center m-2" style="width: 18rem;">
+';
+
+if (!empty($heaviestcourse)) {
+    $content .= '
+    <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
                 <h5 class="card-title">'.get_string('stats_heaviest_course', 'report_coursemanager').'</h5>
                 <small class="card-subtitle mb-2 text-muted">'
@@ -165,6 +173,10 @@ $content = '
                 .$heaviestcourse->course.'">'.$infoheaviest->fullname.'</a></p>
                 </div>
             </div>
+    ';
+}
+            
+$content .= '
             <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
                 <h5 class="card-title">'.get_string('stats_empty_courses', 'report_coursemanager').'</h5>
@@ -181,6 +193,9 @@ $content = '
                 <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$countorphansubmissionscourses.'</p>
                 </div>
             </div>
+ ';
+ if (!empty($countorphansubmissionscourses)) {
+    $content .= '
             <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
                 <h5 class="card-title">'.get_string('stats_weight_courses_orphan_submissions', 'report_coursemanager').'</h5>
@@ -189,6 +204,10 @@ $content = '
                 <p class="card-text display-4"><i class="fa fa-files-o"></i>  '.$totalorphans.' Mo</p>
                 </div>
             </div>
+    ';
+ }
+
+ $content .= '
         </div>
         <h1 class="display-4">'.get_string('stats_title_enrolls_visits', 'report_coursemanager').'</h1>
         <div class="row">
