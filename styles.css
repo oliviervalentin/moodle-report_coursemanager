@@ -16,22 +16,22 @@
     display: table-row;
 }
 
-#no-visit-student.tablefilter:checked ~ div table tbody tr.no-visit-student,
-#heavy-course.tablefilter:checked ~ div table tbody tr.heavy-course,
-#no-visit-teacher.tablefilter:checked ~ div table tbody tr.no-visit-teacher,
-#no-content.tablefilter:checked ~ div table tbody tr.no-content,
-#no-student.tablefilter:checked ~ div table tbody tr.no-student,
-#orphan-submissions.tablefilter:checked ~ div table tbody tr.orphan-submissions,
-#ok.tablefilter:checked ~ div table tbody tr.ok,
-#filterrow.tablefilter:checked ~ div table tbody tr.filterrow,
-#no-visit-student.tablefilter:checked ~ table tbody tr.no-visit-student,
-#heavy-course.tablefilter:checked ~ table tbody tr.heavy-course,
-#no-visit-teacher.tablefilter:checked ~ table tbody tr.no-visit-teacher,
-#no-content.tablefilter:checked ~ table tbody tr.no-content,
-#no-student.tablefilter:checked ~ table tbody tr.no-student,
-#orphan-submissions.tablefilter:checked ~ table tbody tr.orphan-submissions,
-#ok.tablefilter:checked ~ table tbody tr.ok,
-#filterrow.tablefilter:checked ~ table tbody tr.filterrow {
+#page-report-coursemanager #no-visit-student.tablefilter:checked ~ div table tbody tr.no-visit-student,
+#page-report-coursemanager#heavy-course.tablefilter:checked ~ div table tbody tr.heavy-course,
+#page-report-coursemanager #no-visit-teacher.tablefilter:checked ~ div table tbody tr.no-visit-teacher,
+#page-report-coursemanager #no-content.tablefilter:checked ~ div table tbody tr.no-content,
+#page-report-coursemanager #no-student.tablefilter:checked ~ div table tbody tr.no-student,
+#page-report-coursemanager #orphan-submissions.tablefilter:checked ~ div table tbody tr.orphan-submissions,
+#page-report-coursemanager #ok.tablefilter:checked ~ div table tbody tr.ok,
+#page-report-coursemanager #filterrow.tablefilter:checked ~ div table tbody tr.filterrow,
+#page-report-coursemanager #no-visit-student.tablefilter:checked ~ table tbody tr.no-visit-student,
+#page-report-coursemanager #heavy-course.tablefilter:checked ~ table tbody tr.heavy-course,
+#page-report-coursemanager #no-visit-teacher.tablefilter:checked ~ table tbody tr.no-visit-teacher,
+#page-report-coursemanager #no-content.tablefilter:checked ~ table tbody tr.no-content,
+#page-report-coursemanager #no-student.tablefilter:checked ~ table tbody tr.no-student,
+#page-report-coursemanager #orphan-submissions.tablefilter:checked ~ table tbody tr.orphan-submissions,
+#page-report-coursemanager #ok.tablefilter:checked ~ table tbody tr.ok,
+#page-report-coursemanager #filterrow.tablefilter:checked ~ table tbody tr.filterrow {
     display: table-row;
 }
 
