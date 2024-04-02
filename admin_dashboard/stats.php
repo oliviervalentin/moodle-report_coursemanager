@@ -175,7 +175,7 @@ if (!empty($heaviestcourse)) {
             </div>
     ';
 }
-            
+
 $content .= '
             <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
@@ -194,7 +194,7 @@ $content .= '
                 </div>
             </div>
  ';
- if (!empty($countorphansubmissionscourses)) {
+if (!empty($countorphansubmissionscourses)) {
     $content .= '
             <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
@@ -205,7 +205,7 @@ $content .= '
                 </div>
             </div>
     ';
- }
+}
 
  $content .= '
         </div>
