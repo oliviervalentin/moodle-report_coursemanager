@@ -149,7 +149,7 @@ if (count($existsnoteacherincourse) > 0) {
                         FROM {logstore_standard_log}
                         WHERE courseid = :courseid
                         AND edulevel = 1
-                        AND userid'. $notinsql. ')';
+                        AND userid '. $notinsql. ')';
         $paramslastteacherlog = ['courseid' => $course->course] + $notinparams;
         $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
 
