@@ -62,7 +62,7 @@ $sqldistributionfiles = 'SELECT COUNT(id) AS totalfiles, ROUND(SUM(filesize/1024
     GROUP BY component
     ORDER BY totalweight DESC';
 
-$dbresultdistributionfiles = $DB->get_records_sql($sqldistributionfiles);
+$dbresultdistributionfiles = $DB->get_recordset_sql($sqldistributionfiles);
 
 foreach ($dbresultdistributionfiles as $component) {
     $row = [];
