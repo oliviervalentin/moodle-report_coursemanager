@@ -55,7 +55,12 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024021608, 'report', 'coursemanager');
     }
     if ($oldversion < 2024021609) {
+        // Moodle first release in plugins directory - V3.1.0.
         upgrade_plugin_savepoint(true, 2024021609, 'report', 'coursemanager');
+    }
+    if ($oldversion < 2024040801) {
+        // Hotfixes after Moodle release - V3.1.1.
+        upgrade_plugin_savepoint(true, 2024040801, 'report', 'coursemanager');
     }
     return true;
 }
