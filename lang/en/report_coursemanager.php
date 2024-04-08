@@ -74,6 +74,7 @@ $string['table_enrolled_students'] = 'Students';
 $string['table_enrolled_teachers'] = 'Teachers';
 $string['table_recommendation'] = 'Reports';
 $string['table_actions'] = 'Actions';
+$string['empty_settings'] = 'Some settings are missing for this plugin ; please contact your Moodle admin';
 
 // Actions.
 $string['menudeletecourse'] = 'Delete course';

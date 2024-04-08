@@ -79,6 +79,16 @@ if ($done != '0') {
 // Empty action message variable.
 unset($done);
 
+if (!get_config('report_coursemanager', 'last_access_student') ||
+    !get_config('report_coursemanager', 'last_access_teacher') ||
+    !get_config('report_coursemanager', 'total_filesize_threshold') ||
+    !get_config('report_coursemanager', 'unique_filesize_threshold')
+) {
+    echo html_writer::div(get_string('empty_settings', 'report_coursemanager'), 'alert alert-primary');
+    echo $OUTPUT->footer();
+    exit();
+}
+
 // Buttons to filter lines.
 print('
 <h3>'.get_string('title', 'report_coursemanager').'</h3>
