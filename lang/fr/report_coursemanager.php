@@ -333,6 +333,8 @@ $string['more_information'] = 'Plus d\'informations';
 $string['text_link_delete'] = 'Supprimer ce cours';
 $string['text_link_reset'] = 'Réinitialiser';
 $string['collapse_show_report'] = 'Afficher le rapport';
+$string['warntextcoursetrash'] = 'ATTENTION : ce cours se trouve dans la catégorie Corbeille et sera supprimé ultérieurement. Si vous souhaitez le conserver, utilisez Course Manager pour le déplacer dans une autre catégorie.';
+$string['warntextcategorytrash'] = 'ATTENTION : cette catégorie de cours est utilisée comme corbeile par l\'outil Course Manager. Tous les cours sont appelés à être supprimés ultérieurement. Si vous souhaitez conserver des cours, merci de les déplacer dans une autre catégorie.';
 
 // Mailing.
 $string['mailingtitle'] = 'Course Manager - Rapport de vos cours';

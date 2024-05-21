@@ -83,6 +83,15 @@ You can also set settings for :
 All comments are welcome to help improve this plugin. Please use GitHub issues for improvements, bug or others ideas.
 
 
+## Steps for making Course Manager work ##
+
+1. Install plugin in report directory (see below for more information)
+2. Create a category called "Trash" or another name : this category will be used to move and store all courses that teachers want to delete.
+3. Defined all settings in plugin settings page. You must define thresholds for course weight, file weight, number of days without visits for teacher and for students. Without these, Course Manager won't be able to calculate reports.
+4. Add a link to teacher dashboard (see "How to give access to teacher dashbord ?" section above)
+5. If you can, manually run the scheduled task "Reports calculation for Course Manager" (\report_coursemanager\task\run_reports_task) in admin to generate course reports. If you can't, task is automatically trigerred during the night. Then, reports can be displayed in teacher dashboard and/or directly in courses if enabled.
+
+
 ## Installing via uploaded ZIP file ##
 
 Log in to your Moodle site as an admin and go to Site administration > Plugins > Install plugins.
