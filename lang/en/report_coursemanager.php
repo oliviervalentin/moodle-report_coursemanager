@@ -314,6 +314,8 @@ $string['more_information'] = 'More information';
 $string['text_link_delete'] = 'Delete course';
 $string['text_link_reset'] = 'Reset course';
 $string['collapse_show_report'] = 'Show report';
+$string['warntextcoursetrash'] = 'WARNING : this course is in trash category and will be deleted later. Move it in another category with Course Manager tool if you want to keep it.';
+$string['warntextcategorytrash'] = 'WARNING : this category is used by Course Manager as trash. All courses in this category are expected to be deleted at a later date. If you wish to keep your course, please move it in another category.';
 
 // Mailing.
 $string['mailingtitle'] = 'Course Manager - Reports for your courses';
