@@ -252,7 +252,7 @@ function report_coursemanager_before_standard_top_of_body_html() {
         if (get_config('report_coursemanager', 'show_report_in_course') != 0
         && ($displayreportteacher == 1 || has_capability('report/coursemanager:viewreport', $coursecontext))
         ) {
-            // SI CATEGORIE POUBELLE
+            // If course is in trash category, add warning.
             if ($PAGE->category->id == get_config('report_coursemanager', 'category_bin')) {
                 $output = '';
                 // JS function to push a div under admin nav.
@@ -316,11 +316,13 @@ function report_coursemanager_before_standard_top_of_body_html() {
                                     $final .= "<li><i class='fa fa-battery-empty fa-lg text-dark'></i>  ".
                                     get_string('course_alert_empty', 'report_coursemanager', $info)."</li>";
                                     break;
-                                case $report->report = 'orphan_submissions':
-                                    $final .= "<li><i class='fa fa-files-o fa-lg text-danger'></i>  ".
-                                    get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)."</li>";
-                                    break;
                             }
+                        }
+
+                        $reportsorphans = $DB->get_records('report_coursemanager_orphans', ['course' => $PAGE->course->id]);
+                        if (!empty($reportsorphans)) {
+                            $final .= "<li><i class='fa fa-files-o fa-lg text-danger'></i>  ".
+                            get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)."</li>";
                         }
 
                         // Generate HTML for collapse button and create.
@@ -356,7 +358,8 @@ function report_coursemanager_before_standard_top_of_body_html() {
                             switch($report->report) {
                                 case $report->report = 'heavy':
                                     $info->size = $report->detail;
-                                    $final .= '<li><button type=\"button\" class=\"report_coursemanager-reportbutton bg-danger heavy\" '
+                                    $final .= '<li><button type=\"button\" '
+                                    .'class=\"report_coursemanager-reportbutton bg-danger heavy\" '
                                     .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                                     .'title=\"'.get_string('heavy_course', 'report_coursemanager').'\" '
                                     .'data-content=\"'.get_string('course_alert_heavy', 'report_coursemanager', $info)
@@ -394,15 +397,18 @@ function report_coursemanager_before_standard_top_of_body_html() {
                                     .'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info)
                                     .'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
                                     break;
-                                case $report->report = 'orphan_submissions':
-                                    $final .= '<li><button type=\"button\" '
+                            }
+                        }
+
+                        $reportsorphans = $DB->get_records('report_coursemanager_orphans', ['course' => $PAGE->course->id]);
+                        if (!empty($reportsorphans)) {
+                            $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-danger orphan_submissions\" '
                                     .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
                                     .'title=\"'.get_string('orphan_submissions_button', 'report_coursemanager')
-                                    .'\" data-content=\"'.get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)
+                                    .'\" data-content=\"'
+                                    .get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)
                                     .'\"><i class=\"fa fa-files-o\"></i></button></li>';
-                                    break;
-                            }
                         }
 
                         $js = 'function reportZone() {
@@ -427,9 +433,8 @@ function report_coursemanager_before_standard_top_of_body_html() {
                 return $output;
             }
         }
-    }
-
-    else if ($PAGE->url->compare(new moodle_url('/course/index.php?categoryid='.get_config('report_coursemanager', 'category_bin')), URL_MATCH_EXACT)) {
+    } else if ($PAGE->url->compare(new moodle_url('/course/index.php?categoryid='
+    .get_config('report_coursemanager', 'category_bin')), URL_MATCH_EXACT)) {
         $output = '';
         $warntextcategorytrash = get_string('warntextcategorytrash', 'report_coursemanager');
         // JS function to push a div under admin nav.
@@ -445,8 +450,7 @@ function report_coursemanager_before_standard_top_of_body_html() {
         ';
         $output .= $PAGE->requires->js_amd_inline($js);
         return $output;
-    }
-    else {
+    } else {
         return;
     }
 }

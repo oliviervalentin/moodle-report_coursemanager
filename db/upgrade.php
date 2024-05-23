@@ -62,5 +62,34 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         // Hotfixes after Moodle release - V3.1.1.
         upgrade_plugin_savepoint(true, 2024040801, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024040803) {
+        // CSS and orphan submissions task - V3.1.1.
+        $table = new xmldb_table('report_coursemanager_orphans');
+
+        // Adding fields to table report_coursemanager_orphans.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('course', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('contextid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('weight', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('files', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, null);
+
+        // Adding keys to table report_coursemanager_orphans.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+
+        // Conditionally launch create table for report_coursemanager_orphans.
+        if (!$dbman->table_exists($table)) {
+            $dbman->create_table($table);
+        }
+
+        $reporttodelete = 'orphan_submissions';
+        $DB->delete_records_select('report_coursemanager_reports', "report = ?", [$reporttodelete]);
+
+        upgrade_plugin_savepoint(true, 2024040803, 'report', 'coursemanager');
+    }
+    if ($oldversion < 2024050301) {
+        // Finalized new task for orphan submissions reports - V3.2.0.
+        upgrade_plugin_savepoint(true, 2024050301, 'report', 'coursemanager');
+    }
     return true;
 }

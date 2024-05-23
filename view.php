@@ -128,7 +128,6 @@ if (count($listusercourses) == 0) {
     echo html_writer::div(get_string('no_course_to_show', 'report_coursemanager'), 'alert alert-primary');
 } else {
     // If user is enrolled in at least one course as teacher, let's start !.
-
     // Add a new table to display courses information.
     $countcourses = 0;
     $table = new html_table();
@@ -255,7 +254,7 @@ if (count($listusercourses) == 0) {
                 // Table line for number of teachers.
                 $row[] = html_writer::label(count($allteachers), null);
 
-                // Get all reports for table coursemanager for recommandations.
+                // Get all reports for table coursemanager_reports for recommandations.
                 $reports = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
                 foreach ($reports as $report) {
                     $info = new stdClass();
@@ -299,13 +298,23 @@ if (count($listusercourses) == 0) {
                             $iconssumup .= "<i class='fa fa-lg fa-battery-empty text-danger'></i>&nbsp;";
                             $allrowclasses .= "no-content ";
                             break;
-                        case 'orphan_submissions':
-                            $info->filesize = number_format(ceil($report->detail / 1048576), 0, ',', '');
-                            $sumup .= "<li>".get_string('orphan_submissions_alert', 'report_coursemanager', $info)."</li><br />";
-                            $iconssumup .= "<i class='fa fa-lg fa-files-o text-danger'></i>&nbsp;";
-                            $allrowclasses .= "orphan-submissions ";
-                            break;
+
                     }
+                }
+                // Get all reports for orphan submissions.
+                $reportsorphans = $DB->get_records('report_coursemanager_orphans', ['course' => $course->id]);
+                if (!empty($reportsorphans)) {
+                    $info->filesize = 0;
+                    $info->filescount = 0;
+                    $info->assigns = 0;
+                    foreach ($reportsorphans as $orphan) {
+                        $info->assigns = $info->assigns + 1;
+                        $info->filesize += number_format(ceil($orphan->weight / 1048576), 0, ',', '');
+                        $info->filescount += $orphan->files;
+                    }
+                    $sumup .= "<li>".get_string('orphan_submissions_alert', 'report_coursemanager', $info)."</li><br />";
+                    $iconssumup .= "<i class='fa fa-lg fa-files-o text-danger'></i>&nbsp;";
+                    $allrowclasses .= "orphan-submissions ";
                 }
                 // End of reports analysis.
 

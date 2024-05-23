@@ -44,4 +44,13 @@ $tasks = [
         'month' => '*',
         'dayofweek' => '*',
     ],
+    [
+        'classname' => 'report_coursemanager\task\run_orphan_submissions_report_task',
+        'blocking' => 0,
+        'minute' => 'R',
+        'hour' => '4',
+        'day' => '*/30',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
 ];
