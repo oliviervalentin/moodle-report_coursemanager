@@ -99,7 +99,7 @@ if ($ADMIN->fulltree) {
     $description = get_string('enablemailing_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
-    // Checkbox for enabling reports mailing.
+    // Checkbox for enabling orphan submissions task.
     $name = 'report_coursemanager/enable_orphans_task';
     $title = get_string('enableorphanstask', 'report_coursemanager');
     $description = get_string('enableorphanstask_desc', 'report_coursemanager');
