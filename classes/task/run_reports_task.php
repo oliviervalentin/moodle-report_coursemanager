@@ -69,7 +69,7 @@ class run_reports_task extends \core\task\scheduled_task {
                 } else {
                     // Start reports calculation.
 
-                    // 0-A CALCULATE TOTAL COURSE SIZE.
+                    // 0 CALCULATE TOTAL COURSE SIZE.
                     // Query for total files size in course.
                     $sql = 'SELECT SUM(filesize)
                         FROM {files}
@@ -97,17 +97,6 @@ class run_reports_task extends \core\task\scheduled_task {
                     }
                     unset($dataweight);
                     unset($existsweight);
-
-                    // 0-B CHECK FOR ASSIGNS.
-                    // Query to check if there are assigns, that will trigger orphaned submissions report.
-                    $assignsql = 'SELECT cm.instance
-                        FROM {course_modules} cm
-                        JOIN {course} c ON c.id = cm.course
-                        JOIN {modules} m ON m.id = cm.module
-                        WHERE m.name =\'assign\'
-                        AND c.id = ?';
-                    $assignparamsdb = [$course->id];
-                    $assigndbresult = $DB->get_records_sql($assignsql, $assignparamsdb);
 
                     // 1- TEST FOR TOTAL COURSE SIZE.
                     // If total_course_size exceeds limit, add warning.
@@ -297,74 +286,6 @@ class run_reports_task extends \core\task\scheduled_task {
                         }
                         unset($data);
                         unset($countstudentvisit);
-                    }
-
-                    // 5- TEST FOR ORPHANS SUBMISSIONS.
-                    // Check if assigns contain assignments uploaded by unenrolled users.
-                    if (count($assigndbresult) > 0) {
-                        $sqlassignsorphans = 'SELECT DISTINCT(f.filesize) AS filesize, a.name AS assign
-                        FROM
-                            {files} AS f,
-                            {assignsubmission_file} AS asf,
-                            {assign} AS a,
-                            {user} AS u,
-                            {course} AS c,
-                            {course_modules} AS cm
-                        WHERE
-                        component = \'assignsubmission_file\'
-                            AND asf.submission=f.itemid
-                            AND a.id = asf.assignment
-                            AND f.userid = u.id
-                            AND filename != \'.\'
-                            AND c.id = a.course
-                            AND c.id = ?
-                            AND a.id = cm.instance
-                            AND u.id  NOT IN
-                                (SELECT us.id
-                                FROM
-                                {course} AS course,
-                                {enrol} AS en,
-                                {user_enrolments} AS ue,
-                                {user} AS us
-                                WHERE c.id=course.id
-                                    AND en.courseid = course.id
-                                    AND ue.enrolid = en.id
-                                    AND us.id = ue.userid
-                                )
-                            GROUP BY filesize, u.id
-                        ';
-                        $paramsdbassignsorphans = [$course->id];
-                        $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
-
-                        // If at least one result, add warning and show orphan submissions.
-                        $existsorphans = $DB->get_record('report_coursemanager_reports',
-                        ['course' => $course->id, 'report' => 'orphan_submissions']);
-                        if (count($dbresultassignsorphans) > 0) {
-                            // Calculate total filesize for each course.
-                            $total = 0;
-                            foreach ($dbresultassignsorphans as $filesize) {
-                                $total += $filesize->filesize;
-                            }
-                            $data = new \stdClass();
-                            $data->course = $course->id;
-                            $data->report = 'orphan_submissions';
-                            $data->detail = $total;
-
-                            // If empty course alert doesn't exist for this course, create it in DB.
-                            if (empty($existsorphans)) {
-                                $res = $DB->insert_record($table, $data);
-                            } else {
-                                // If exists, update orphans submissions size.
-                                $data->id = $existsorphans->id;
-                                $res = $DB->update_record($table, $data);
-                            }
-                            unset($data);
-                        } else if (!empty($existsorphans)) {
-                            // In this case, course is not empty. If alert exists, delete it.
-                            $res = $DB->delete_records($table, ['id' => $existsorphans->id]);
-                            unset($data);
-                        }
-                        unset($existsorphans);
                     }
                 }
                 // Tests end.
