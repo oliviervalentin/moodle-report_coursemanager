@@ -55,6 +55,8 @@ $string['show_report_in_course_choices_collapse'] = 'Scrolling menu under course
 $string['show_report_in_course_choices_popover'] = 'Icons next to course title';
 $string['enablemailing'] = 'Activate reports mailing';
 $string['enablemailing_desc'] = 'If checked, activates automated task for reports mailing. Default periodicity is every 30 days.';
+$string['enableorphanstask'] = 'Activate orphaned submissions report';
+$string['enableorphanstask_desc'] = 'If checked, activates automated task to detect assigns with orphaned files.';
 $string['mailingintro_setting'] = 'Email content';
 $string['mailingintro_setting_desc'] = 'Introduction of the report mailing.<br>
 You can use the following variables :<br>
@@ -97,7 +99,7 @@ $string['last_access_multiple_teacher_alert'] = '<b>No teacher visit since {$a->
 $string['last_access_unique_teacher_alert'] = '<b>You didn\' visit this course since {$a->limit_visit} months.</b><br />You are the only teacher in this course. If you don\'t use it anymore, think about deleting it.';
 $string['last_access_student_alert'] = '<b>No student visit since {$a->limit_visit} months.</b><br />No students have visited this course since a long time. If necessary, delete it.';
 $string['empty_student_alert'] = '<b>No student enrolled</b><br />There are no users enrolled as student in this course. If it isn\'t used anymore, think about delete it !';
-$string['orphan_submissions_alert'] = '<b>Orphan submissions ({$a->filesize} Mo)</b><br />This course contains one or more assigns containing files submitted by unenrolled students. Those files can represent a hige volume. Think about resetting or deleting these activities.';
+$string['orphan_submissions_alert'] = '<b>Orphan submissions</b><br />This course contains {$a->assigns} Assigns containing {$a->filescount} files submitted by now unenrolled students. Those files represent {$a->filesize} Mo. Please remind to reset or delete these activities.';
 $string['no_advices'] = '<b>No sepecific reports.</b><br />Congratulations, this course seems ok !';
 $string['no_course_to_show'] = '<h2>No courses</h2>You are not enrolled in courses with a teacher role.';
 $string['closereportmodal'] = 'Close window';
@@ -302,6 +304,8 @@ $string['ok'] = 'No reports';
 // Tasks.
 $string['runreportstask'] = 'Reports calculation for Course Manager';
 $string['mailingtask'] = 'Mailing reports for teachers for Course Manager';
+$string['runorphansubmissionstask'] = 'Course Manager report for orphaned submissions';
+
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Total files size in this course is actually <b>{$a->size} Mo</b>. Consider sorting files or reseting this course.<br /><b>{$a->heavy_link}</b>';

@@ -55,6 +55,8 @@ $string['show_report_in_course_choices_popover'] = 'Icônes à côté du titre';
 $string['enablemailing'] = 'Activer l\'envoi du mailing aux enseignants';
 $string['enablemailing_desc'] = 'Si coché, active l\'envoi des rapports de cours à chaque enseignant. La périodicité du mailing est définie par défaut
 tous les 30 jours, et peut être modifiée dans les tâches programmées.';
+$string['enableorphanstask'] = 'Activer le rapport des devoirs orphelins';
+$string['enableorphanstask_desc'] = 'Si coché, active la tâche permettant de détecter les fichiers orphelins dans les devoirs.';
 $string['mailingintro_setting'] = 'Introduction du mail';
 $string['mailingintro_setting_desc'] = 'Message d\'introduction pour le mailing envoyé aux enseignants.<br>
 Vous pouvez utiliser les variables suivantes :<br>
@@ -97,7 +99,7 @@ $string['last_access_multiple_teacher_alert'] = '<b>Pas de visites d\'enseignant
 $string['last_access_unique_teacher_alert'] = '<b>Vous n\'avez pas visité ce cours depuis plus de {$a->limit_visit} mois.</b><br />Aucun autre enseignant n\'y figure. Si vous n\'utilisez plus ce cours, pensez à le supprimer.';
 $string['last_access_student_alert'] = '<b>Pas de visites d\'étudiants depuis plus de {$a->limit_visit} mois.</b><br />Aucun étudiant inscrit à votre cours n\'a visité ce cours durant cette période. Si ce cours n\'a plus d\'utilité , pensez à le supprimer.';
 $string['empty_student_alert'] = '<b>Pas d\'étudiants inscrits.</b><br />Aucun utilisateur n\'est inscrit dans ce cours avec le rôle Étudiant. Si ce cours n\'est pas utilisé, pensez à le supprimer.';
-$string['orphan_submissions_alert'] = '<b>Il y a des devoirs "orphelins" représentant {$a->filesize} Mo.</b><br />Actuellement, ce cours contient un ou plusieurs devoirs avec des dépôts invisibles, déposés par des étudiants désinscrits du cours. Ces fichiers peuvent représenter un poids important, pensez à réinitialiser le devoir ou à supprimer l\'activité .';
+$string['orphan_submissions_alert'] = '<b>Devoirs "orphelins"</b><br />Ce cours contient {$a->assigns} activité(s) Devoir avec {$a->filescount} fichiers invisibles, c\'est-à-dire déposés par des étudiants désinscrits du cours. Ces fichiers représentent un poids de {$a->filesize} Mo, pensez à réinitialiser le devoir ou à supprimer l\'activité .';
 $string['no_advices'] = '<b>Pas de préconisations spécifiques.</b><br />Il n\'y a pas de remarques particulières sur ce cours quant à son poids ou son utilisation.';
 $string['no_course_to_show'] = '<h2>Pas de cours</h2>Vous n\'êtes inscrit dans aucun cours avec un rôle permettant de l\'administrer avec cette interface.';
 $string['closereportmodal'] = 'Fermer la fenêtre de rapport';
@@ -321,6 +323,7 @@ $string['ok'] = 'Aucune remarque';
 // Tasks.
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
 $string['mailingtask'] = 'Mailing des rapports aux enseignants';
+$string['runorphansubmissionstask'] = 'Calcul du rapport des devoirs orphelins';
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';
