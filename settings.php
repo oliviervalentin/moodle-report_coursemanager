@@ -25,6 +25,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
+    // Settings for reports calculation.
+    $settings->add(new admin_setting_heading('reportssettingsheading',
+            get_string('reportssettingsheading', 'report_coursemanager'), ''));
+
     // Define which role is defined as teacher in courses to retrieve course list on dashboard.
     $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
     $editingteachers = get_archetype_roles('editingteacher');
@@ -48,13 +52,6 @@ if ($ADMIN->fulltree) {
             $rolesoptions
         )
     );
-
-    // Define trash category.
-    $displaylist = core_course_category::make_categories_list();
-    $name = 'report_coursemanager/category_bin';
-    $title = get_string('category_bin', 'report_coursemanager');
-    $description = get_string('category_bin_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configselect($name, $title, $description, null, $displaylist));
 
     // Limit for total course files size before warning.
     $name = 'report_coursemanager/total_filesize_threshold';
@@ -80,6 +77,17 @@ if ($ADMIN->fulltree) {
     $description = get_string('last_access_student_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '5'));
 
+    // Settings for trash category.
+    $settings->add(new admin_setting_heading('trashsettingsheading',
+            get_string('trashsettingsheading', 'report_coursemanager'), ''));
+
+    // Define trash category.
+    $displaylist = core_course_category::make_categories_list();
+    $name = 'report_coursemanager/category_bin';
+    $title = get_string('category_bin', 'report_coursemanager');
+    $description = get_string('category_bin_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configselect($name, $title, $description, null, $displaylist));
+
     // Information text when courses in trash category will be deleted.
     $name = 'report_coursemanager/delete_period';
     $title = get_string('delete_period', 'report_coursemanager');
@@ -93,16 +101,53 @@ if ($ADMIN->fulltree) {
             ['3'], $rolesoptions)
     );
 
-    // Checkbox for enabling reports mailing.
-    $name = 'report_coursemanager/enable_mailing';
-    $title = get_string('enablemailing', 'report_coursemanager');
-    $description = get_string('enablemailing_desc', 'report_coursemanager');
+    // Reports displaying and availability.
+    $settings->add(new admin_setting_heading('reportsheading',
+            get_string('reportsheading', 'report_coursemanager'), ''));
+
+    // Define if reports are displayed in courses and which place to use.
+    $showreportincoursechoices = [
+        get_string('show_report_in_course_choices_none', 'report_coursemanager'),
+        get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
+        get_string('show_report_in_course_choices_popover', 'report_coursemanager'),
+    ];
+    $name = 'report_coursemanager/show_report_in_course';
+    $title = get_string('show_report_in_course', 'report_coursemanager');
+    $description = get_string('show_report_in_course_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configselect($name, $title, $description, null, $showreportincoursechoices));
+
+    // Checkbox for enabling course content task (heavy and empty courses).
+    $name = 'report_coursemanager/enable_course_content_task';
+    $title = get_string('enablecoursecontenttask', 'report_coursemanager');
+    $description = get_string('enablecoursecontenttask_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Checkbox for enabling teachers task (courses without teachers or without teachers visits).
+    $name = 'report_coursemanager/enable_teachers_task';
+    $title = get_string('enableteacherstask', 'report_coursemanager');
+    $description = get_string('enableteacherstask_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Checkbox for enabling students task (courses without students or without students visits).
+    $name = 'report_coursemanager/enable_students_task';
+    $title = get_string('enablestudentstask', 'report_coursemanager');
+    $description = get_string('enablestudentstask_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
     // Checkbox for enabling orphan submissions task.
     $name = 'report_coursemanager/enable_orphans_task';
     $title = get_string('enableorphanstask', 'report_coursemanager');
     $description = get_string('enableorphanstask_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Settings for teachers mailing.
+    $settings->add(new admin_setting_heading('mailingheading',
+            get_string('mailingheading', 'report_coursemanager'), ''));
+
+    // Checkbox for enabling reports mailing.
+    $name = 'report_coursemanager/enable_mailing';
+    $title = get_string('enablemailing', 'report_coursemanager');
+    $description = get_string('enablemailing_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
     // Introduction for report mailing.
@@ -118,18 +163,6 @@ if ($ADMIN->fulltree) {
             PARAM_RAW
         )
     );
-
-    // Define if reports are displayed in courses and which place to use.
-    $showreportincoursechoices = [
-        get_string('show_report_in_course_choices_none', 'report_coursemanager'),
-        get_string('show_report_in_course_choices_collapse', 'report_coursemanager'),
-        get_string('show_report_in_course_choices_popover', 'report_coursemanager'),
-    ];
-
-    $name = 'report_coursemanager/show_report_in_course';
-    $title = get_string('show_report_in_course', 'report_coursemanager');
-    $description = get_string('show_report_in_course_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configselect($name, $title, $description, null, $showreportincoursechoices));
 }
 
 $ADMIN->add('reports', new admin_externalpage('report_coursemanager',

@@ -17,7 +17,7 @@
 }
 
 #page-report-coursemanager #no-visit-student.tablefilter:checked ~ div table tbody tr.no-visit-student,
-#page-report-coursemanager#heavy-course.tablefilter:checked ~ div table tbody tr.heavy-course,
+#page-report-coursemanager #heavy-course.tablefilter:checked ~ div table tbody tr.heavy-course,
 #page-report-coursemanager #no-visit-teacher.tablefilter:checked ~ div table tbody tr.no-visit-teacher,
 #page-report-coursemanager #no-content.tablefilter:checked ~ div table tbody tr.no-content,
 #page-report-coursemanager #no-student.tablefilter:checked ~ div table tbody tr.no-student,

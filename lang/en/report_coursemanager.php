@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Course manager';
 $string['title'] = 'Course Manager for teachers';
 
-// Settings pages.
+// Settings page.
 $string['configtitle'] = 'Course Manager settings';
 $string['category_bin'] = 'Category for bin';
 $string['teacherroledashboard'] = 'Teacher role in courses';
@@ -55,6 +55,12 @@ $string['show_report_in_course_choices_collapse'] = 'Scrolling menu under course
 $string['show_report_in_course_choices_popover'] = 'Icons next to course title';
 $string['enablemailing'] = 'Activate reports mailing';
 $string['enablemailing_desc'] = 'If checked, activates automated task for reports mailing. Default periodicity is every 30 days.';
+$string['enablecoursecontenttask'] = 'Activate empty or heavy courses reports';
+$string['enablecoursecontenttask_desc'] = 'If checked, activates automated task to detect heavy courses or courses without contents.';
+$string['enableteacherstask'] = 'Activate reports concerning teachers visits and enrolments';
+$string['enableteacherstask_desc'] = 'If checked, activates automated task to detect courses without teachers or without recent teachers visits.';
+$string['enablestudentstask'] = 'Activate reports concerning students visits and enrolments';
+$string['enablestudentstask_desc'] = 'If checked, activates automated task to detect courses without students or without recent students visits.';
 $string['enableorphanstask'] = 'Activate orphaned submissions report';
 $string['enableorphanstask_desc'] = 'If checked, activates automated task to detect assigns with orphaned files.';
 $string['mailingintro_setting'] = 'Email content';
@@ -63,6 +69,12 @@ You can use the following variables :<br>
 %userfirstname% : User\'s first name<br>
 %userlastname% : User\'s last name<br>
 %coursemanagerlink% : Course Manager\'s link';
+
+// Headings for settings page.
+$string['reportssettingsheading'] = 'Settings for reports calculation';
+$string['trashsettingsheading'] = 'Settings for trash category and courses deletion';
+$string['reportsheading'] = 'Reports';
+$string['mailingheading'] = 'Teachers mailing';
 
 // Banner for courses in category bin.
 $string['trash'] = 'This course is in the category for deleted courses.';
@@ -305,7 +317,9 @@ $string['ok'] = 'No reports';
 $string['runreportstask'] = 'Reports calculation for Course Manager';
 $string['mailingtask'] = 'Mailing reports for teachers for Course Manager';
 $string['runorphansubmissionstask'] = 'Course Manager report for orphaned submissions';
-
+$string['runcoursecontentreporttask'] = 'Course Manager report for heavy and empty courses';
+$string['runstudentvisitreporttask'] = 'Course Manager report for students visits and courses without students';
+$string['runteachervisitreporttask'] = 'Course Manager report for teachers visits and courses without teachers';
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Total files size in this course is actually <b>{$a->size} Mo</b>. Consider sorting files or reseting this course.<br /><b>{$a->heavy_link}</b>';
