@@ -55,6 +55,12 @@ $string['show_report_in_course_choices_popover'] = 'Icônes à côté du titre';
 $string['enablemailing'] = 'Activer l\'envoi du mailing aux enseignants';
 $string['enablemailing_desc'] = 'Si coché, active l\'envoi des rapports de cours à chaque enseignant. La périodicité du mailing est définie par défaut
 tous les 30 jours, et peut être modifiée dans les tâches programmées.';
+$string['enablecoursecontenttask'] = 'Activer le rapport des cours vides ou lourds';
+$string['enablecoursecontenttask_desc'] = 'Si coché, active la tâche permettant de détecter les cours lourds ou sans contenus.';
+$string['enableteacherstask'] = 'Activer le rapport sur les inscriptions et visites d\'enseignants';
+$string['enableteacherstask_desc'] = 'Si coché, active la tâche permettant de détecter les cours sans enseignants ou sans visites d\'enseignants récents.';
+$string['enablestudentstask'] = 'Activer le rapport sur les inscriptions et visites d\'étudiants';
+$string['enablestudentstask_desc'] = 'Si coché, active la tâche permettant de détecter les cours sans étudiants ou sans visites d\'étudiants récents.';
 $string['enableorphanstask'] = 'Activer le rapport des devoirs orphelins';
 $string['enableorphanstask_desc'] = 'Si coché, active la tâche permettant de détecter les fichiers orphelins dans les devoirs.';
 $string['mailingintro_setting'] = 'Introduction du mail';
@@ -63,6 +69,12 @@ Vous pouvez utiliser les variables suivantes :<br>
 %userfirstname% : prénom de l\'utilisateur<br>
 %userlastname% : nom de l\'utilisateur<br>
 %coursemanagerlink% : lien vers le gestionnaire de cours';
+
+// Headings for settings page.
+$string['reportssettingsheading'] = 'Paramètres pour le calcul des rapports';
+$string['trashsettingsheading'] = 'Paramètres de la catégorie Corbeille et la suppression des cours';
+$string['reportsheading'] = 'Rapports';
+$string['mailingheading'] = 'Mailing aux enseignants';
 
 // Banner for courses in categorby bin.
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
@@ -322,8 +334,11 @@ $string['ok'] = 'Aucune remarque';
 
 // Tasks.
 $string['runreportstask'] = 'Calcul des rapports pour Course Manager';
-$string['mailingtask'] = 'Mailing des rapports aux enseignants';
-$string['runorphansubmissionstask'] = 'Calcul du rapport des devoirs orphelins';
+$string['mailingtask'] = 'Mailing des rapports Course Manager aux enseignants';
+$string['runorphansubmissionstask'] = 'Calcul du rapport Course Manager des devoirs orphelins';
+$string['runcoursecontentreporttask'] = 'Calcul des rapports Course Manager des cours vides ou lourds';
+$string['runstudentvisitreporttask'] = 'Calcul des rapports Course Manager des cours sans étudiants ou sans visites d\'étudiants';
+$string['runteachervisitreporttask'] = 'Calcul des rapports Course Manager des cours sans enseignants ou sans visites d\'enseignants';
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';

@@ -91,5 +91,9 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         // Finalized new task for orphan submissions reports - V3.2.0.
         upgrade_plugin_savepoint(true, 2024050301, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024050302) {
+        // Separating each report in a different task.
+        upgrade_plugin_savepoint(true, 2024050302, 'report', 'coursemanager');
+    }
     return true;
 }
