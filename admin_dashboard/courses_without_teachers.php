@@ -39,6 +39,9 @@ $instance  = optional_param('instance', 0, PARAM_INT);
 
 $site = get_site();
 
+$page         = optional_param('page', 0, PARAM_INT);
+$perpage      = optional_param('perpage', 2, PARAM_INT);        // how many per page
+
 $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
 $PAGE->set_heading(get_string('title', 'report_coursemanager'));
@@ -111,7 +114,8 @@ if (count($existsnoteacherincourse) > 0) {
     $table->head[] = get_string('table_actions', 'report_coursemanager');
 
     // For each course, retrieve informations for table.
-    foreach ($existsnoteacherincourse as $course) {
+    $selectnoteacherincourse = array_slice($existsnoteacherincourse, $page * $perpage, $perpage);
+    foreach ($selectnoteacherincourse as $course) {
         $coursecontext = \context_course::instance($course->course);
         // Retrieve course general information.
         $courseinfo = $DB->get_record('course', ['id' => $course->course]);
@@ -180,6 +184,9 @@ if (count($existsnoteacherincourse) > 0) {
 
     // Print the whole table.
     echo html_writer::table($table);
+
+    $baseurl = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php', array('perpage' => $perpage));
+    echo $OUTPUT->paging_bar(count($existsnoteacherincourse), $page, $perpage, $baseurl);
 } else {
     // If no course without teacher, add a message in place of table.
     echo html_writer::div(get_string('emptytablenoteacherincourses', 'report_coursemanager'), 'alert alert-success');
