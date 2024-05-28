@@ -94,7 +94,7 @@ echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_course
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
 
 // Checl for entries in coursemanager table for courses without teachers.
-$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course'], ['weight DESC']);
+$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
 
 if (count($existsnoteacherincourse) > 0) {
     $table = new html_table();
