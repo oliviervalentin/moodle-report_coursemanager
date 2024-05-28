@@ -93,8 +93,15 @@ echo $OUTPUT->header();
 echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'));
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
 
-// Checl for entries in coursemanager table for courses without teachers.
-$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
+// Check for entries in coursemanager table for courses without teachers.
+$sqlnoteacherincourse = 'SELECT r1.course AS course, r2.detail AS weight
+    FROM {report_coursemanager_reports} r1
+    JOIN {report_coursemanager_reports} r2 ON r1.course = r2.course
+    WHERE r1.report = "no_teacher_in_course" AND r2.report = "weight"
+    ORDER BY r2.detail DESC
+';
+$paramsnoteacherincourse = [];
+$existsnoteacherincourse = $DB->get_records_sql($sqlnoteacherincourse, $paramsnoteacherincourse);
 
 if (count($existsnoteacherincourse) > 0) {
     $table = new html_table();
@@ -121,7 +128,7 @@ if (count($existsnoteacherincourse) > 0) {
         // Count enrolled students.
         $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
         // Retrieve course weight calculated by task, recorded in coursemanager table.
-        $weight = $DB->get_record('report_coursemanager_reports', ['report' => 'weight', 'course' => $course->course]);
+        // $weight = $DB->get_record('report_coursemanager_reports', ['report' => 'weight', 'course' => $course->course]);
 
         // Retrieve last user access to course.
         $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess
@@ -171,7 +178,7 @@ if (count($existsnoteacherincourse) > 0) {
         $row[] = html_writer::label($allstudents, null);
         $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
         $row[] = html_writer::label($dbresultemptycourse, null);
-        $row[] = html_writer::label($weight->detail.' Mo', null);
+        $row[] = html_writer::label($course->weight.' Mo', null);
         $row[] = html_writer::label($lastlog, null);
         $row[] = html_writer::label($namelastteacher, null);
 
