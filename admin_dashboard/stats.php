@@ -97,15 +97,19 @@ if (!empty($heaviestcourse)) {
 $countemptycourses = $DB->count_records('report_coursemanager_reports', ['report' => 'empty']);
 
 // Count courses with orphan submissions in Course Manager table.
-$countorphansubmissionscourses = $DB->count_records('report_coursemanager_reports', ['report' => 'orphan_submissions']);
+$countorphansubmissionscourses = $DB->count_records('report_coursemanager_orphans');
 
 // Sum filesize in Mo for orphan submissions.
 if (!empty($countorphansubmissionscourses)) {
-    $sqltotalorphans = "SELECT ROUND(SUM(detail)/1024/1024)
-        FROM {report_coursemanager_reports}
-        WHERE report = 'orphan_submissions'
+    $sqltotalsizeorphans = "SELECT ROUND(SUM(weight)/1024/1024)
+        FROM {report_coursemanager_orphans}
         ";
-    $totalorphans = $DB->get_field_sql($sqltotalorphans);
+    $totalsizeorphans = $DB->get_field_sql($sqltotalsizeorphans);
+
+    $sqltotalfilesorphans = "SELECT SUM(files)
+    FROM {report_coursemanager_orphans}
+    ";
+    $totalfilesorphans = $DB->get_field_sql($sqltotalfilesorphans);
 }
 
 // Count courses without teachers in Course Manager table.
@@ -187,10 +191,10 @@ $content .= '
             </div>
             <div class="card text-center m-2" style="width: 18rem;">
                 <div class="card-body">
-                <h5 class="card-title">'.get_string('stats_courses_orphan_submissions', 'report_coursemanager').'</h5>
+                <h5 class="card-title">'.get_string('stats_files_orphan_submissions', 'report_coursemanager').'</h5>
                 <small class="card-subtitle mb-2 text-muted">'
-                .get_string('stats_courses_orphan_submissions_desc', 'report_coursemanager').'</small>
-                <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$countorphansubmissionscourses.'</p>
+                .get_string('stats_files_orphan_submissions_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$totalfilesorphans.'</p>
                 </div>
             </div>
  ';
@@ -201,7 +205,7 @@ if (!empty($countorphansubmissionscourses)) {
                 <h5 class="card-title">'.get_string('stats_weight_courses_orphan_submissions', 'report_coursemanager').'</h5>
                 <small class="card-subtitle mb-2 text-muted">'
                 .get_string('stats_weight_courses_orphan_submissions_desc', 'report_coursemanager').'</small>
-                <p class="card-text display-4"><i class="fa fa-files-o"></i>  '.$totalorphans.' Mo</p>
+                <p class="card-text display-4"><i class="fa fa-files-o"></i>  '.$totalsizeorphans.' Mo</p>
                 </div>
             </div>
     ';

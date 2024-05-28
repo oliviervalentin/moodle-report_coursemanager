@@ -36,6 +36,9 @@ global $PAGE, $DB, $USER, $CFG;
 $delete = optional_param('delete', 0, PARAM_INT);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 $instance  = optional_param('instance', 0, PARAM_INT);
+$course  = optional_param('course', 0, PARAM_INT);
+$page = optional_param('page', 0, PARAM_INT);
+$perpage = optional_param('perpage', 10, PARAM_INT);
 
 $site = get_site();
 
@@ -92,6 +95,8 @@ if (!empty($delete)) {
         foreach ($dbresultlistusersorphansubmissions as $userorphan) {
             $delete = $targetassign->remove_submission($userorphan->id);
         }
+        // Now that files are deleted, delete report entry.
+        $purgereport = $DB->delete_records('report_coursemanager_orphans', ['cmid' => $instance, 'course' => $course, ]);
         $returnurl = "orphaned_submissions.php";
         redirect($returnurl);
         exit();
@@ -106,7 +111,7 @@ if (!empty($delete)) {
         echo $OUTPUT->heading(get_string('title_admin_orphan_submissions', 'report_coursemanager'));
 
         $urlconfirmdelete = new moodle_url('orphaned_submissions.php',
-            ['confirm' => 1, 'delete' => 1, 'instance' => $instance, 'sesskey' => sesskey()]);
+            ['confirm' => 1, 'delete' => 1, 'instance' => $instance, 'course' => $course, 'sesskey' => sesskey()]);
 
         echo $OUTPUT->confirm(get_string('deleteorphansubmissionsconfirm', 'report_coursemanager'),
                 $urlconfirmdelete,
@@ -132,78 +137,27 @@ $table->head[] = get_string('table_files_count', 'report_coursemanager');
 $table->head[] = get_string('table_files_weight', 'report_coursemanager');
 $table->head[] = get_string('table_actions', 'report_coursemanager');
 
-$listcourses = get_courses();
-foreach ($listcourses as $course) {
-
-    $sql = 'SELECT cm.instance, a.name, cm.id
-        FROM {course_modules} cm
-        JOIN {course} c ON c.id = cm.course
-        JOIN {modules} m ON m.id = cm.module
-        JOIN {assign} a ON a.id = cm.instance
-        WHERE m.name =\'assign\'
-        AND c.id = ?';
-    $paramsdb = [$course->id];
-    $dbresult = $DB->get_records_sql($sql, $paramsdb);
-
-    if (count($dbresult) > 0) {
-        foreach ($dbresult as $assigninstance) {
-            $sqlassignsorphans = "SELECT DISTINCT(f.filesize) AS filesize
-                FROM
-                {files} AS f,
-                {assignsubmission_file} AS asf,
-                {assign} AS a,
-                {user} AS u,
-                {course} AS c,
-                {course_modules} AS cm
-                WHERE
-                component = 'assignsubmission_file'
-                AND asf.submission=f.itemid
-                AND a.id = asf.assignment
-                AND f.userid = u.id
-                AND filename != '.'
-                AND c.id = a.course
-                AND a.id = ?
-                AND a.id = cm.instance
-                AND u.id  NOT IN
-                    (SELECT us.id
-                FROM
-                    {course} AS course,
-                    {enrol} AS en,
-                    {user_enrolments} AS ue,
-                    {user} AS us
-                    WHERE c.id=course.id
-                        AND en.courseid = course.id
-                        AND ue.enrolid = en.id
-                        AND us.id = ue.userid
-                    )
-                GROUP BY filesize
-            ";
-            $paramsdbassignsorphans = [$assigninstance->instance];
-            $dbresultassignsorphans = $DB->get_records_sql($sqlassignsorphans, $paramsdbassignsorphans);
-
-            if ($dbresultassignsorphans) {
-                $row = [];
-                $totalsize = 0;
-                $totalfiles = 0;
-                foreach ($dbresultassignsorphans as $orphansubmission) {
-                    $totalsize += $orphansubmission->filesize;
-                    $totalfiles = $totalfiles + 1;
-                }
-                $row[] = html_writer::link("/course/view.php?id=".$course->id, $course->fullname);
-                $row[] = html_writer::link("/mod/assign/view.php?id=".$assigninstance->id, $assigninstance->name);
-                $row[] = html_writer::label($totalfiles, null);
-                $row[] = html_writer::label(number_format(ceil($totalsize / 1048576), 0, ',', '')." Mo", null);
-                $content = "<a href='/report/coursemanager/admin_dashboard/orphaned_submissions.php?delete=1
-                &instance=".$assigninstance->id."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
-                $row[] = html_writer::label($content, null);
-                $table->data[] = $row;
-
-            }
-        }
-    } else {
-        $row[] = html_writer::label(get_string('noassign', 'report_coursemanager'), null);
-    }
+// Let's retrieve all records in orphans table.
+$listassigns = $DB->get_records('report_coursemanager_orphans', [], 'weight DESC');
+$selectedassigns = array_slice($listassigns, $page * $perpage, $perpage);
+foreach ($selectedassigns as $assign) {
+    $cm = get_coursemodule_from_id('assign', $assign->cmid);
+    $course = $DB->get_record('course', array('id' => $assign->course));
+    // $context = context_module::instance($cm->id);
+    $row = [];
+    $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
+    $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
+    $row[] = html_writer::label($assign->files, null);
+    $row[] = html_writer::label(number_format(ceil($assign->weight / 1048576), 0, ',', '')." Mo", null);
+    $content = "<a href='/report/coursemanager/admin_dashboard/orphaned_submissions.php?delete=1
+    &instance=".$assign->cmid."&course=".$assign->course."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
+    $row[] = html_writer::label($content, null);
+    $table->data[] = $row;
 }
 
 echo html_writer::table($table);
+
+$baseurl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php', array('perpage' => $perpage));
+echo $OUTPUT->paging_bar(count($listassigns), $page, $perpage, $baseurl);
+
 echo $OUTPUT->footer();
