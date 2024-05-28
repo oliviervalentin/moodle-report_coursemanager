@@ -108,5 +108,9 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         $DB->delete_records('report_coursemanager_orphans');
         upgrade_plugin_savepoint(true, 2024050304, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024050305) {
+        // HOTFIX : error in courses without teachers admin page.
+        upgrade_plugin_savepoint(true, 2024050305, 'report', 'coursemanager');
+    }
     return true;
 }
