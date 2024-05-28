@@ -60,7 +60,6 @@ class run_orphan_submissions_report_task extends \core\task\scheduled_task {
                 AND instance = ?
                 ';
                 $dbresultcontextid = $DB->get_record_sql($sqlcontextid, [$assign->id]);
-
                 $cm = get_coursemodule_from_id('assign', $dbresultcontextid->id);
                 $context = \context_module::instance($cm->id);
 
@@ -90,13 +89,13 @@ class run_orphan_submissions_report_task extends \core\task\scheduled_task {
                 foreach ($dbresultassignsorphans as $orphan) {
                     // First check if this report exists.
                     $existsorphans = $DB->get_record('report_coursemanager_orphans',
-                    ['course' => $assign->course, 'contextid' => $context->id]);
+                    ['course' => $assign->course, 'cmid' => $cm->id]);
 
                     if ($orphan->total_files > 0) {
                         // Orphaned submissions detected for this assign, create or update entry.
                         $data = new \stdClass();
                         $data->course = $assign->course;
-                        $data->contextid = $context->id;
+                        $data->cmid = $cm->id;
                         $data->weight = $orphan->total_size;
                         $data->files = $orphan->total_files;
                         $data->timecreated = time();

@@ -283,8 +283,8 @@ $string['stats_heavy_courses'] = 'Cours lourds';
 $string['stats_heavy_courses_desc'] = 'Cours pesant plus de {$a->totalfilesizethreshold} Mo (limite définie dans les paramètres de Course Manager).';
 $string['stats_empty_courses'] = 'Cours vides';
 $string['stats_empty_courses_desc'] = 'Nombre de cours contenant uniquement le forum des annonces.';
-$string['stats_courses_orphan_submissions'] = 'Cours contenant des devoirs orphelins';
-$string['stats_courses_orphan_submissions_desc'] = 'Nombre de cours avec des Devoirs contenant des fichiers déposés par des étudiants désinscrits.';
+$string['stats_files_orphan_submissions'] = 'Total de devoirs orphelins';
+$string['stats_files_orphan_submissions_desc'] = 'Nombre de fichiers déposés comme devoirs par des étudiants désinscrits.';
 $string['stats_weight_courses_orphan_submissions'] = 'Poids des devoirs orphelins';
 $string['stats_weight_courses_orphan_submissions_desc'] = 'Somme des fichiers considérés comme devoirs orphelins';
 $string['stats_heaviest_course'] = 'Cours le plus lourd';
@@ -298,7 +298,6 @@ $string['stats_count_courses_without_students'] = 'Cours sans étudiants';
 $string['stats_count_courses_without_students_desc'] = 'Nombre de cours sans utilisateurs inscrits comme étudiant.';
 $string['stats_count_courses_without_visit_students'] = 'Cours sans visite d\'étudiants';
 $string['stats_count_courses_without_visit_students_desc'] = 'Nombre de cours où aucun étudiant ne s\'est connecté depuis plus de {$a->lastaccessstudent} jours.';
-
 
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohortes supprimées';

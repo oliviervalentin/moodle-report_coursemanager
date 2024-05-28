@@ -36,11 +36,10 @@ global $PAGE, $DB, $USER, $CFG;
 $delete = optional_param('delete', 0, PARAM_INT);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 $instance  = optional_param('instance', 0, PARAM_INT);
+$page = optional_param('page', 0, PARAM_INT);
+$perpage = optional_param('perpage', 10, PARAM_INT);
 
 $site = get_site();
-
-$page         = optional_param('page', 0, PARAM_INT);
-$perpage      = optional_param('perpage', 2, PARAM_INT);        // how many per page
 
 $PAGE = new moodle_page();
 $PAGE->set_context(context_system::instance());
@@ -95,7 +94,7 @@ echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_course
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
 
 // Checl for entries in coursemanager table for courses without teachers.
-$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course']);
+$existsnoteacherincourse = $DB->get_records('report_coursemanager_reports', ['report' => 'no_teacher_in_course'], ['weight DESC']);
 
 if (count($existsnoteacherincourse) > 0) {
     $table = new html_table();

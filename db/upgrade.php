@@ -95,5 +95,18 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         // Separating each report in a different task.
         upgrade_plugin_savepoint(true, 2024050302, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024050304) {
+        // Redesign orphan submissions admin page needs to rename report_coursemanager_orphans field in database.
+        $table = new xmldb_table('report_coursemanager_orphans');
+        $field = new xmldb_field('contextid');
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'course');
+
+        if ($dbman->table_exists($table)) {
+            $dbman->rename_field($table, $field, 'cmid', $continue = true, $feedback = true);
+        }
+        // Must empty report_coursemanager_orphans table and rerun task for recording new values.
+        $DB->delete_records('report_coursemanager_orphans');
+        upgrade_plugin_savepoint(true, 2024050304, 'report', 'coursemanager');
+    }
     return true;
 }

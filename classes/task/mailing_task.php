@@ -128,8 +128,14 @@ class mailing_task extends \core\task\scheduled_task {
                     // For each report, we test each course for a teacher.
                     foreach ($dbresultlistcoursesforteacher as $listcourse) {
                         // If a report exists for a course, add course name to the list with direct link.
-                        $checkreport = $DB->get_record('report_coursemanager_reports',
-                        ['course' => $listcourse->courseid, 'report' => $report['report']]);
+                        if ($report['report'] == 'orphan_submissions') { 
+                            $checkreport = $DB->get_records('report_coursemanager_orphans',
+                            ['course' => $listcourse->courseid]);
+                        } else {
+                            $checkreport = $DB->get_record('report_coursemanager_reports',
+                            ['course' => $listcourse->courseid, 'report' => $report['report']]);
+                        }
+
                         if (!empty($checkreport)) {
                             // Heavy report leads to the specific page about course files.
                             if ($report['report'] == 'heavy') {
