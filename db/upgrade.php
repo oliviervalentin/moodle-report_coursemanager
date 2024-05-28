@@ -101,7 +101,7 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         $field = new xmldb_field('contextid');
         $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, 'course');
 
-        if ($dbman->table_exists($table)) {
+        if ($dbman->table_exists($table) && $dbman->field_exists($table, $field)) {
             $dbman->rename_field($table, $field, 'cmid', $continue = true, $feedback = true);
         }
         // Must empty report_coursemanager_orphans table and rerun task for recording new values.
