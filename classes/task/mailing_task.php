@@ -128,7 +128,7 @@ class mailing_task extends \core\task\scheduled_task {
                     // For each report, we test each course for a teacher.
                     foreach ($dbresultlistcoursesforteacher as $listcourse) {
                         // If a report exists for a course, add course name to the list with direct link.
-                        if ($report['report'] == 'orphan_submissions') { 
+                        if ($report['report'] == 'orphan_submissions') {
                             $checkreport = $DB->get_records('report_coursemanager_orphans',
                             ['course' => $listcourse->courseid]);
                         } else {
