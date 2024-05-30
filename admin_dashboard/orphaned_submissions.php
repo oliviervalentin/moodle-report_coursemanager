@@ -96,7 +96,7 @@ if (!empty($delete)) {
             $delete = $targetassign->remove_submission($userorphan->id);
         }
         // Now that files are deleted, delete report entry.
-        $purgereport = $DB->delete_records('report_coursemanager_orphans', ['cmid' => $instance, 'course' => $course, ]);
+        $purgereport = $DB->delete_records('report_coursemanager_orphans', ['cmid' => $instance, 'course' => $course]);
         $returnurl = "orphaned_submissions.php";
         redirect($returnurl);
         exit();
@@ -142,8 +142,8 @@ $listassigns = $DB->get_records('report_coursemanager_orphans', [], 'weight DESC
 $selectedassigns = array_slice($listassigns, $page * $perpage, $perpage);
 foreach ($selectedassigns as $assign) {
     $cm = get_coursemodule_from_id('assign', $assign->cmid);
-    $course = $DB->get_record('course', array('id' => $assign->course));
-    // $context = context_module::instance($cm->id);
+    $course = $DB->get_record('course', ['id' => $assign->course]);
+
     $row = [];
     $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
     $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
@@ -157,7 +157,7 @@ foreach ($selectedassigns as $assign) {
 
 echo html_writer::table($table);
 
-$baseurl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php', array('perpage' => $perpage));
+$baseurl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php', ['perpage' => $perpage]);
 echo $OUTPUT->paging_bar(count($listassigns), $page, $perpage, $baseurl);
 
 echo $OUTPUT->footer();
