@@ -127,8 +127,6 @@ if (count($existsnoteacherincourse) > 0) {
         $courseinfo = $DB->get_record('course', ['id' => $course->course]);
         // Count enrolled students.
         $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
-        // Retrieve course weight calculated by task, recorded in coursemanager table.
-        // $weight = $DB->get_record('report_coursemanager_reports', ['report' => 'weight', 'course' => $course->course]);
 
         // Retrieve last user access to course.
         $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess
@@ -191,7 +189,7 @@ if (count($existsnoteacherincourse) > 0) {
     // Print the whole table.
     echo html_writer::table($table);
 
-    $baseurl = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php', array('perpage' => $perpage));
+    $baseurl = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php', ['perpage' => $perpage]);
     echo $OUTPUT->paging_bar(count($existsnoteacherincourse), $page, $perpage, $baseurl);
 } else {
     // If no course without teacher, add a message in place of table.
