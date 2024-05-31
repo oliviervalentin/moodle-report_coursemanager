@@ -92,14 +92,26 @@ echo $OUTPUT->header();
 
 echo html_writer::div(get_string('admin_no_teacher_courses_info', 'report_coursemanager'));
 echo html_writer::div(get_string('adminnoteachercoursesnote', 'report_coursemanager'));
+// If course weight is enabled, add warning that some courses may not appear if weight hasn't been calculated.
+if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
+    echo html_writer::div(get_string('adminnoteachercoursesweight', 'report_coursemanager'));
+}
 
 // Check for entries in coursemanager table for courses without teachers.
-$sqlnoteacherincourse = 'SELECT r1.course AS course, r2.detail AS weight
-    FROM {report_coursemanager_reports} r1
-    JOIN {report_coursemanager_reports} r2 ON r1.course = r2.course
-    WHERE r1.report = "no_teacher_in_course" AND r2.report = "weight"
-    ORDER BY r2.detail DESC
-';
+// If course weight is enabled, retrieve concerned courses AND their weight.
+if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
+    $sqlnoteacherincourse = 'SELECT r1.course AS course, r2.detail AS weight
+        FROM {report_coursemanager_reports} r1
+        JOIN {report_coursemanager_reports} r2 ON r1.course = r2.course
+        WHERE r1.report = "no_teacher_in_course" AND r2.report = "weight"
+        ORDER BY r2.detail DESC
+    ';
+} else {
+    $sqlnoteacherincourse = 'SELECT r1.course AS course
+        FROM {report_coursemanager_reports} r1
+        WHERE r1.report = "no_teacher_in_course"
+    ';
+}
 $paramsnoteacherincourse = [];
 $existsnoteacherincourse = $DB->get_records_sql($sqlnoteacherincourse, $paramsnoteacherincourse);
 
@@ -114,7 +126,10 @@ if (count($existsnoteacherincourse) > 0) {
     $table->head[] = get_string('tablecountenrolledstudents', 'report_coursemanager');
     $table->head[] = get_string('tablelastaccess', 'report_coursemanager');
     $table->head[] = get_string('tablecountmodules', 'report_coursemanager');
-    $table->head[] = get_string('tablecourseweight', 'report_coursemanager');
+    // If course weight is enabled, add weight column.
+    if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
+        $table->head[] = get_string('tablecourseweight', 'report_coursemanager');
+    }
     $table->head[] = get_string('tablelastteacherlog', 'report_coursemanager');
     $table->head[] = get_string('tablelastteacher', 'report_coursemanager');
     $table->head[] = get_string('table_actions', 'report_coursemanager');
@@ -122,68 +137,73 @@ if (count($existsnoteacherincourse) > 0) {
     // For each course, retrieve informations for table.
     $selectnoteacherincourse = array_slice($existsnoteacherincourse, $page * $perpage, $perpage);
     foreach ($selectnoteacherincourse as $course) {
-        $coursecontext = \context_course::instance($course->course);
-        // Retrieve course general information.
-        $courseinfo = $DB->get_record('course', ['id' => $course->course]);
-        // Count enrolled students.
-        $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
+        if ($DB->record_exists('course', ['id' => $course->course])) {
+            $coursecontext = \context_course::instance($course->course);
+            // Retrieve course general information.
+            $courseinfo = $DB->get_record('course', ['id' => $course->course]);
+            // Count enrolled students.
+            $allstudents = count(get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext));
 
-        // Retrieve last user access to course.
-        $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess
-            FROM {user_lastaccess}
-            WHERE courseid = ?';
-        $paramslastaccess  = [$course->course];
-        $dbresultlastaccess  = $DB->get_record_sql($sqllastaccess, $paramslastaccess);
+            // Retrieve last user access to course.
+            $sqllastaccess = 'SELECT MAX(timeaccess) AS lastaccess
+                FROM {user_lastaccess}
+                WHERE courseid = ?';
+            $paramslastaccess  = [$course->course];
+            $dbresultlastaccess  = $DB->get_record_sql($sqllastaccess, $paramslastaccess);
 
-        // Calculate number of activities.
-        $sqlemptycourse = 'SELECT COUNT(mcm.id) AS count_modules
-            FROM {course} mc
-            INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
-            INNER JOIN {modules} mm ON (mcm.module = mm.id)
-            WHERE mc.id = ?
-            AND mm.name <> \'forum\'
-            ';
-        $paramsemptycourse = [$course->course];
-        $dbresultemptycourse = $DB->count_records_sql($sqlemptycourse, $paramsemptycourse);
+            // Calculate number of activities.
+            $sqlemptycourse = 'SELECT COUNT(mcm.id) AS count_modules
+                FROM {course} mc
+                INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
+                INNER JOIN {modules} mm ON (mcm.module = mm.id)
+                WHERE mc.id = ?
+                AND mm.name <> \'forum\'
+                ';
+            $paramsemptycourse = [$course->course];
+            $dbresultemptycourse = $DB->count_records_sql($sqlemptycourse, $paramsemptycourse);
 
-        // Calculate last teacher log and retrieve name of the probable last teacher.
-        // Information based on edulevel field of logstore table.
-        // Ignore if the user is a site admin.
-        $adminlist = array_keys(get_admins());
-        list($notinsql, $notinparams) = $DB->get_in_or_equal($adminlist, SQL_PARAMS_NAMED, 'param', false);
-        $sqllastteacherlog = 'SELECT id, userid AS teacher, timecreated AS lastlog
-                    FROM {logstore_standard_log}
-                    WHERE timecreated = (SELECT MAX(timecreated)
+            // Calculate last teacher log and retrieve name of the probable last teacher.
+            // Information based on edulevel field of logstore table.
+            // Ignore if the user is a site admin.
+            $adminlist = array_keys(get_admins());
+            list($notinsql, $notinparams) = $DB->get_in_or_equal($adminlist, SQL_PARAMS_NAMED, 'param', false);
+            $sqllastteacherlog = 'SELECT id, userid AS teacher, timecreated AS lastlog
                         FROM {logstore_standard_log}
-                        WHERE courseid = :courseid
-                        AND edulevel = 1
-                        AND userid '. $notinsql. ')';
-        $paramslastteacherlog = ['courseid' => $course->course] + $notinparams;
-        $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
+                        WHERE timecreated = (SELECT MAX(timecreated)
+                            FROM {logstore_standard_log}
+                            WHERE courseid = :courseid
+                            AND edulevel = 1
+                            AND userid '. $notinsql. ')';
+            $paramslastteacherlog = ['courseid' => $course->course] + $notinparams;
+            $dbresultlastteacherlog  = $DB->get_record_sql($sqllastteacherlog, $paramslastteacherlog);
 
-        if ($dbresultlastteacherlog) {
-            $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
-            $namelastteacher = $lastteacher->lastname.' '.$lastteacher->firstname;
-            $lastlog = date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog);
-        } else {
-            $namelastteacher = get_string('unknown', 'report_coursemanager');
-            $lastlog = get_string('unknown', 'report_coursemanager');
+            if ($dbresultlastteacherlog) {
+                $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
+                $namelastteacher = $lastteacher->lastname.' '.$lastteacher->firstname;
+                $lastlog = date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog);
+            } else {
+                $namelastteacher = get_string('unknown', 'report_coursemanager');
+                $lastlog = get_string('unknown', 'report_coursemanager');
+            }
+
+            // Now start to build table rows.
+            $row = [];
+            $row[] = html_writer::link("/course/view.php?id=".$courseinfo->id, $courseinfo->fullname);
+            $row[] = html_writer::label($allstudents, null);
+            $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
+            $row[] = html_writer::label($dbresultemptycourse, null);
+            // If course weight is enabled, add course weight.
+            if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
+                $row[] = html_writer::label($course->weight.' Mo', null);
+            }
+            $row[] = html_writer::label($lastlog, null);
+            $row[] = html_writer::label($namelastteacher, null);
+
+            $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1
+            &instance=".$courseinfo->id."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
+            $row[] = html_writer::label($deletelink, null);
+            $table->data[] = $row;
         }
-
-        // Now start to build table rows.
-        $row = [];
-        $row[] = html_writer::link("/course/view.php?id=".$courseinfo->id, $courseinfo->fullname);
-        $row[] = html_writer::label($allstudents, null);
-        $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
-        $row[] = html_writer::label($dbresultemptycourse, null);
-        $row[] = html_writer::label($course->weight.' Mo', null);
-        $row[] = html_writer::label($lastlog, null);
-        $row[] = html_writer::label($namelastteacher, null);
-
-        $deletelink = "<a href='/report/coursemanager/admin_dashboard/courses_without_teachers.php?delete=1
-        &instance=".$courseinfo->id."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
-        $row[] = html_writer::label($deletelink, null);
-        $table->data[] = $row;
     }
 
     // Print the whole table.
