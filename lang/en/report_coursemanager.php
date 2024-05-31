@@ -239,8 +239,9 @@ $string['filesdistributiontotalfiles'] = 'Number of files';
 // Admin page for courses without teachers.
 $string['title_admin_no_teacher_courses'] = '<b>Manage courses without teachers</b>';
 $string['admin_no_teacher_courses_info'] = '<p>This tool lists all courses where no user is enrolled as teacher, and possibly move them in bin category if needed.</p>';
-$string['adminnoteachercoursesnote'] = '<ul class="alert alert-info"><li>Informations concerning course weight and number of activities are not calculated in real time.</li>
+$string['adminnoteachercoursesnote'] = '<ul><li>Informations concerning course weight and number of activities are not calculated in real time.</li>
 <li>Informations concerning last teacher log are based on edulevel filed in logstore database. Modified permissions can distort this result.</li></ul>';
+$string['adminnoteachercoursesweight'] = '<ul class="alert alert-warning">The task for weight calculation is activated. Courses for which  weight has not been calculated yet will not appear in this list. If necessary, launch task manually or wait for next cron run.';
 $string['tablecountenrolledstudents'] = 'Students';
 $string['tablelastaccess'] = 'Last access in course';
 $string['tablehascontents'] = 'Number of contents';

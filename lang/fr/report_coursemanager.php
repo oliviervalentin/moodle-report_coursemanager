@@ -254,9 +254,10 @@ $string['filesdistributiontotalfiles'] = 'Nombre de fichiers';
 $string['title_admin_no_teacher_courses'] = '<b>Gestion des cours sans enseignants</b>';
 $string['admin_no_teacher_courses_info'] = '<p>Les cours peuvent se retrouver sans enseignant si la personne qui détenait ce rôle se désinscrit intentionnellement ou non du cours,
  ou si son compte n\'existe plus. Cet outil permet de recenser les cours concernés, et éventuellement de les basculer dans la catégorie Cours sans enseignants.</p>';
-$string['adminnoteachercoursesnote'] = '<ul class="alert alert-info"><li>Les informations concernant le poids du cours et le nombre de modules ne sont pas calculés en temps réel,
+$string['adminnoteachercoursesnote'] = '<ul><li>Les informations concernant le poids du cours et le nombre de modules ne sont pas calculés en temps réel,
  mais proviennent des rapports automatiques.</li><li>Les informations concernant le dernier log enseignant sont déduites à partir du champ edulevel de la table des
  logs et sont à titre indicatif. Les permissions modifiées dans un cours peuvent fausser ce résultat.</li></ul>';
+$string['adminnoteachercoursesweight'] = '<ul class="alert alert-warning">La tâche calculant le poids des cours est activée. Les cours pour lesquels le poids n\'a pas encore été calculé n\'apparaitront pas dans cette liste. Si besoin, lancez la tâche manuellement ou attendez le prochain passage du cron.';
 $string['tablecountenrolledstudents'] = 'Etudiants';
 $string['tablelastaccess'] = 'Dernier accès au cours';
 $string['tablehascontents'] = 'Nombre de contenus du cours';
