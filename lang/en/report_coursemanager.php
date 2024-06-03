@@ -321,6 +321,7 @@ $string['runorphansubmissionstask'] = 'Course Manager report for orphaned submis
 $string['runcoursecontentreporttask'] = 'Course Manager report for heavy and empty courses';
 $string['runstudentvisitreporttask'] = 'Course Manager report for students visits and courses without students';
 $string['runteachervisitreporttask'] = 'Course Manager report for teachers visits and courses without teachers';
+$string['runcleanreportstask'] = 'Course manager reports cleaner';
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Total files size in this course is actually <b>{$a->size} Mo</b>. Consider sorting files or reseting this course.<br /><b>{$a->heavy_link}</b>';

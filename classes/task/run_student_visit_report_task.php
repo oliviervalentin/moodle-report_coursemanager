@@ -63,7 +63,7 @@ class run_student_visit_report_task extends \core\task\scheduled_task {
 
                     // If course is in trash category, delete all reports.
                     if ($course->category == get_config('report_coursemanager', 'category_bin')) {
-                        $exists = $DB->get_record('report_coursemanager_reports', ['course' => $course->id]);
+                        $exists = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
                         if (!empty($exists)) {
                             $res = $DB->delete_records($table, ['course' => $course->id]);
                         }

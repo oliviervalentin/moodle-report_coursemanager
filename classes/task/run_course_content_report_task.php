@@ -25,7 +25,7 @@
 namespace report_coursemanager\task;
 
 /**
- * Class for empty or heavy courses reports calculation.
+ * Class for reports cleaning.
  *
  * @copyright  2022 Olivier VALENTIN
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -60,7 +60,7 @@ class run_course_content_report_task extends \core\task\scheduled_task {
 
                     // If course is in trash category, delete all reports.
                     if ($course->category == get_config('report_coursemanager', 'category_bin')) {
-                        $exists = $DB->get_record('report_coursemanager_reports', ['course' => $course->id]);
+                        $exists = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
                         if (!empty($exists)) {
                             $res = $DB->delete_records($table, ['course' => $course->id]);
                         }

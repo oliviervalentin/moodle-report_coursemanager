@@ -27,6 +27,15 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = [
     [
+        'classname' => 'report_coursemanager\task\run_clean_reports_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '3',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
+    [
         'classname' => 'report_coursemanager\task\run_orphan_submissions_report_task',
         'blocking' => 0,
         'minute' => '*',
