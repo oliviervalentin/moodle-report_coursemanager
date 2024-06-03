@@ -69,7 +69,7 @@ class run_clean_reports_task extends \core\task\scheduled_task {
         // Check if orphaned submissions is disabled, clean whole table.
         if (get_config('report_coursemanager', 'enable_orphans_task') == 0) {
             $purgereports = $DB->delete_records('report_coursemanager_orphans', []);
-        } 
+        }
 
         // 2- Select all courses having reports in general reports table and check if course exists.
         $sqllistcourseswithreports = 'SELECT DISTINCT(course) AS courseid
@@ -77,7 +77,7 @@ class run_clean_reports_task extends \core\task\scheduled_task {
         ';
         $listcourseswithreports = $DB->get_records_sql($sqllistcourseswithreports);
 
-        foreach($listcourseswithreports as $clean) {
+        foreach ($listcourseswithreports as $clean) {
             // If course doesn't exist (deleted by admin), delete all reports in tables.
             if (!$DB->record_exists('course', ['id' => $clean->courseid])) {
                 $purgereports = $DB->delete_records('report_coursemanager_reports', ['course' => $clean->courseid]);
@@ -94,7 +94,8 @@ class run_clean_reports_task extends \core\task\scheduled_task {
                 $cm = get_coursemodule_from_id('assign', $assign->cmid);
                 if (!$cm) {
                     // If coursemodule not found, assign has probably been deleted. Delete report.
-                    $purgereports = $DB->delete_records('report_coursemanager_orphans', ['course' => $assign->course, 'cmid' => $assign->cmid]);
+                    $purgereports = $DB->delete_records('report_coursemanager_orphans',
+                    ['course' => $assign->course, 'cmid' => $assign->cmid]);
                 }
             }
         }
