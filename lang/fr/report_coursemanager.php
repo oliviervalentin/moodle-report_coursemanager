@@ -339,6 +339,7 @@ $string['runorphansubmissionstask'] = 'Calcul du rapport Course Manager des devo
 $string['runcoursecontentreporttask'] = 'Calcul des rapports Course Manager des cours vides ou lourds';
 $string['runstudentvisitreporttask'] = 'Calcul des rapports Course Manager des cours sans étudiants ou sans visites d\'étudiants';
 $string['runteachervisitreporttask'] = 'Calcul des rapports Course Manager des cours sans enseignants ou sans visites d\'enseignants';
+$string['runcleanreportstask'] = 'Nettoyage des rapports Course Manager';
 
 // Warning displays in courses.
 $string['course_alert_heavy'] = 'Le <b>poids des fichiers</b> rattachés à ce cours est actuellement de <b>{$a->size} Mo</b>. Pensez à faire du tri vos documents, à réinitialiser les activités ou à déplacer les fichiers volumineux.<br /><b>{$a->heavy_link}</b>';

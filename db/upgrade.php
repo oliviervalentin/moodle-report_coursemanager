@@ -112,5 +112,10 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         // HOTFIX : error in courses without teachers admin page.
         upgrade_plugin_savepoint(true, 2024050305, 'report', 'coursemanager');
     }
+    if ($oldversion < 2024050309) {
+        // Version 3.2.2.
+        // Add clkeaning task and fixes several bugs.
+        upgrade_plugin_savepoint(true, 2024050309, 'report', 'coursemanager');
+    }
     return true;
 }

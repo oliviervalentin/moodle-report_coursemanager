@@ -144,15 +144,19 @@ foreach ($selectedassigns as $assign) {
     $cm = get_coursemodule_from_id('assign', $assign->cmid);
     $course = $DB->get_record('course', ['id' => $assign->course]);
 
-    $row = [];
-    $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
-    $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
-    $row[] = html_writer::label($assign->files, null);
-    $row[] = html_writer::label(number_format(ceil($assign->weight / 1048576), 0, ',', '')." Mo", null);
-    $content = "<a href='/report/coursemanager/admin_dashboard/orphaned_submissions.php?delete=1
-    &instance=".$assign->cmid."&course=".$assign->course."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
-    $row[] = html_writer::label($content, null);
-    $table->data[] = $row;
+    // If coursemodule ($cm) is found, assign still exists, let's add row.
+    // If not, entry will be deleted by cleaning task.
+    if ($cm) {
+        $row = [];
+        $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
+        $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
+        $row[] = html_writer::label($assign->files, null);
+        $row[] = html_writer::label(number_format(ceil($assign->weight / 1048576), 0, ',', '')." Mo", null);
+        $content = "<a href='/report/coursemanager/admin_dashboard/orphaned_submissions.php?delete=1
+        &instance=".$assign->cmid."&course=".$assign->course."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
+        $row[] = html_writer::label($content, null);
+        $table->data[] = $row;
+    }
 }
 
 echo html_writer::table($table);
