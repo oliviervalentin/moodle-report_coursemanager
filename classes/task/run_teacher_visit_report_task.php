@@ -127,7 +127,8 @@ class run_teacher_visit_report_task extends \core\task\scheduled_task {
                             $rescountotherteachervisit = array_count_values($countotherteachervisit);
 
                             // If result is empty, no teacher has visited course.
-                            if (!isset($rescountteachervisit['visited_teacher']) &&  !isset($rescountotherteachervisit['visited_teacher'])) {
+                            if (!isset($rescountteachervisit['visited_teacher'])
+                                && !isset($rescountotherteachervisit['visited_teacher'])) {
                                 $data = new \stdClass();
                                 $data->course = $course->id;
                                 $data->report = 'no_visit_teacher';
