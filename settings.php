@@ -41,6 +41,18 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    // Defines other teacher roles to consider when counting the number of teachers in a course.
+    $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
+    $teachers = get_archetype_roles('teacher');
+    $settings->add(
+        new admin_setting_configmultiselect('report_coursemanager/other_teacher_role_dashboard',
+            get_string('otherteacherroledashboard', 'report_coursemanager'),
+            get_string('otherteacherroledashboard_desc', 'report_coursemanager'),
+            [''],
+            $rolesoptions
+        )
+    );
+
     // Define which role is defined as student in courses to calculate reports.
     $rolesoptions = role_fix_names(get_all_roles(), null, ROLENAME_ORIGINALANDSHORT, true);
     $students = get_archetype_roles('student');

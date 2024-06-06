@@ -32,8 +32,10 @@ $string['configtitle'] = 'Course Manager settings';
 $string['category_bin'] = 'Catégorie corbeille';
 $string['teacherroledashboard'] = 'Rôle enseignant dans les cours';
 $string['teacherroledashboard_desc'] = 'Définit le rôle permettant d\'afficher la liste des cours dans le tableau de bord. Par défaut, il s\'agit du rôle Enseignant de Moodle.';
+$string['otherteacherroledashboard'] = 'Autres rôles enseignant';
+$string['otherteacherroledashboard_desc'] = 'Définit les autres rôles enseignant à prendre en considération dans le compte des enseignants du tableau de bord et des visites des enseignants dans un cours, comme par exemple les Enseignants non éditeur.';
 $string['studentrolereport'] = 'Rôle étudiant dans les cours';
-$string['studentrolereport_desc'] = 'Définit le rôle étudiant dans les cours pour le calcul des rapports. Par défaut, il s\'agit du rôle Etudiant de Moodle.';
+$string['studentrolereport_desc'] = 'Définit le rôle étudiant dans les cours pour le calcul des rapports. Par défaut, il s\'agit du rôle Étudiant de Moodle.';
 $string['category_bin_desc'] = 'Si un enseignant demande la suppression de son cours, le cours sera déplacé dans cette catégorie avant suppression définitive par les gestionnaires de la plateforme.';
 $string['total_filesize_threshold'] = 'Poids maximum d\'un cours';
 $string['total_filesize_threshold_desc'] = 'Poids en Mo à partir duquel on souhaite afficher une alerte à l\'enseignant si le <b>total des fichiers du cours</b> dépasse ce seuil.';
@@ -81,10 +83,10 @@ $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
 
 // Dashboard.
 $string['table_course_name'] = 'Nom du cours';
-$string['table_course_state'] = 'Etat';
+$string['table_course_state'] = 'État';
 $string['table_files_weight'] = 'Poids des fichiers';
 $string['table_enrolled_cohorts'] = 'Cohortes';
-$string['table_enrolled_students'] = 'Etudiants';
+$string['table_enrolled_students'] = 'Étudiants';
 $string['table_enrolled_teachers'] = 'Enseignants';
 $string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
@@ -141,8 +143,7 @@ Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille de
 $string['mail_message_delete_main_teacher'] = 'Bonjour,<br />
 Le cours {$a->course} a été déplacé dans la catégorie Corbeille, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
 Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours.<br />
-NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous
-êtes à l\'origine de cette suppression. Etant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
+NOTE : ce cours contenait {$a->count_teacher} autres utilisateurs inscrits comme Enseignants. Un message leur a également été adressé pour leur indiquer que vous êtes à l\'origine de cette suppression. Étant également enseignants, ces personnes pourront également restaurer ce cours ou y récupérer des ressources.';
 $string['mail_message_delete_other_teacher'] = 'Bonjour,<br />
 Le cours {$a->course}, dans lequel vous êtes inscrit⋅e comme enseignant⋅e, a été déplacé dans la catégorie Corbeille par {$a->deleter}, en attente de sa suppression définitive qui interviendra {$a->delete_period}. Dans l\'intervalle, ce cours reste accessible, notamment si vous souhaitez y récupérer des ressources.<br />
 Si vous souhaitez le conserver, vous pouvez le restaurer hors de la corbeille depuis l\'interface de gestion de vos cours, sous réserve de prévenir les autres enseignants.<br />';
@@ -258,7 +259,7 @@ $string['adminnoteachercoursesnote'] = '<ul><li>Les informations concernant le p
  mais proviennent des rapports automatiques.</li><li>Les informations concernant le dernier log enseignant sont déduites à partir du champ edulevel de la table des
  logs et sont à titre indicatif. Les permissions modifiées dans un cours peuvent fausser ce résultat.</li></ul>';
 $string['adminnoteachercoursesweight'] = '<ul class="alert alert-warning">La tâche calculant le poids des cours est activée. Les cours pour lesquels le poids n\'a pas encore été calculé n\'apparaitront pas dans cette liste. Si besoin, lancez la tâche manuellement ou attendez le prochain passage du cron.';
-$string['tablecountenrolledstudents'] = 'Etudiants';
+$string['tablecountenrolledstudents'] = 'Étudiants';
 $string['tablelastaccess'] = 'Dernier accès au cours';
 $string['tablehascontents'] = 'Nombre de contenus du cours';
 $string['tablecourseweight'] = 'Poids du cours';
