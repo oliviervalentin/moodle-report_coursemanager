@@ -65,12 +65,16 @@ $string['enablestudentstask'] = 'Activer le rapport sur les inscriptions et visi
 $string['enablestudentstask_desc'] = 'Si coché, active la tâche permettant de détecter les cours sans étudiants ou sans visites d\'étudiants récents.';
 $string['enableorphanstask'] = 'Activer le rapport des devoirs orphelins';
 $string['enableorphanstask_desc'] = 'Si coché, active la tâche permettant de détecter les fichiers orphelins dans les devoirs.';
+$string['mailingtitle_setting'] = 'Objet du mail';
+$string['mailingtitle_setting_desc'] = 'Objet pour le mailing envoyé aux enseignants.';
 $string['mailingintro_setting'] = 'Introduction du mail';
 $string['mailingintro_setting_desc'] = 'Message d\'introduction pour le mailing envoyé aux enseignants.<br>
 Vous pouvez utiliser les variables suivantes :<br>
 %userfirstname% : prénom de l\'utilisateur<br>
 %userlastname% : nom de l\'utilisateur<br>
 %coursemanagerlink% : lien vers le gestionnaire de cours';
+$string['mailingoutro_setting'] = 'Conclusion du mail';
+$string['mailingoutro_setting_desc'] = 'Message de conclusion pour le mailing envoyé aux enseignants.';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Paramètres pour le calcul des rapports';

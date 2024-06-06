@@ -175,10 +175,11 @@ class mailing_task extends \core\task\scheduled_task {
 
                     $finalcontent .= $mailingintroduction;
                     $finalcontent .= $mailcontent;
-                    $finalcontent .= get_string('mailingoutro', 'report_coursemanager');
+                    $finalcontent .= '<br />';
+                    $finalcontent .= get_config('report_coursemanager', 'mailing_outro');
 
                     $send = email_to_user($teacheruserinfo, $from,
-                    get_string('mailingtitle', 'report_coursemanager'), $finalcontent);
+                    get_config('report_coursemanager', 'mailing_title'), $finalcontent);
 
                     mtrace('Mail sent to user '.$teacher->idteacher);
                 }

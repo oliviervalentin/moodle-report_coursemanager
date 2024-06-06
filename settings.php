@@ -162,6 +162,13 @@ if ($ADMIN->fulltree) {
     $description = get_string('enablemailing_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
+    // Subject of the email for report mailing.
+    $name = 'report_coursemanager/mailing_title';
+    $title = get_string('mailingtitle_setting', 'report_coursemanager');
+    $description = get_string('mailingtitle_setting_desc', 'report_coursemanager');
+    $default = get_string('mailingtitle', 'report_coursemanager');
+    $settings->add(new admin_setting_configtext($name, $title, $description, $default, PARAM_TEXT, '50'));
+
     // Introduction for report mailing.
     $name = 'report_coursemanager/mailing_introduction';
     $title = get_string('mailingintro_setting', 'report_coursemanager');
@@ -172,6 +179,20 @@ if ($ADMIN->fulltree) {
             $title,
             $description,
             get_string('mailingintro', 'report_coursemanager'),
+            PARAM_RAW
+        )
+    );
+
+    // Outro for report mailing.
+    $name = 'report_coursemanager/mailing_outro';
+    $title = get_string('mailingoutro_setting', 'report_coursemanager');
+    $description = get_string('mailingoutro_setting_desc', 'report_coursemanager');
+    $settings->add(
+        new admin_setting_configtextarea(
+            $name,
+            $title,
+            $description,
+            get_string('mailingoutro', 'report_coursemanager'),
             PARAM_RAW
         )
     );
