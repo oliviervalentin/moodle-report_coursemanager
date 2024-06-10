@@ -60,6 +60,13 @@ class run_teacher_visit_report_task extends \core\task\scheduled_task {
 
                     // Let's count teachers and students enrolled in course.
                     $allteachers = get_role_users(get_config('report_coursemanager', 'teacher_role_dashboard'), $coursecontext);
+                    $otherteachersconfig = explode(',', get_config('report_coursemanager', 'other_teacher_role_dashboard'));
+                    $otherteachers = [];
+                    if (!empty(get_config('report_coursemanager', 'other_teacher_role_dashboard'))) {
+                        foreach ($otherteachersconfig as $teacher) {
+                            $otherteachers = $otherteachers + get_role_users($teacher, $coursecontext);
+                        }
+                    }
 
                     // If course is in trash category, delete all reports.
                     if ($course->category == get_config('report_coursemanager', 'category_bin')) {
@@ -77,7 +84,7 @@ class run_teacher_visit_report_task extends \core\task\scheduled_task {
                         ['course' => $course->id, 'report' => 'no_visit_teacher']);
 
                         // CASE 1 : if teachers are enrolled in course, test for visit.
-                        if (count($allteachers) > 0) {
+                        if (count($allteachers + $otherteachers) > 0) {
                             // As there are teachers in course, first delete "no teacher in course" report if exists.
                             if ($existsnoteacherincourse) {
                                 $res = $DB->delete_records($table, ['id' => $existsnoteacherincourse->id]);
@@ -101,8 +108,27 @@ class run_teacher_visit_report_task extends \core\task\scheduled_task {
                             }
                             $rescountteachervisit = array_count_values($countteachervisit);
 
+                            // Now check for other teachers visits.
+                            $countotherteachervisit = [];
+                            // For each other enrolled teacher, check last visit in course.
+                            foreach ($otherteachers as $teacher) {
+                                $lastaccess = $DB->get_field('user_lastaccess', 'timeaccess',
+                                ['courseid' => $course->id, 'userid' => $teacher->id]);
+                                // Difference between now and last access.
+                                $diff = $now - $lastaccess;
+                                // Calculate number of days without connection in course (86 400 equals number of seconds per day).
+                                $timeteacher = floor($diff / 86400);
+                                // If limit is under last_access_teacher, teacher has visited course.
+                                if ($timeteacher <= get_config('report_coursemanager', 'last_access_teacher')) {
+                                    // Let's count a visit.
+                                    array_push($countotherteachervisit, 'visited_teacher');
+                                }
+                            }
+                            $rescountotherteachervisit = array_count_values($countotherteachervisit);
+
                             // If result is empty, no teacher has visited course.
-                            if (!isset($rescountteachervisit['visited_teacher'])) {
+                            if (!isset($rescountteachervisit['visited_teacher'])
+                                && !isset($rescountotherteachervisit['visited_teacher'])) {
                                 $data = new \stdClass();
                                 $data->course = $course->id;
                                 $data->report = 'no_visit_teacher';

@@ -32,6 +32,8 @@ $string['configtitle'] = 'Course Manager settings';
 $string['category_bin'] = 'Category for bin';
 $string['teacherroledashboard'] = 'Teacher role in courses';
 $string['teacherroledashboard_desc'] = 'Defines teacher role that can display course list in Course Manager dashabord. Default role is Moodle teacher.';
+$string['otherteacherroledashboard'] = 'Other teaching roles';
+$string['otherteacherroledashboard_desc'] = 'Defines other teacher roles to be considered in the dashboard teacher account and teacher visits to a course, such as non-editing teachers.';
 $string['studentrolereport'] = 'Student role in courses';
 $string['studentrolereport_desc'] = 'Defines student role for reports calculation. Default role is Moodle student.';
 $string['category_bin_desc'] = 'If teacher deletes a course through dashboard, it is moved in this category before real deletion by admin.';
@@ -63,12 +65,16 @@ $string['enablestudentstask'] = 'Activate reports concerning students visits and
 $string['enablestudentstask_desc'] = 'If checked, activates automated task to detect courses without students or without recent students visits.';
 $string['enableorphanstask'] = 'Activate orphaned submissions report';
 $string['enableorphanstask_desc'] = 'If checked, activates automated task to detect assigns with orphaned files.';
+$string['mailingtitle_setting'] = 'Subject of the email';
+$string['mailingtitle_setting_desc'] = 'Subject line for the mailing sent to teachers.';
 $string['mailingintro_setting'] = 'Email content';
 $string['mailingintro_setting_desc'] = 'Introduction of the report mailing.<br>
 You can use the following variables :<br>
 %userfirstname% : User\'s first name<br>
 %userlastname% : User\'s last name<br>
 %coursemanagerlink% : Course Manager\'s link';
+$string['mailingoutro_setting'] = 'Email outro';
+$string['mailingoutro_setting_desc'] = 'End of content of the report mailing.';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Settings for reports calculation';

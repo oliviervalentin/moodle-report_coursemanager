@@ -177,6 +177,13 @@ if (count($listusercourses) == 0) {
 
             // Let's count teachers and students enrolled in course.
             $allteachers = get_role_users(get_config('report_coursemanager', 'teacher_role_dashboard'), $coursecontext);
+            $otherteachersconfig = explode(',', get_config('report_coursemanager', 'other_teacher_role_dashboard'));
+            $otherteachers = [];
+            if (!empty(get_config('report_coursemanager', 'other_teacher_role_dashboard'))) {
+                foreach ($otherteachersconfig as $teacher) {
+                    $otherteachers = $otherteachers + get_role_users($teacher, $coursecontext);
+                }
+            }
             $allstudents = get_role_users(get_config('report_coursemanager', 'student_role_report'), $coursecontext);
 
             // Create a new line for table.
@@ -252,7 +259,7 @@ if (count($listusercourses) == 0) {
                 // Table line for number of students.
                 $row[] = html_writer::label(count($allstudents), null);
                 // Table line for number of teachers.
-                $row[] = html_writer::label(count($allteachers), null);
+                $row[] = html_writer::label(count($allteachers + $otherteachers), null);
 
                 // Get all reports for table coursemanager_reports for recommandations.
                 $reports = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
@@ -270,7 +277,7 @@ if (count($listusercourses) == 0) {
                         case 'no_visit_teacher':
                             $info->limit_visit = floor(get_config('report_coursemanager', 'last_access_teacher') / 30);
                             // If there are more than one teach in course, add special message.
-                            if (count($allteachers) > 1) {
+                            if (count($allteachers + $otherteachers) > 1) {
                                 $sumup .= "<li>".get_string('last_access_multiple_teacher_alert', 'report_coursemanager', $info)
                                 ."</li><br />";
                             } else {
