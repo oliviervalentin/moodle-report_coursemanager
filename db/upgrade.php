@@ -63,6 +63,11 @@ function xmldb_report_coursemanager_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024040801, 'report', 'coursemanager');
     }
     if ($oldversion < 2024040803) {
+        // Rename table if not done before.
+        $table = new xmldb_table('coursemanager');
+        if ($dbman->table_exists($table)) {
+            $dbman->rename_table($table, 'report_coursemanager_reports');
+        }
         // CSS and orphan submissions task - V3.1.1.
         $table = new xmldb_table('report_coursemanager_orphans');
 
