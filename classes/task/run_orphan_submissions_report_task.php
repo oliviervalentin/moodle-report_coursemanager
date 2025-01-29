@@ -52,14 +52,15 @@ class run_orphan_submissions_report_task extends \core\task\scheduled_task {
             global $CFG, $DB, $USER;
             $table = 'report_coursemanager_orphans';
 
-            $listassigns = $DB->get_records('assign', [], 'id ASC', 'id, course');
+	    $listassigns = $DB->get_records('assign', [], 'id ASC', 'id, course');
+	    $assignmoduleid = $DB->get_record('modules', ['name'=> 'assign'], 'id');
             foreach ($listassigns as $assign) {
                 $sqlcontextid = 'SELECT id
                 FROM {course_modules}
-                WHERE module = 1
+                WHERE module = ?
                 AND instance = ?
                 ';
-                $dbresultcontextid = $DB->get_record_sql($sqlcontextid, [$assign->id]);
+                $dbresultcontextid = $DB->get_record_sql($sqlcontextid, [$assignmoduleid->id, $assign->id]);
                 $cm = get_coursemodule_from_id('assign', $dbresultcontextid->id);
                 $context = \context_module::instance($cm->id);
 
