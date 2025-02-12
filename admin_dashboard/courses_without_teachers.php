@@ -201,7 +201,7 @@ if (count($existsnoteacherincourse) > 0) {
 
             $deleteurl = new moodle_url('/report/coursemanager/admin_dashboard/courses_without_teachers.php',
                 ['delete' => 1, 'instance' => $courseinfo->id]);
-            $deletelink = "<a href=".$deleteurl."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
+            $deletelink = "<a href='".$deleteurl."'>".get_string('text_link_delete', 'report_coursemanager')."</a>";
             $row[] = html_writer::label($deletelink, null);
             $table->data[] = $row;
         }
