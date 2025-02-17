@@ -279,11 +279,14 @@ function report_coursemanager_before_standard_top_of_body_html() {
                 // Create an object for messages variables.
                 $info = new stdClass();
                 $info->courseid = $PAGE->course->id;
-                $info->heavy_link = "<a href='/report/coursemanager/course_files.php?courseid=".$PAGE->course->id."' >".
+                $heavyurl = new moodle_url('/report/coursemanager/course_files.php', ['courseid' => $PAGE->course->id]);
+                $info->heavy_link = "<a href='".$heavyurl."' >".
                 get_string('more_information', 'report_coursemanager')."</a>";
-                $info->delete_link = "<a href='/report/coursemanager/delete_course.php?courseid=".$PAGE->course->id."' >".
+                $deleteurl = new moodle_url('/report/coursemanager/delete_course.php', ['courseid' => $PAGE->course->id]);
+                $info->delete_link = "<a href='".$deleteurl."' >".
                 get_string('text_link_delete', 'report_coursemanager')."</a>";
-                $info->reset_link = "<a href='/report/coursemanager/reset.php?id=".$PAGE->course->id."' >".
+                $reserturl = new moodle_url('/report/coursemanager/reset.php', ['courseid' => $PAGE->course->id]);
+                $info->reset_link = "<a href='".$reserturl."' >".
                 get_string('text_link_reset', 'report_coursemanager')."</a>";
                 $info->no_teacher_time = get_config('report_coursemanager', 'last_access_teacher');
                 $info->no_student_time = get_config('report_coursemanager', 'last_access_student');

@@ -152,8 +152,9 @@ foreach ($selectedassigns as $assign) {
         $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
         $row[] = html_writer::label($assign->files, null);
         $row[] = html_writer::label(number_format(ceil($assign->weight / 1048576), 0, ',', '')." Mo", null);
-        $content = "<a href='/report/coursemanager/admin_dashboard/orphaned_submissions.php?delete=1
-        &instance=".$assign->cmid."&course=".$assign->course."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
+        $orphanedsuburl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php',
+            ['delete' => 1, 'instance' => $assign->cmid, 'course' => $assign->course]);
+        $content = "<a href='".$orphanedsuburl."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
         $row[] = html_writer::label($content, null);
         $table->data[] = $row;
     }
