@@ -383,25 +383,31 @@ if (count($listusercourses) == 0) {
                 ');
 
                 // Create actions menu.
+                $deletelink = new moodle_url('/report/coursemanager/delete_course.php', ['courseid' => $course->id]);
+                $fileslink = new moodle_url('/report/coursemanager/course_files.php', ['id' => $course->id]);
+                $resetlink = new moodle_url('/report/coursemanager/reset.php', ['id' => $course->id]);
+                $deletecohortlink = new moodle_url('/report/coursemanager/delete_cohort.php', ['id' => $course->id]);
+                $courseeditlink = new moodle_url('/course/edit.php', ['id' => $course->id]);
+
                 // Create variable to list actions. By default, link to put course in trash is available.
-                $listactions = '<a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">
+                $listactions = '<a class="dropdown-item" href="'.$deletelink.'">
                     '.get_string('menudeletecourse', 'report_coursemanager').'</a>';
 
                 //Now, check plugin config if other actions are enabled.
                 if (get_config('report_coursemanager', 'enable_action_coursefiles')) {
-                    $listactions .= '<a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">
+                    $listactions .= '<a class="dropdown-item" href="'.$fileslink.'">
                         '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_reset')) {
-                    $listactions .= '<a class="dropdown-item" href="reset.php?id='.$course->id.'">
+                    $listactions .= '<a class="dropdown-item" href="'.$resetlink.'">
                         '.get_string('menureset', 'report_coursemanager').'</a>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_cohorts')) {
-                    $listactions .= '<a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">
+                    $listactions .= '<a class="dropdown-item" href="'.$deletecohortlink.'">
                         '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_params')) {
-                    $listactions .= '<a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">
+                    $listactions .= '<a class="dropdown-item" href="'.$courseeditlink.'">
                         '.get_string('menucourseparameters', 'report_coursemanager').'</a>';
                 }
 
