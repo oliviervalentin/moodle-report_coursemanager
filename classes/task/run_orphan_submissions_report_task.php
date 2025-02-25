@@ -51,9 +51,8 @@ class run_orphan_submissions_report_task extends \core\task\scheduled_task {
         if (get_config('report_coursemanager', 'enable_orphans_task') == 1) {
             global $CFG, $DB, $USER;
             $table = 'report_coursemanager_orphans';
-
-	    $listassigns = $DB->get_records('assign', [], 'id ASC', 'id, course');
-	    $assignmoduleid = $DB->get_record('modules', ['name'=> 'assign'], 'id');
+            $listassigns = $DB->get_records('assign', [], 'id ASC', 'id, course');
+            $assignmoduleid = $DB->get_record('modules', ['name' => 'assign'], 'id');
             foreach ($listassigns as $assign) {
                 $sqlcontextid = 'SELECT id
                 FROM {course_modules}

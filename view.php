@@ -393,7 +393,7 @@ if (count($listusercourses) == 0) {
                 $listactions = '<a class="dropdown-item" href="'.$deletelink.'">
                     '.get_string('menudeletecourse', 'report_coursemanager').'</a>';
 
-                //Now, check plugin config if other actions are enabled.
+                // Now, check plugin config if other actions are enabled.
                 if (get_config('report_coursemanager', 'enable_action_coursefiles')) {
                     $listactions .= '<a class="dropdown-item" href="'.$fileslink.'">
                         '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>';

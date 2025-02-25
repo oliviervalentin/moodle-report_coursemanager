@@ -117,7 +117,7 @@ if ($ADMIN->fulltree) {
     $description = get_string('enablecolumncoursesize_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
 
-    $settings->add(new admin_setting_description('report_coursemanager/actionsmenuinfo', 
+    $settings->add(new admin_setting_description('report_coursemanager/actionsmenuinfo',
         get_string('configmenuactions', 'report_coursemanager'),
         get_string('configmenuactions_desc', 'report_coursemanager'))
     );
