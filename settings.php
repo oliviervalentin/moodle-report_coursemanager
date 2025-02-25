@@ -89,6 +89,59 @@ if ($ADMIN->fulltree) {
     $description = get_string('last_access_student_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configtext($name, $title, $description, null, PARAM_TEXT, '5'));
 
+    // Settings for teachers dashboard.
+    $settings->add(new admin_setting_heading('dashboardsettingsheading',
+    get_string('dashboardsettingsheading', 'report_coursemanager'), ''));
+
+    // Checkbox for cohorts column.
+    $name = 'report_coursemanager/enable_column_cohorts';
+    $title = get_string('enablecolumncohorts', 'report_coursemanager');
+    $description = get_string('enablecolumncohorts_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Checkbox for students column.
+    $name = 'report_coursemanager/enable_column_students';
+    $title = get_string('enablecolumnstudents', 'report_coursemanager');
+    $description = get_string('enablecolumnstudents_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Checkbox for teachers column.
+    $name = 'report_coursemanager/enable_column_teachers';
+    $title = get_string('enablecolumnteachers', 'report_coursemanager');
+    $description = get_string('enablecolumnteachers_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    // Checkbox for course size column.
+    $name = 'report_coursemanager/enable_column_coursesize';
+    $title = get_string('enablecolumncoursesize', 'report_coursemanager');
+    $description = get_string('enablecolumncoursesize_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
+    $settings->add(new admin_setting_description('report_coursemanager/actionsmenuinfo', 
+        get_string('configmenuactions', 'report_coursemanager'),
+        get_string('configmenuactions_desc', 'report_coursemanager'))
+    );
+
+    // Checkbox for action - View coursefile page.
+    $name = 'report_coursemanager/enable_action_coursefiles';
+    $title = get_string('enableactioncoursefiles', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, '', 1));
+
+    // Checkbox for action - Reset page.
+    $name = 'report_coursemanager/enable_action_reset';
+    $title = get_string('enableactionreset', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, '', 1));
+
+    // Checkbox for action - Unenroll cohorts page.
+    $name = 'report_coursemanager/enable_action_cohorts';
+    $title = get_string('enableactioncohorts', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, '', 1));
+
+    // Checkbox for action - Link to course params page.
+    $name = 'report_coursemanager/enable_action_params';
+    $title = get_string('enableactionparams', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, '', 1));
+
     // Settings for trash category.
     $settings->add(new admin_setting_heading('trashsettingsheading',
             get_string('trashsettingsheading', 'report_coursemanager'), ''));

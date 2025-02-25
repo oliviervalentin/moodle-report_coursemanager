@@ -75,12 +75,27 @@ You can use the following variables :<br>
 %coursemanagerlink% : Course Manager\'s link';
 $string['mailingoutro_setting'] = 'Email outro';
 $string['mailingoutro_setting_desc'] = 'End of content of the report mailing.';
+$string['enablecolumncohorts'] = 'Show Cohorts column';
+$string['enablecolumncohorts_desc'] = 'If checked, shows column containing number of cohorts enrolled in course.';
+$string['enablecolumnstudents'] = 'Show Students column';
+$string['enablecolumnstudents_desc'] = 'If checked, shows column containing number of students enrolled in course.';
+$string['enablecolumnteachers'] = 'Show Teachers column';
+$string['enablecolumnteachers_desc'] = 'If checked, shows column containing number of teachers enrolled in course.';
+$string['enablecolumncoursesize'] = 'Show Course size column';
+$string['enablecolumncoursesize_desc'] = 'If checked, shows column containing total filsize for course.';
+$string['configmenuactions'] = 'Actions Menu';
+$string['configmenuactions_desc'] = 'Select actions that will be displayed in dashboard actions menu.';
+$string['enableactioncoursefiles'] = 'Link to course files page';
+$string['enableactionreset'] = 'Link to simplified course reset';
+$string['enableactioncohorts'] = 'Link to cohorts unenrolling';
+$string['enableactionparams'] = 'Link to course settings';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Settings for reports calculation';
 $string['trashsettingsheading'] = 'Settings for trash category and courses deletion';
 $string['reportsheading'] = 'Reports';
 $string['mailingheading'] = 'Teachers mailing';
+$string['dashboardsettingsheading'] = 'Dashboard settings';
 
 // Banner for courses in category bin.
 $string['trash'] = 'This course is in the category for deleted courses.';

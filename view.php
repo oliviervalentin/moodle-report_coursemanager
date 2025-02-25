@@ -23,6 +23,7 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
+
 global $DB, $USER;
 
 require_login();
@@ -141,10 +142,18 @@ if (count($listusercourses) == 0) {
     // Define headings for table.
     $table->head[] = get_string('table_course_name', 'report_coursemanager');
     $table->head[] = get_string('table_course_state', 'report_coursemanager');
-    $table->head[] = get_string('table_files_weight', 'report_coursemanager');
-    $table->head[] = get_string('table_enrolled_cohorts', 'report_coursemanager');
-    $table->head[] = get_string('table_enrolled_students', 'report_coursemanager');
-    $table->head[] = get_string('table_enrolled_teachers', 'report_coursemanager');
+    if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
+        $table->head[] = get_string('table_files_weight', 'report_coursemanager');
+    }
+    if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
+        $table->head[] = get_string('table_enrolled_cohorts', 'report_coursemanager');
+    }
+    if (get_config('report_coursemanager', 'enable_column_students') == 1) {
+        $table->head[] = get_string('table_enrolled_students', 'report_coursemanager');
+    }
+    if (get_config('report_coursemanager', 'enable_column_teachers') == 1) {
+        $table->head[] = get_string('table_enrolled_teachers', 'report_coursemanager');
+    }
     $table->head[] = get_string('table_recommendation', 'report_coursemanager');
     $table->head[] = get_string('table_actions', 'report_coursemanager');
 
@@ -250,16 +259,24 @@ if (count($listusercourses) == 0) {
                 }
 
                 // Create table line to show files size.
-                $row[] = html_writer::link("course_files.php?courseid=".$course->id,
-                    '<i class="'.$iconsize.' fa-lg"></i>&nbsp;&nbsp;'.(!$weight ? '' : $weight->detail).' Mo',
-                    ['class' => $weightclass]);
+                if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
+                    $row[] = html_writer::link("course_files.php?courseid=".$course->id,
+                        '<i class="'.$iconsize.' fa-lg"></i>&nbsp;&nbsp;'.(!$weight ? '' : $weight->detail).' Mo',
+                        ['class' => $weightclass]);
+                }
 
                 // Table line for number of cohorts.
-                $row[] = html_writer::label($countcohort, null);
+                if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
+                    $row[] = html_writer::label($countcohort, null);
+                }
                 // Table line for number of students.
-                $row[] = html_writer::label(count($allstudents), null);
+                if (get_config('report_coursemanager', 'enable_column_students') == 1) {
+                    $row[] = html_writer::label(count($allstudents), null);
+                }
                 // Table line for number of teachers.
-                $row[] = html_writer::label(count($allteachers + $otherteachers), null);
+                if (get_config('report_coursemanager', 'enable_column_teachers') == 1) {
+                    $row[] = html_writer::label(count($allteachers + $otherteachers), null);
+                }
 
                 // Get all reports for table coursemanager_reports for recommandations.
                 $reports = $DB->get_records('report_coursemanager_reports', ['course' => $course->id]);
@@ -364,15 +381,30 @@ if (count($listusercourses) == 0) {
                   </div>
                 </div>
                 ');
-                $pluginmanager = core_plugin_manager::instance();
-                $plugininfo = $pluginmanager->get_plugin_info('enrol_scolarite');
-                $enrolscolline = '';
-                if ($plugininfo && $plugininfo->is_enabled()) {
-                    $enrolscolline = '<a class="dropdown-item" href="/enrol/scolarite/manage.php?id='.$course->id.'">
-                    '.get_string('menuenrolcohorts', 'report_coursemanager').'</a>';
-                }
 
                 // Create actions menu.
+                // Create variable to list actions. By default, link to put course in trash is available.
+                $listactions = '<a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">
+                    '.get_string('menudeletecourse', 'report_coursemanager').'</a>';
+
+                //Now, check plugin config if other actions are enabled.
+                if (get_config('report_coursemanager', 'enable_action_coursefiles')) {
+                    $listactions .= '<a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">
+                        '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>';
+                }
+                if (get_config('report_coursemanager', 'enable_action_reset')) {
+                    $listactions .= '<a class="dropdown-item" href="reset.php?id='.$course->id.'">
+                        '.get_string('menureset', 'report_coursemanager').'</a>';
+                }
+                if (get_config('report_coursemanager', 'enable_action_cohorts')) {
+                    $listactions .= '<a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">
+                        '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>';
+                }
+                if (get_config('report_coursemanager', 'enable_action_params')) {
+                    $listactions .= '<a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">
+                        '.get_string('menucourseparameters', 'report_coursemanager').'</a>';
+                }
+
                 $menu = '
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -380,17 +412,7 @@ if (count($listusercourses) == 0) {
                         <i class="icon fa fa-ellipsis-v fa-fw " ></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">
-                            '.get_string('menudeletecourse', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">
-                            '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">
-                            '.get_string('menureset', 'report_coursemanager').'</a>'
-                            .$enrolscolline.'
-                            <a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">
-                            '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">
-                            '.get_string('menucourseparameters', 'report_coursemanager').'</a>
+                            '.$listactions.'
                         </div>
                     </div>
                 ';

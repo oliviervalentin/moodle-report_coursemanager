@@ -75,12 +75,27 @@ Vous pouvez utiliser les variables suivantes :<br>
 %coursemanagerlink% : lien vers le gestionnaire de cours';
 $string['mailingoutro_setting'] = 'Conclusion du mail';
 $string['mailingoutro_setting_desc'] = 'Message de conclusion pour le mailing envoyé aux enseignants.';
+$string['enablecolumncohorts'] = 'Afficher la colonne Cohortes';
+$string['enablecolumncohorts_desc'] = 'Si coché, affiche la colonne indiquant le nombre de cohortes inscrites dans le cours.';
+$string['enablecolumnstudents'] = 'Afficher la colonne Étudiants';
+$string['enablecolumnstudents_desc'] = 'Si coché, affiche la colonne indiquant le nombre d\'étudiants inscrits dans le cours.';
+$string['enablecolumnteachers'] = 'Afficher la colonne Enseignants';
+$string['enablecolumnteachers_desc'] = 'Si coché, affiche la colonne indiquant le nombre d\'enseignants inscrits dans le cours.';
+$string['enablecolumncoursesize'] = 'Afficher la colonne Poids des fichiers';
+$string['enablecolumncoursesize_desc'] = 'Si coché, affiche la colonne indiquant le poids total des fichiers du cours.';
+$string['configmenuactions'] = '<b>Menu Actions</b>';
+$string['configmenuactions_desc'] = 'Choisissez les actions disponibles dans le menu Actions du tableau de bord.';
+$string['enableactioncoursefiles'] = 'Lien vers la page des fichiers de cours';
+$string['enableactionreset'] = 'Lien vers la réinitialisation simplifiée';
+$string['enableactioncohorts'] = 'Lien vers la désinscription des cohortes';
+$string['enableactionparams'] = 'Lien vers la page des paramètres du cours';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Paramètres pour le calcul des rapports';
 $string['trashsettingsheading'] = 'Paramètres de la catégorie Corbeille et la suppression des cours';
 $string['reportsheading'] = 'Rapports';
 $string['mailingheading'] = 'Mailing aux enseignants';
+$string['dashboardsettingsheading'] = 'Tableau de bord';
 
 // Banner for courses in categorby bin.
 $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
