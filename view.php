@@ -373,6 +373,12 @@ if (count($listusercourses) == 0) {
                 }
 
                 // Create actions menu.
+                $deletelink = new moodle_url('/report/coursemanager/delete_course.php', ['courseid' => $course->id]);
+                $fileslink = new moodle_url('/report/coursemanager/course_files.php', ['id' => $course->id]);
+                $resetlink = new moodle_url('/report/coursemanager/reset.php', ['id' => $course->id]);
+                $deletecohortlink = new moodle_url('/report/coursemanager/delete_cohort.php', ['id' => $course->id]);
+                $courseeditlink = new moodle_url('/course/edit.php', ['id' => $course->id]);
+
                 $menu = '
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -380,16 +386,16 @@ if (count($listusercourses) == 0) {
                         <i class="icon fa fa-ellipsis-v fa-fw " ></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="delete_course.php?courseid='.$course->id.'">
+                            <a class="dropdown-item" href="'.$deletelink.'">
                             '.get_string('menudeletecourse', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="course_files.php?courseid='.$course->id.'">
+                            <a class="dropdown-item" href="'.$fileslink.'">
                             '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="reset.php?id='.$course->id.'">
+                            <a class="dropdown-item" href="'.$resetlink.'">
                             '.get_string('menureset', 'report_coursemanager').'</a>'
                             .$enrolscolline.'
-                            <a class="dropdown-item" href="delete_cohort.php?id='.$course->id.'">
+                            <a class="dropdown-item" href="'.$deletecohortlink.'">
                             '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>
-                            <a class="dropdown-item" href="/course/edit.php?id='.$course->id.'">
+                            <a class="dropdown-item" href="'.$courseeditlink.'">
                             '.get_string('menucourseparameters', 'report_coursemanager').'</a>
                         </div>
                     </div>
