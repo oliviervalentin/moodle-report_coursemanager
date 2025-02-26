@@ -467,8 +467,9 @@ function report_coursemanager_render_navbar_output() {
     global $OUTPUT;
 
     if (get_config('report_coursemanager', 'navbar_link') == 1) {
+        $dashboardlink = new moodle_url('/report/coursemanager/view.php');
         $content = new \stdClass();
-        $content->url = '/report/coursemanager/view.php';
+        $content->url = $dashboardlink;
     
         return $OUTPUT->render_from_template('report_coursemanager/navbar_link', $content);
     }

@@ -76,7 +76,7 @@ Vous pouvez utiliser les variables suivantes :<br>
 $string['mailingoutro_setting'] = 'Conclusion du mail';
 $string['mailingoutro_setting_desc'] = 'Message de conclusion pour le mailing envoyé aux enseignants.';
 $string['navbarlink'] = 'Ajouter un lien direct dans la barre de navigation';
-$string['navbarlink_desc'] = 'Si coché, ajoute une icône à coté des notifications pour accéder directement au tabmleau de bord.';
+$string['navbarlink_desc'] = 'Si coché, ajoute une icône à coté des notifications pour accéder directement au tableau de bord.';
 $string['enablecolumncohorts'] = 'Afficher la colonne Cohortes';
 $string['enablecolumncohorts_desc'] = 'Si coché, affiche la colonne indiquant le nombre de cohortes inscrites dans le cours.';
 $string['enablecolumnstudents'] = 'Afficher la colonne Étudiants';
