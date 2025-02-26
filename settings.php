@@ -93,29 +93,35 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('dashboardsettingsheading',
     get_string('dashboardsettingsheading', 'report_coursemanager'), ''));
 
+    // Checkbox for adding an icon link in navbar.
+    $name = 'report_coursemanager/navbar_link';
+    $title = get_string('navbarlink', 'report_coursemanager');
+    $description = get_string('navbarlink_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+
     // Checkbox for cohorts column.
     $name = 'report_coursemanager/enable_column_cohorts';
     $title = get_string('enablecolumncohorts', 'report_coursemanager');
     $description = get_string('enablecolumncohorts_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
 
     // Checkbox for students column.
     $name = 'report_coursemanager/enable_column_students';
     $title = get_string('enablecolumnstudents', 'report_coursemanager');
     $description = get_string('enablecolumnstudents_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
 
     // Checkbox for teachers column.
     $name = 'report_coursemanager/enable_column_teachers';
     $title = get_string('enablecolumnteachers', 'report_coursemanager');
     $description = get_string('enablecolumnteachers_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
 
     // Checkbox for course size column.
     $name = 'report_coursemanager/enable_column_coursesize';
     $title = get_string('enablecolumncoursesize', 'report_coursemanager');
     $description = get_string('enablecolumncoursesize_desc', 'report_coursemanager');
-    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 0));
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
 
     $settings->add(new admin_setting_description('report_coursemanager/actionsmenuinfo', 
         get_string('configmenuactions', 'report_coursemanager'),

@@ -457,3 +457,19 @@ function report_coursemanager_before_standard_top_of_body_html() {
         return;
     }
 }
+
+/**
+ * Add icon in navbar to provide a shortcut to Course Manager Dashboard.
+ *
+ * @return string HTML for the navbar
+ */
+function report_coursemanager_render_navbar_output() {
+    global $OUTPUT;
+
+    if (get_config('report_coursemanager', 'navbar_link') == 1) {
+        $content = new \stdClass();
+        $content->url = '/report/coursemanager/view.php';
+    
+        return $OUTPUT->render_from_template('report_coursemanager/navbar_link', $content);
+    }
+}

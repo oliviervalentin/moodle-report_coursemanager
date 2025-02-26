@@ -75,6 +75,8 @@ You can use the following variables :<br>
 %coursemanagerlink% : Course Manager\'s link';
 $string['mailingoutro_setting'] = 'Email outro';
 $string['mailingoutro_setting_desc'] = 'End of content of the report mailing.';
+$string['navbarlink'] = 'Add direct link to Dashboard in navbar';
+$string['navbarlink_desc'] = 'If checked, adds an icon in navbar next to notifications.';
 $string['enablecolumncohorts'] = 'Show Cohorts column';
 $string['enablecolumncohorts_desc'] = 'If checked, shows column containing number of cohorts enrolled in course.';
 $string['enablecolumnstudents'] = 'Show Students column';
