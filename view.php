@@ -30,6 +30,8 @@ require_login();
 
 $courseid = optional_param('courseid', 0, PARAM_INT);
 $done = optional_param('done', 0, PARAM_TEXT);
+$page = optional_param('page', 0, PARAM_INT);
+$perpage = optional_param('perpage', 10, PARAM_INT);
 
 $site = get_site();
 
@@ -158,7 +160,8 @@ if (count($listusercourses) == 0) {
     $table->head[] = get_string('table_actions', 'report_coursemanager');
 
     // Retrieve all informations for each courses where user is enrolled as teacher.
-    foreach ($listusercourses as $course) {
+    $selectedcourses = array_slice($listusercourses, $page * $perpage, $perpage);
+    foreach ($selectedcourses as $course) {
         // Get context and course infos.
         $coursecontext = context_course::instance($course->id);
         $infocourse = $DB->get_record('course', ['id' => $course->id], 'category');
@@ -206,10 +209,18 @@ if (count($listusercourses) == 0) {
                 // All lines are empty, except last one that displays menu.
                 $row[] = html_writer::div('<i class="fa fa-trash"></i> '.get_string('course_state_trash', 'report_coursemanager'),
                 'course_trash');
-                $row[] = html_writer::label('', null);
-                $row[] = html_writer::label('', null);
-                $row[] = html_writer::label('', null);
-                $row[] = html_writer::label('', null);
+                if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
+                    $row[] = html_writer::label('', null);
+                }
+                if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
+                    $row[] = html_writer::label('', null);
+                }
+                if (get_config('report_coursemanager', 'enable_column_students') == 1) {
+                    $row[] = html_writer::label('', null);
+                }
+                if (get_config('report_coursemanager', 'enable_column_teachers') == 1) {
+                    $row[] = html_writer::label('', null);
+                }
                 $row[] = html_writer::label('', null);
                 $menu = '
                     <div class="dropdown show">
@@ -433,6 +444,9 @@ if (count($listusercourses) == 0) {
     // End : show all table.
     if ($countcourses > 0) {
         echo html_writer::table($table);
+        $baseurl = new moodle_url('/report/coursemanager/view.php', ['perpage' => $perpage]);
+        echo $OUTPUT->paging_bar(count($listusercourses), $page, $perpage, $baseurl);
+
     } else {
         echo html_writer::div(get_string('no_course_to_show', 'report_coursemanager'), 'alert alert-primary');
     }
