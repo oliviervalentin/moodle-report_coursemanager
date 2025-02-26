@@ -201,7 +201,10 @@ if (count($listusercourses) == 0) {
             // Create a new line for table.
             $row = [];
             // Course name and direct link.
-            $row[] = html_writer::link("/course/view.php?id=".$course->id, $course->fullname);
+            $row[] = html_writer::link(
+                new moodle_url('/course/view.php', ['id' => $course->id]),
+                $course->fullname
+            );
 
             // If course is in trash : informations are hidden.
             // Action menu has only one possibility : re-establish course out of trash category.
@@ -253,17 +256,23 @@ if (count($listusercourses) == 0) {
 
                 // Retrieve course weight in table.
                 $weight = $DB->get_record('report_coursemanager_reports', ['course' => $course->id, 'report' => 'weight']);
+                // To compare with course weight, thresold setting is converted in bytes.
+                $threshold = get_config('report_coursemanager', 'total_filesize_threshold') * 1024 * 1024;
 
                 // Test with config variable "total_filesize_threshold" to define icon and text color.
                 // If total size is null or less than 1 Mo, consider it empty.
-                if (!$weight || $weight->detail == 0) {
+                if (!$weight) {
+                    $iconsize = 'fa fa-question';
+                    $weightclass = 'text-info';
+                    $calculated = 0;
+                } else if ($weight->detail == 0 || is_null($weight->detail)) {
                     $iconsize = 'fa fa-thermometer-empty';
                     $weightclass = 'text-info';
-                } else if ($weight->detail <= (get_config('report_coursemanager', 'total_filesize_threshold'))) {
+                } else if ($weight->detail <= $threshold) {
                     // If total size doesn't exceed threshold, green color.
                     $iconsize = 'fa fa-thermometer-quarter';
                     $weightclass = 'text-success';
-                } else if ($weight->detail > (get_config('report_coursemanager', 'total_filesize_threshold'))) {
+                } else if ($weight->detail > $threshold) {
                     // If total size exceeds limit threshold, red color.
                     $iconsize = 'fa fa-thermometer-three-quarters';
                     $weightclass = 'text-danger';
@@ -271,9 +280,14 @@ if (count($listusercourses) == 0) {
 
                 // Create table line to show files size.
                 if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
-                    $row[] = html_writer::link("course_files.php?courseid=".$course->id,
-                        '<i class="'.$iconsize.' fa-lg"></i>&nbsp;&nbsp;'.(!$weight ? '' : $weight->detail).' Mo',
+                    if ($calculated === 0) {
+                        $row[] = html_writer::label('<i class="'.$iconsize.' fa-lg"></i>&nbsp;&nbsp;<i>'.get_string('weight_not_calculated',
+                            'report_coursemanager').'</i>', null);
+                    } else {
+                        $row[] = html_writer::link("course_files.php?courseid=".$course->id,
+                        '<i class="'.$iconsize.' fa-lg"></i>&nbsp;&nbsp;'.(!$weight ? '' : display_size($weight->detail, 0, 'MB')).' ',
                         ['class' => $weightclass]);
+                    }
                 }
 
                 // Table line for number of cohorts.

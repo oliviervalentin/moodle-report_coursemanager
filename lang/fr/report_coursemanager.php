@@ -112,6 +112,7 @@ $string['table_enrolled_teachers'] = 'Enseignants';
 $string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
 $string['empty_settings'] = 'Certains paramètres du plugin sont manquants ; contactez l\'administrateur Moodle';
+$string['weight_not_calculated'] = 'Poids non calculé actuellement';
 
 // Actions.
 $string['menudeletecourse'] = 'Mettre à la corbeille';

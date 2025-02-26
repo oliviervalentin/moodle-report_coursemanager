@@ -76,7 +76,7 @@ class run_course_content_report_task extends \core\task\scheduled_task {
                             (SELECT id FROM {course_modules} WHERE course = ?)) ';
                         $paramsdb = [$course->id];
                         $dbresult = $DB->get_field_sql($sql, $paramsdb);
-                        $filesize = number_format(ceil($dbresult / 1048576), 0, ',', '');
+                        $filesize = $dbresult;
 
                         // Check if course weight information exist in database.
                         $existsweight = $DB->get_record('report_coursemanager_reports',

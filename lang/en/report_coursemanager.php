@@ -112,6 +112,7 @@ $string['table_enrolled_teachers'] = 'Teachers';
 $string['table_recommendation'] = 'Reports';
 $string['table_actions'] = 'Actions';
 $string['empty_settings'] = 'Some settings are missing for this plugin ; please contact your Moodle admin';
+$string['weight_not_calculated'] = 'Filesize not yet calculated';
 
 // Actions.
 $string['menudeletecourse'] = 'Delete course';
