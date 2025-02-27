@@ -103,7 +103,7 @@ class run_course_content_report_task extends \core\task\scheduled_task {
                         $existsheavy = $DB->get_record('report_coursemanager_reports',
                         ['course' => $course->id, 'report' => 'heavy']);
 
-                        if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold')) {
+                        if ($filesize >= get_config('report_coursemanager', 'total_filesize_threshold') * 1024 * 1024) {
                             $data = new \stdClass();
                             $data->course = $course->id;
                             $data->report = 'heavy';
