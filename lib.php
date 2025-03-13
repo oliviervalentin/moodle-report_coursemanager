@@ -478,7 +478,7 @@ function report_coursemanager_render_navbar_output() {
 /**
  * Calculates course weight aggregation - average and median.
  *
- * @return object Containing median and course size average
+ * @return object Containing median and course size average.
  */
 function calculate_aggregation_coursesize() {
     global $DB;
@@ -520,6 +520,11 @@ function calculate_aggregation_coursesize() {
     }
 }
 
+/**
+ * Retrieves maximum course size report in table report_coursemanager_reports.
+ *
+ * @return int Max size course.
+ */
 function max_size_course() {
     global $DB;
     $sql = "SELECT DISTINCT(MAX(CAST(detail AS DECIMAL))) AS max
@@ -530,6 +535,13 @@ function max_size_course() {
     return $maxsize;
 }
 
+/**
+ * Generates icon for comparison between a course size and median course size.
+ *
+ * @param int $course_weight Course weight.
+ * @param int $median Median calculated with calculate_aggregation_coursesize function.
+ * @return string Icon that indicates if course size is higher, lower or equal to median.
+ */
 function aggregation_median($course_weight, $median) {
     if (is_null($course_weight) || empty($course_weight)) {
         $icon_median = '<i class="fa fa-question-circle fa-2x text-info" aria-hidden="true"></i>';
@@ -544,6 +556,13 @@ function aggregation_median($course_weight, $median) {
     return $icon_median;
 }
 
+/**
+ * Generates icon for comparison between a course size and average course size.
+ *
+ * @param int $course_weight Course weight.
+ * @param int $average Average calculated with calculate_aggregation_coursesize function.
+ * @return string Icon that indicates if course size is higher, lower or equal to average.
+ */
 function aggregation_average($course_weight, $average) {
     if (is_null($course_weight) || empty($course_weight)) {
         $icon_average = '<i class="fa fa-question-circle fa-2x text-info" aria-hidden="true"></i>';
