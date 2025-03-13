@@ -123,6 +123,23 @@ if ($ADMIN->fulltree) {
     $description = get_string('enablecolumncoursesize_desc', 'report_coursemanager');
     $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
 
+    // Checkbox for coursesize comparison column.
+    $name = 'report_coursemanager/enable_column_comparison';
+    $title = get_string('enablecolumncomparison', 'report_coursemanager');
+    $description = get_string('enablecolumncomparison_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configcheckbox($name, $title, $description, 1));
+
+    // Define agregation for course size comparison.
+    $aggregationchoices = [
+        get_string('aggregationaverage', 'report_coursemanager'),
+        get_string('aggregationmedian', 'report_coursemanager'),
+        get_string('aggregationboth', 'report_coursemanager'),
+    ];
+    $name = 'report_coursemanager/aggregation_choice';
+    $title = get_string('aggregationchoice', 'report_coursemanager');
+    $description = get_string('aggregationchoice_desc', 'report_coursemanager');
+    $settings->add(new admin_setting_configselect($name, $title, $description, null, $aggregationchoices));
+
     $settings->add(new admin_setting_description('report_coursemanager/actionsmenuinfo',
         get_string('configmenuactions', 'report_coursemanager'),
         get_string('configmenuactions_desc', 'report_coursemanager'))

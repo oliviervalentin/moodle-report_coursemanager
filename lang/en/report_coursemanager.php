@@ -91,6 +91,13 @@ $string['enableactioncoursefiles'] = 'Link to course files page';
 $string['enableactionreset'] = 'Link to simplified course reset';
 $string['enableactioncohorts'] = 'Link to cohorts unenrolling';
 $string['enableactionparams'] = 'Link to course settings';
+$string['enablecolumncomparison'] = 'Show comparison colmun';
+$string['enablecolumncomparison_desc'] = 'If checked, shows column where each course size is compared to other courses. You can choose between median or average comparison.';
+$string['aggregationchoice'] = 'Choose aggregation for course size comparison';
+$string['aggregationchoice_desc'] = 'If course size comparison is enabled, it can be based on average or median aggregation.';
+$string['aggregationaverage'] = 'average';
+$string['aggregationmedian'] = 'median';
+$string['aggregationboth'] = 'both average and median';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Settings for reports calculation';
@@ -106,6 +113,8 @@ $string['trash'] = 'This course is in the category for deleted courses.';
 $string['table_course_name'] = 'Course name';
 $string['table_course_state'] = 'Visibility';
 $string['table_files_weight'] = 'Total files size';
+$string['table_size_comparison_median'] = 'Comparison - Median course size';
+$string['table_size_comparison_average'] = 'Comparison - Average course size';
 $string['table_enrolled_cohorts'] = 'Cohorts';
 $string['table_enrolled_students'] = 'Students';
 $string['table_enrolled_teachers'] = 'Teachers';
@@ -113,6 +122,18 @@ $string['table_recommendation'] = 'Reports';
 $string['table_actions'] = 'Actions';
 $string['empty_settings'] = 'Some settings are missing for this plugin ; please contact your Moodle admin';
 $string['weight_not_calculated'] = 'Filesize not yet calculated';
+$string['head_median_help'] = "This column compares each course size with calculated median course size :
+<ul>
+<li><i class='fa fa-arrow-circle-down text-success'></i> indicates this course size is higher than median ;</li>
+<li><i class='fa fa-arrow-circle-up text-danger'></i> indicates this course size is lower than median ;</li>
+<li><i class='fa fa-question-circle text-info'></i> indicates this course size is null or not calculated yet.</li> 
+</ul>";
+$string['head_average_help'] = "This column compares each course size with calculated average course size :
+<ul>
+<li><i class='fa fa-arrow-circle-down text-success'></i> indicates this course size is higher than average ;</li>
+<li><i class='fa fa-arrow-circle-up text-danger'></i> indicates this course size is lower than average ;</li>
+<li><i class='fa fa-question-circle text-info'></i> indicates this course size is null or not calculated yet.</li> 
+</ul>";
 
 // Actions.
 $string['menudeletecourse'] = 'Delete course';

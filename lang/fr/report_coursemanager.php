@@ -91,6 +91,13 @@ $string['enableactioncoursefiles'] = 'Lien vers la page des fichiers de cours';
 $string['enableactionreset'] = 'Lien vers la réinitialisation simplifiée';
 $string['enableactioncohorts'] = 'Lien vers la désinscription des cohortes';
 $string['enableactionparams'] = 'Lien vers la page des paramètres du cours';
+$string['enablecolumncomparison'] = 'Afficher la colonne de comparaison';
+$string['enablecolumncomparison_desc'] = 'Si coché, affiche la colonne permettant de comparer le poids de chaque cours par rapport aux autres cours de la plateforme. Vous pouvez choisir une comparaison basée sur une moyenne ou une médiane.';
+$string['aggregationchoice'] = 'Choisissez l\'agrégation pour la comparaison';
+$string['aggregationchoice_desc'] = 'Si la comparaison des poids de cours est activée, il est possible de définir s\'il s\'agit d\'une comparaison basée sur une moyenne ou une médiane';
+$string['aggregationaverage'] = 'moyenne';
+$string['aggregationmedian'] = 'médiane';
+$string['aggregationboth'] = 'moyenne et médiane';
 
 // Headings for settings page.
 $string['reportssettingsheading'] = 'Paramètres pour le calcul des rapports';
@@ -106,6 +113,8 @@ $string['trash'] = 'Ce cours est dans la catégorie à supprimer.';
 $string['table_course_name'] = 'Nom du cours';
 $string['table_course_state'] = 'État';
 $string['table_files_weight'] = 'Poids des fichiers';
+$string['table_size_comparison_median'] = 'Comparaison<br />Poids médian';
+$string['table_size_comparison_average'] = 'Comparaison<br />Poids moyen';
 $string['table_enrolled_cohorts'] = 'Cohortes';
 $string['table_enrolled_students'] = 'Étudiants';
 $string['table_enrolled_teachers'] = 'Enseignants';

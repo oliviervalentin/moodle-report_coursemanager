@@ -92,11 +92,9 @@ if (!get_config('report_coursemanager', 'last_access_student') ||
     exit();
 }
 
-// Buttons to filter lines.
+// Buttons to filter lines.<h3>'.get_string('title', 'report_coursemanager').'</h3>
 print('
-<h3>'.get_string('title', 'report_coursemanager').'</h3>
 <input type="text" id="courseInput" onkeyup="searchCourses()" placeholder="'.get_string('text_filter', 'report_coursemanager').'">
-
 <input type="radio" class="tablefilter" name="course_filter" id="filterrow" checked />
 <label for="filterrow" class="btn btn-outline-primary"><i class=\'fa fa-lg fa-list\'></i>
 '.get_string('all_courses', 'report_coursemanager').'</label>
@@ -141,11 +139,23 @@ if (count($listusercourses) == 0) {
     $table->align = ['left', 'left', 'left', 'left', 'left', 'left', 'center', 'left'];
     $table->head = [];
 
+    // Calculates aggregation.
+    $aggregations = calculate_aggregation_coursesize();
+    $maxsize = max_size_course();
+
     // Define headings for table.
     $table->head[] = get_string('table_course_name', 'report_coursemanager');
     $table->head[] = get_string('table_course_state', 'report_coursemanager');
     if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
         $table->head[] = get_string('table_files_weight', 'report_coursemanager');
+    }
+    if (get_config('report_coursemanager', 'enable_column_comparison') == 1) {
+        if (get_config('report_coursemanager', 'aggregation_choice') == 1 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+            $table->head[] = get_string('table_size_comparison_median', 'report_coursemanager').$OUTPUT->help_icon('head_median', 'report_coursemanager');
+        }
+        if (get_config('report_coursemanager', 'aggregation_choice') == 0 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+            $table->head[] = get_string('table_size_comparison_average', 'report_coursemanager').$OUTPUT->help_icon('head_average', 'report_coursemanager');
+        }
     }
     if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
         $table->head[] = get_string('table_enrolled_cohorts', 'report_coursemanager');
@@ -215,6 +225,14 @@ if (count($listusercourses) == 0) {
                 if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
                     $row[] = html_writer::label('', null);
                 }
+                if (get_config('report_coursemanager', 'enable_column_comparison') == 1) {
+                    if (get_config('report_coursemanager', 'aggregation_choice') == 1 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $row[] = html_writer::label('', null);
+                    }
+                    if (get_config('report_coursemanager', 'aggregation_choice') == 0 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $row[] = html_writer::label('', null);
+                    }
+                }
                 if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
                     $row[] = html_writer::label('', null);
                 }
@@ -268,14 +286,17 @@ if (count($listusercourses) == 0) {
                 } else if ($weight->detail == 0 || is_null($weight->detail)) {
                     $iconsize = 'fa fa-thermometer-empty';
                     $weightclass = 'text-info';
+                    $calculated = 1;
                 } else if ($weight->detail <= $threshold) {
                     // If total size doesn't exceed threshold, green color.
                     $iconsize = 'fa fa-thermometer-quarter';
                     $weightclass = 'text-success';
+                    $calculated = 1;
                 } else if ($weight->detail > $threshold) {
                     // If total size exceeds limit threshold, red color.
                     $iconsize = 'fa fa-thermometer-three-quarters';
                     $weightclass = 'text-danger';
+                    $calculated = 1;
                 }
 
                 // Create table line to show files size.
@@ -289,7 +310,15 @@ if (count($listusercourses) == 0) {
                         ['class' => $weightclass]);
                     }
                 }
-
+                // Table line for course size comparisons.
+                if (get_config('report_coursemanager', 'enable_column_comparison') == 1) {
+                    if (get_config('report_coursemanager', 'aggregation_choice') == 1 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $row[] = html_writer::div(aggregation_median(intval($weight->detail), intval($aggregations->median)), null);
+                    }
+                    if (get_config('report_coursemanager', 'aggregation_choice') == 0 || get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $row[] = html_writer::div(aggregation_average(intval($weight->detail), intval($aggregations->average)), null);
+                    }
+                }
                 // Table line for number of cohorts.
                 if (get_config('report_coursemanager', 'enable_column_cohorts') == 1) {
                     $row[] = html_writer::label($countcohort, null);
@@ -465,7 +494,7 @@ if (count($listusercourses) == 0) {
         echo html_writer::div(get_string('no_course_to_show', 'report_coursemanager'), 'alert alert-primary');
     }
 }
-
+// echo report_coursemanager_median_coursesize();
 // Trigger event for viewing the Teacher Courses Dashboard.
 $context = context_user::instance($USER->id);
 $eventparams = ['context' => $context];

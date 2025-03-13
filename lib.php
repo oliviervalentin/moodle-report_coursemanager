@@ -474,3 +474,86 @@ function report_coursemanager_render_navbar_output() {
         return $OUTPUT->render_from_template('report_coursemanager/navbar_link', $content);
     }
 }
+
+/**
+ * Calculates course weight aggregation - average and median.
+ *
+ * @return object Containing median and course size average
+ */
+function calculate_aggregation_coursesize() {
+    global $DB;
+    // Create request to retrieve all "weight" reports to calculate global coursesize. Null Weights are  excluded.
+    $select = 'report = "weight" AND detail IS NOT NULL';
+    $params = array();
+    // As "detail" is e longtext field, course size is transformed in int with CAST function).
+    $weights = $DB->get_records_select('report_coursemanager_reports', $select, $params, 'CAST(detail AS DECIMAL) ASC');
+
+    // All weights are arrayed so we can calculte average and median.
+    $weightsarray = array_column($weights, 'detail');
+
+    // If there is no weight reports.
+    if (empty($weightsarray)) {
+        return null;
+    } else {
+        // Sort array and count all entries and sum.
+        $sum = array_sum($weightsarray);
+        sort($weightsarray);
+        $length = count($weightsarray);
+
+        // Create object to return median and average.
+        $aggregations = new stdClass();
+
+        // Average calculation.
+        $aggregations->average = round($sum / $length);
+
+        // Median calculation.
+        $middle_index = floor(($length - 1) / 2);
+        if ($length % 2) {
+            $aggregations->median = $weightsarray[$middle_index];
+        } else {
+            $low = $weightsarray[$middle_index];
+            $high = $weightsarray[$middle_index + 1];
+            $aggregations->median = ($low + $high) / 2;
+        }
+
+        return $aggregations;
+    }
+}
+
+function max_size_course() {
+    global $DB;
+    $sql = "SELECT DISTINCT(MAX(CAST(detail AS DECIMAL))) AS max
+        FROM {report_coursemanager_reports}
+        WHERE report = ?
+    ";
+    $maxsize = $DB->get_record_sql($sql, array('report' => 'weight'));
+    return $maxsize;
+}
+
+function aggregation_median($course_weight, $median) {
+    if (is_null($course_weight) || empty($course_weight)) {
+        $icon_median = '<i class="fa fa-question-circle fa-2x text-info" aria-hidden="true"></i>';
+    } elseif ($course_weight < $median) {
+        $icon_median = '<i class="fa fa-arrow-circle-down fa-2x text-success" aria-hidden="true"></i>';
+    } elseif ($course_weight > $median) {
+        $icon_median = '<i class="fa fa-arrow-circle-up fa-2x text-danger" aria-hidden="true"></i>';
+    } elseif ($course_weight == $median) {
+        $icon_median = '<i class="fa fa-pause-circle fa-2x fa-rotate-90 text-info" aria-hidden="true"></i>';
+    }
+
+    return $icon_median;
+}
+
+function aggregation_average($course_weight, $average) {
+    if (is_null($course_weight) || empty($course_weight)) {
+        $icon_average = '<i class="fa fa-question-circle fa-2x text-info" aria-hidden="true"></i>';
+    } elseif ($course_weight < $average) {
+        $icon_average = '<i class="fa fa-arrow-circle-down fa-2x text-success" aria-hidden="true"></i>';
+    } elseif ($course_weight > $average) {
+        $icon_average = '<i class="fa fa-arrow-circle-up fa-2x text-danger" aria-hidden="true"></i>';
+    } else {
+        $icon_average = '<i class="fa fa-pause-circle fa-2x fa-rotate-90 text-info" aria-hidden="true"></i>';
+    }
+
+    return $icon_average;
+}
