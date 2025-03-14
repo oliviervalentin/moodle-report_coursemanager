@@ -369,7 +369,7 @@ $string['runteachervisitreporttask'] = 'Course Manager report for teachers visit
 $string['runcleanreportstask'] = 'Course manager reports cleaner';
 
 // Warning displays in courses.
-$string['course_alert_heavy'] = 'Total files size in this course is actually <b>{$a->size} Mo</b>. Consider sorting files or reseting this course.<br /><b>{$a->heavy_link}</b>';
+$string['course_alert_heavy'] = 'Total files size in this course is actually <b>{$a->size}</b>. Consider sorting files or reseting this course.<br /><b>{$a->heavy_link}</b>';
 $string['course_alert_no_visit_teacher'] = 'No teacher has visited this course since more than {$a->no_teacher_time} days</b>. Please consider deleting this course if it is not used anymore.<br /><b>{$a->delete_link}</b>';
 $string['course_alert_no_visit_student'] = 'No student has visited this course since more than {$a->no_teacher_time} days</b>. Please consider deleting this course if it is not used anymore.<br /><b>{$a->delete_link} | {$a->reset_link}</b>';
 $string['course_alert_no_student'] = '<b>No student enrolled in this course</b>. Please consider deleting this course if it is not used anymore.<br /><b>{$a->delete_link}</b>';

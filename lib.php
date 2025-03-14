@@ -275,7 +275,7 @@ function report_coursemanager_before_standard_top_of_body_html() {
                 $allreports = $DB->get_records('report_coursemanager_reports', ['course' => $PAGE->course->id]);
                 // Create object to stock reports.
                 $final = '';
-
+                
                 // Create an object for messages variables.
                 $info = new stdClass();
                 $info->courseid = $PAGE->course->id;
@@ -297,9 +297,13 @@ function report_coursemanager_before_standard_top_of_body_html() {
                     if (get_config('report_coursemanager', 'show_report_in_course') == 1) {
                         // For each report, create <li> with text and links.
                         foreach ($allreports as $report) {
+                            if ($report->report === "weight") {
+                                $courseweight = $report->detail;
+                                //break; // On sort de la boucle dès qu'on trouve la valeur
+                            }
                             switch($report->report) {
                                 case $report->report = 'heavy':
-                                    $info->size = $report->detail;
+                                    $info->size = display_size($courseweight, 0, 'MB');
                                     $final .= "<li><i class='fa fa-thermometer-three-quarters text-danger fa-lg'></i>  ".
                                     get_string('course_alert_heavy', 'report_coursemanager', $info)."</li>";
                                     break;
@@ -358,9 +362,13 @@ function report_coursemanager_before_standard_top_of_body_html() {
                     } else if (get_config('report_coursemanager', 'show_report_in_course') == 2) {
                         // If reports are shown with popover icons next to course title.
                         foreach ($allreports as $report) {
+                            if ($report->report === "weight") {
+                                $courseweight = $report->detail;
+                                //break; // On sort de la boucle dès qu'on trouve la valeur
+                            }
                             switch($report->report) {
                                 case $report->report = 'heavy':
-                                    $info->size = $report->detail;
+                                    $info->size = display_size($courseweight, 0, 'MB');
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-danger heavy\" '
                                     .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
