@@ -266,6 +266,7 @@ $string['table_tool_description'] = '<p>Description</p>';
 $string['title_admin_orphan_submissions'] = '<b>Manage orphan submissions</b>';
 $string['table_assign_name'] = 'Assign name';
 $string['table_files_count'] = 'Number of hidden files';
+$string['table_last_submission'] = 'Last assignment submission date';
 $string['admin_orphan_submissions_info'] = '<p>Orphan submissions are files submitted by students which are no longer enrolled in course.
  <b>Those files are unvisible for teachers, and can be seen only by re-enrolling students.</b> If assigns are used every year without being reseted, those hidden files
  can represent an important weight in Moodle.<br />
@@ -273,6 +274,7 @@ $string['admin_orphan_submissions_info'] = '<p>Orphan submissions are files subm
 $string['deleteorphansubmissionsconfirm'] = 'Do you want to delete orphan submissions in this assign ? This action is irreversible.';
 $string['noassign'] = 'There are no assign on this Moodle instance.';
 $string['deleteorphans'] = 'Delete orphan submissions';
+$string['assignwithgroups'] = 'This assign is set with group mode and cannot be reset from Course Manager ';
 
 // Admin page for files distribution in files table.
 $string['title_admin_files_distribution'] = '<b>Files distribution by component</b>';

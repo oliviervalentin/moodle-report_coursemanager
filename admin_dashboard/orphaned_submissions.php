@@ -134,6 +134,7 @@ $table->head = [];
 $table->head[] = get_string('table_course_name', 'report_coursemanager');
 $table->head[] = get_string('table_assign_name', 'report_coursemanager');
 $table->head[] = get_string('table_files_count', 'report_coursemanager');
+$table->head[] = get_string('table_last_submission', 'report_coursemanager');
 $table->head[] = get_string('table_files_weight', 'report_coursemanager');
 $table->head[] = get_string('table_actions', 'report_coursemanager');
 
@@ -144,17 +145,37 @@ foreach ($selectedassigns as $assign) {
     $cm = get_coursemodule_from_id('assign', $assign->cmid);
     $course = $DB->get_record('course', ['id' => $assign->course]);
 
+    $sqllastsubmission = "
+    SELECT FROM_UNIXTIME(MAX(asu.timemodified)) AS lastsubmission
+    FROM {assign_submission} asu
+    JOIN {assignsubmission_file} asf ON asu.id = asf.submission
+    WHERE asu.assignment = ?
+    ";
+    $paramslastsubmission = [$cm->instance];
+    $dbresultlastsubmission = $DB->get_record_sql($sqllastsubmission,
+    $paramslastsubmission); 
+
     // If coursemodule ($cm) is found, assign still exists, let's add row.
     // If not, entry will be deleted by cleaning task.
     if ($cm) {
+        $assigninfos = $DB->get_record('assign', ['id' => $cm->instance]);
+
         $row = [];
         $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
         $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
         $row[] = html_writer::label($assign->files, null);
-        $row[] = html_writer::label(number_format(ceil($assign->weight / 1048576), 0, ',', '')." Mo", null);
-        $orphanedsuburl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php',
-            ['delete' => 1, 'instance' => $assign->cmid, 'course' => $assign->course]);
-        $content = "<a href='".$orphanedsuburl."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
+        $row[] = html_writer::label($dbresultlastsubmission->lastsubmission, null);
+        $row[] = html_writer::label(display_size($assign->weight, 0, 'MB'), null);
+        // If course is in a group mode, or assign set as team submission.
+        // -> Course Manager can't reset orphaned submissions for now ! Hide link.
+        // TO DO : check if Course Manager can reset orphaned submissions in groups modes.
+        if ($cm->groupmode > 0 || $assigninfos->teamsubmission == 1) {
+            $content = get_string('assignwithgroups', 'report_coursemanager');
+        } else {
+            $orphanedsuburl = new moodle_url('/report/coursemanager/admin_dashboard/orphaned_submissions.php',
+                ['delete' => 1, 'instance' => $assign->cmid, 'course' => $assign->course]);
+            $content = "<a href='".$orphanedsuburl."'>".get_string('deleteorphans', 'report_coursemanager')."</a>";
+        }
         $row[] = html_writer::label($content, null);
         $table->data[] = $row;
     }

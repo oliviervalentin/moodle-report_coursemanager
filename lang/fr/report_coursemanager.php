@@ -266,6 +266,7 @@ $string['table_tool_description'] = '<p>Description</p>';
 $string['title_admin_orphan_submissions'] = '<b>Gestion des dépôts de devoirs orphelins</b>';
 $string['table_assign_name'] = 'Nom du devoir';
 $string['table_files_count'] = 'Nombre de fichiers cachés';
+$string['table_last_submission'] = 'Date du dernier dépôt de devoir';
 $string['admin_orphan_submissions_info'] = '<p>Les devoirs orphelins désignent des activités Devoir contenant des dépôts effectués par un utilisateur qui n\'est plus incrit dans le cours.
  <b>Ces dépôts sont alors invisibles pour les enseignants, qui ne peut les faire apparaître qu\'en réinscrivant les utilisateurs concernés.</b> Si une activité Devoir est réutilisée chaque année
  sans réinitialiser le cours, le poids de ces fichiers peut rapidement devenir important.<br />
@@ -273,6 +274,7 @@ $string['admin_orphan_submissions_info'] = '<p>Les devoirs orphelins désignent 
 $string['deleteorphansubmissionsconfirm'] = 'Souhaitez-vous supprimer définitivement les dépôts orphelins de ce devoir ? Cette action est irréversible.';
 $string['noassign'] = 'Il n\'y a aucune activité Devoir dans les cours de cette plateforme.';
 $string['deleteorphans'] = 'Supprimer les devoirs orphelins';
+$string['assignwithgroups'] = 'Ce devoir est paramétré en mode groupe et ne peut être réinitialisé avec Course Manager';
 
 // Admin page for files distribution in files table.
 $string['title_admin_files_distribution'] = '<b>Répartition des fichiers par zones</b>';
