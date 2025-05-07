@@ -53,6 +53,18 @@ class run_course_content_report_task extends \core\task\scheduled_task {
             $table = 'report_coursemanager_reports';
             $now = time();
 
+            // Check if params are set. If not, stop reports calculation.
+            if (!get_config('report_coursemanager', 'total_filesize_threshold') || get_config('report_coursemanager', 'total_filesize_threshold') == '')
+                {
+                    mtrace("... ERROR - Filesize threshold is not set in params.");
+                    exit();
+                }
+            if (!get_config('report_coursemanager', 'category_bin') || get_config('report_coursemanager', 'category_bin') == '')
+                {
+                    mtrace("... ERROR - Category for deleted courses is not set in params.");
+                    exit();
+                }
+
             $listcourses = get_courses();
             foreach ($listcourses as $course) {
                 if ($course->id > 1) {

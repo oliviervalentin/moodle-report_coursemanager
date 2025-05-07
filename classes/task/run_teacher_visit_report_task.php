@@ -53,6 +53,23 @@ class run_teacher_visit_report_task extends \core\task\scheduled_task {
             $table = 'report_coursemanager_reports';
             $now = time();
 
+            // Check if params are set. If not, stop reports calculation.
+            if (!get_config('report_coursemanager', 'teacher_role_dashboard') || get_config('report_coursemanager', 'teacher_role_dashboard') == '')
+            {
+                mtrace("... ERROR - Role for teacher is not set in params.");
+                exit();
+            }
+            if (!get_config('report_coursemanager', 'category_bin') || get_config('report_coursemanager', 'category_bin') == '')
+                {
+                    mtrace("... ERROR - Category for deleted courses is not set in params.");
+                    exit();
+                }
+            if (!get_config('report_coursemanager', 'last_access_teacher') || get_config('report_coursemanager', 'last_access_teacher') == '')
+                {
+                    mtrace("... ERROR - Number of days for last teacher access is not set in params.");
+                    exit();
+                }
+
             $listcourses = get_courses();
             foreach ($listcourses as $course) {
                 if ($course->id > 1) {
