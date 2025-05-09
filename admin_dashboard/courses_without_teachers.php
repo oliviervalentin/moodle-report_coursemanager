@@ -150,6 +150,11 @@ if (count($existsnoteacherincourse) > 0) {
                 WHERE courseid = ?';
             $paramslastaccess  = [$course->course];
             $dbresultlastaccess  = $DB->get_record_sql($sqllastaccess, $paramslastaccess);
+            if (!$dbresultlastaccess->lastaccess) {
+                $lastaccess = get_string('unknown', 'report_coursemanager');
+            } else {
+                $lastaccess = userdate($dbresultlastaccess->lastaccess);
+            }
 
             // Calculate number of activities.
             $sqlemptycourse = 'SELECT COUNT(mcm.id) AS count_modules
@@ -180,7 +185,7 @@ if (count($existsnoteacherincourse) > 0) {
             if ($dbresultlastteacherlog) {
                 $lastteacher = $DB->get_record('user', ['id' => $dbresultlastteacherlog->teacher]);
                 $namelastteacher = $lastteacher->lastname.' '.$lastteacher->firstname;
-                $lastlog = date('d M Y, H:i:s', $dbresultlastteacherlog->lastlog);
+                $lastlog = userdate($dbresultlastteacherlog->lastlog);
             } else {
                 $namelastteacher = get_string('unknown', 'report_coursemanager');
                 $lastlog = get_string('unknown', 'report_coursemanager');
@@ -190,7 +195,7 @@ if (count($existsnoteacherincourse) > 0) {
             $row = [];
             $row[] = html_writer::link("/course/view.php?id=".$courseinfo->id, $courseinfo->fullname);
             $row[] = html_writer::label($allstudents, null);
-            $row[] = html_writer::label(date('d M Y, H:i:s', $dbresultlastaccess->lastaccess), null);
+            $row[] = html_writer::label(($lastaccess), null);
             $row[] = html_writer::label($dbresultemptycourse, null);
             // If course weight is enabled, add course weight.
             if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
