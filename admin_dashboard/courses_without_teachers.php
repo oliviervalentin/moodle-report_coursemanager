@@ -199,7 +199,12 @@ if (count($existsnoteacherincourse) > 0) {
             $row[] = html_writer::label($dbresultemptycourse, null);
             // If course weight is enabled, add course weight.
             if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
-                $row[] = html_writer::label($course->weight.' Mo', null);
+                // Check course weight ; add - if no weight or not calculated yet.
+                if (!$course->weight) {
+                    $row[] = html_writer::label("-", null);
+                } else {
+                    $row[] = html_writer::label(display_size($course->weight), null);
+                }
             }
             $row[] = html_writer::label($lastlog, null);
             $row[] = html_writer::label($namelastteacher, null);

@@ -204,7 +204,7 @@ $string['totalsize'] = 'Total files size : ';
 $string['watchedfilessize'] = 'Total size for most watched files : ';
 $string['watchedfilessizedetails'] = 'These files come from most used activities : Assign, Resource, Forum, Folder and Label.';
 $string['plugin'] = 'Activity type';
-$string['size'] = 'Size in Mo';
+$string['size'] = 'Size in MB';
 $string['comment'] = 'Recommandations';
 $string['number_of_files'] = 'Number of files';
 $string['warn_heavy_assign'] = 'Theses assigns represent a heavy files size :';
@@ -280,7 +280,7 @@ $string['assignwithgroups'] = 'This assign is set with group mode and cannot be 
 $string['title_admin_files_distribution'] = '<b>Files distribution by component</b>';
 $string['admin_files_distribution_info'] = '<p>This tool gives a report of the different components in file storage, and total size for each one.</p>';
 $string['filesdistributiontablecomponent'] = 'Component';
-$string['filesdistributiontotalweight'] = 'Total files size in Mo';
+$string['filesdistributiontotalweight'] = 'Total files size in MB';
 $string['filesdistributiontotalfiles'] = 'Number of files';
 
 // Admin page for courses without teachers.
