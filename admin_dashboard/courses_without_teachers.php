@@ -100,17 +100,17 @@ if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
 // Check for entries in coursemanager table for courses without teachers.
 // If course weight is enabled, retrieve concerned courses AND their weight.
 if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
-    $sqlnoteacherincourse = 'SELECT r1.course AS course, r2.detail AS weight
+    $sqlnoteacherincourse = "SELECT r1.course AS course, r2.detail AS weight
         FROM {report_coursemanager_reports} r1
         JOIN {report_coursemanager_reports} r2 ON r1.course = r2.course
-        WHERE r1.report = "no_teacher_in_course" AND r2.report = "weight"
+        WHERE r1.report = 'no_teacher_in_course' AND r2.report = 'weight'
         ORDER BY r2.detail DESC
-    ';
+    ";
 } else {
-    $sqlnoteacherincourse = 'SELECT r1.course AS course
+    $sqlnoteacherincourse = "SELECT r1.course AS course
         FROM {report_coursemanager_reports} r1
-        WHERE r1.report = "no_teacher_in_course"
-    ';
+        WHERE r1.report = 'no_teacher_in_course'
+    ";
 }
 $paramsnoteacherincourse = [];
 $existsnoteacherincourse = $DB->get_records_sql($sqlnoteacherincourse, $paramsnoteacherincourse);
