@@ -99,11 +99,11 @@ $countemptycourses = $DB->count_records('report_coursemanager_reports', ['report
 // Count courses with orphan submissions in Course Manager table.
 $countorphansubmissionscourses = $DB->count_records('report_coursemanager_orphans');
 
-// Sum filesize in Mo for orphan submissions.
-if (!empty($countorphansubmissionscourses)) {
+// Sum filesize in MB for orphan submissions.
+if ($countorphansubmissionscourses > 0) {
     $sqltotalsizeorphans = "SELECT ROUND(SUM(weight)/1024/1024)
         FROM {report_coursemanager_orphans}
-        ";
+    ";
     $totalsizeorphans = $DB->get_field_sql($sqltotalsizeorphans);
 
     $sqltotalfilesorphans = "SELECT SUM(files)
@@ -172,7 +172,7 @@ if (!empty($heaviestcourse)) {
                 <h5 class="card-title">'.get_string('stats_heaviest_course', 'report_coursemanager').'</h5>
                 <small class="card-subtitle mb-2 text-muted">'
                 .get_string('stats_heaviest_course_desc', 'report_coursemanager').'</small>
-                <p class="card-text display-4"><i class="fa fa-trophy"></i>  '.$heaviestcourse->weight.' Mo</p>
+                <p class="card-text display-4"><i class="fa fa-trophy"></i>  '.display_size($heaviestcourse->weight).'</p>
                 <p class="card-text text-muted"><i class="fa fa-globe"></i> <a href="'.$CFG->wwwroot.'/course/view.php?id='
                 .$heaviestcourse->course.'">'.$infoheaviest->fullname.'</a></p>
                 </div>
@@ -189,14 +189,6 @@ $content .= '
                 <p class="card-text display-4"><i class="fa fa-battery-empty"></i>  '.$countemptycourses.'</p>
                 </div>
             </div>
-            <div class="card text-center m-2" style="width: 18rem;">
-                <div class="card-body">
-                <h5 class="card-title">'.get_string('stats_files_orphan_submissions', 'report_coursemanager').'</h5>
-                <small class="card-subtitle mb-2 text-muted">'
-                .get_string('stats_files_orphan_submissions_desc', 'report_coursemanager').'</small>
-                <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$totalfilesorphans.'</p>
-                </div>
-            </div>
  ';
 if (!empty($countorphansubmissionscourses)) {
     $content .= '
@@ -206,6 +198,14 @@ if (!empty($countorphansubmissionscourses)) {
                 <small class="card-subtitle mb-2 text-muted">'
                 .get_string('stats_weight_courses_orphan_submissions_desc', 'report_coursemanager').'</small>
                 <p class="card-text display-4"><i class="fa fa-files-o"></i>  '.$totalsizeorphans.' Mo</p>
+                </div>
+            </div>
+            <div class="card text-center m-2" style="width: 18rem;">
+                <div class="card-body">
+                <h5 class="card-title">'.get_string('stats_files_orphan_submissions', 'report_coursemanager').'</h5>
+                <small class="card-subtitle mb-2 text-muted">'
+                .get_string('stats_files_orphan_submissions_desc', 'report_coursemanager').'</small>
+                <p class="card-text display-4"><i class="fa fa fa-files-o"></i>  '.$totalfilesorphans.'</p>
                 </div>
             </div>
     ';
