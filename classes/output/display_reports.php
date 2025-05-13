@@ -28,13 +28,7 @@ defined('MOODLE_INTERNAL') || die('Direct access to this script is forbidden.');
 
 require_once($CFG->dirroot . '/report/coursemanager/lib.php');
 
-// use mod_quiz\question\bank\qbank_helper;
 use core\hook\output\before_standard_top_of_body_html_generation;
-// use plagiarism_compilatio\compilatio\api;
-// use plagiarism_compilatio\compilatio\csv_generator;
-// use plagiarism_compilatio\output\statistics;
-// use plagiarism_compilatio\output\icons;
-// use plagiarism_compilatio\compilatio\analysis;
 use moodle_url;
 
 /**
@@ -43,9 +37,7 @@ use moodle_url;
 class display_reports {
 
     /**
-     * Hook callback to insert a chunk of html at the start of the html document.
-     * This allow us to display the Compilatio frame with statistics, alerts,
-     * author search tool and buttons to launch all analyses and update submitted files status.
+     * Hook callback.
      *
      * @param before_standard_top_of_body_html_generation $hook
      */
