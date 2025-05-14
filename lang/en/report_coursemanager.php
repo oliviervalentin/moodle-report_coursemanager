@@ -328,7 +328,7 @@ $string['stats_count_courses_without_visit_teachers_desc'] = 'Number of courses 
 $string['stats_count_courses_without_students'] = 'Courses without students';
 $string['stats_count_courses_without_students_desc'] = 'Number of courses without any users enrolled as students.';
 $string['stats_count_courses_without_visit_students'] = 'Courses without students visits ';
-$string['stats_count_courses_without_visit_students_desc'] = 'Number of courses without any student visit since {$a->lastaccessstudents} days.';
+$string['stats_count_courses_without_visit_students_desc'] = 'Number of courses without any student visit since {$a->lastaccessstudent} days.';
 
 // Confirmation alert on dashboard.
 $string['confirm_cohort_unenrolled_title'] = 'Cohorts deleted';
