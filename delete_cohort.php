@@ -30,23 +30,23 @@ $courseid = optional_param('id', 0, PARAM_INT);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
-$context = context_course::instance($course->id, MUST_EXIST);
+
+$systemcontext = context_system::instance();
+$coursecontext = context_course::instance($course->id, MUST_EXIST);
 
 require_login();
-require_capability('enrol/cohort:config', $context);
+require_capability('enrol/cohort:config', $coursecontext);
 
 // Get site infos.
 $site = get_site();
 
 // Page settings.
 $PAGE = new moodle_page();
-$PAGE->set_context($context);
-$PAGE->set_heading($site->fullname);
-
+$PAGE->set_context($systemcontext);
+$PAGE->set_pagelayout('report');
 $PAGE->set_url('/report/coursemanager/delete_cohort.php');
-$PAGE->set_pagelayout('mycourses');
-$PAGE->set_pagetype('report-coursemanager');
 
+$PAGE->set_heading($site->fullname);
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
@@ -93,19 +93,13 @@ if ($count == 0) {
 } else if ($confirm) {
     // Before delete, check sesskey.
     require_sesskey();
-    // If confirmed, all cohort enrollment are deleted.
-    foreach ($instances as $instance) {
-        if ($instance->enrol == 'cohort') {
-            $plugin->delete_instance($instance);
-        }
-    }
 
-    // Add event for cohort unenrollment.
-    $context = context_course::instance($course->id);
-    $eventparams = ['context' => $context, 'courseid' => $courseid];
-    $event = \report_coursemanager\event\course_cohort_unenrolled::create($eventparams);
-    $event->trigger();
+    // CReate ad hoc task.
+    $task = new \report_coursemanager\task\delete_cohorts_task();
+    $task->set_custom_data(['courseid' => $courseid]);
+    \core\task\manager::queue_adhoc_task($task);
 
-    $url = new moodle_url('view.php', ['done' => 'cohort_deleted']);
-    redirect($url);
+    // Redirect and add confirmation message.
+    redirect(new moodle_url('/report/coursemanager/view.php'),
+        get_string('deletecohortsscheduled', 'report_coursemanager'), null, \core\output\notification::NOTIFY_SUCCESS);
 }
