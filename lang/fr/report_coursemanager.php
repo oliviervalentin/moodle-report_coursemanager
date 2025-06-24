@@ -245,7 +245,6 @@ $string['reset_result'] = '<p><b>Votre cours a été réinitialisé.</b></p>
 <p><b>Rappel</b> : aucune ressource ou activité n\'a été supprimée. Seules les données personnelles des activités devoirs, quiz et forum, ainsi que les notes et
  les cohortes ont été retirées. Si vous souhaitez réinitialiser d\'autres activités (wiki, feedback, base de données...), utilisez la fonction de réinitialisation
  depuis votre cours.</p>';
-$string['resetcoursescheduled'] = 'La réinitialisation du cours a été programmée. Elle sera exécutée automatiquement sous peu.';
 
 // Page of bulk unenroll cohorts.
 $string['title_delete_cohort_confirm'] = 'Désinscription des cohortes';
@@ -257,12 +256,9 @@ représenter une place importante dans votre cours. Pensez à également réinit
 ';
 $string['button_delete_cohort_confirm'] = 'Désinscrire les cohortes';
 $string['no_cohort'] = '<p class="alert alert-info">Aucune cohorte n\'est actuellement inscrite dans ce cours !</p>';
-$string['deletecohortsscheduled'] = 'Votre demande de désinscription des cohortes a été enregistrée pour ce cours et sera exécutée automatiquement 
-dans quelques instants.';
 
 // Admin dashboard page.
-$string['admin_course_managerinfo'] = '<p>Cette page donne accès aux différents outils du plugin Course Manager réservés aux administrateurs Moodle. 
-Pour accéder aux paramètres du plugin, rendez-vous dans Plugins > Rapports > Course Manager.</p>';
+$string['admin_course_managerinfo'] = '<p>Cette page donne accès aux différents outils du plugin Course Manager réservés aux administrateurs Moodle. Pour accéder aux paramètres du plugin, rendez-vous dans Plugins > Rapports > Course Manager.</p>';
 $string['table_tool_name'] = '<p>Outil</p>';
 $string['table_tool_description'] = '<p>Description</p>';
 

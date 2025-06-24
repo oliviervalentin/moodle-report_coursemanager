@@ -246,7 +246,6 @@ $string['reset_info'] = '<p class="alert alert-success"><i class="fa fa-info-cir
 ';
 $string['reset_result'] = '<p><b>Course has been reseted.</b></p>
 <p><b>Reminder</b> : no files or activities have been deleted. If you want to reset all or other activities, please use reset function in course.</p>';
-$string['resetcoursescheduled'] = 'Your demand for resetting has been registered for this course and will be automatically executed soon.';
 
 // Page of bulk unenroll cohorts.
 $string['title_delete_cohort_confirm'] = 'Unenroll cohorts';
@@ -257,7 +256,6 @@ Please note that unenrolling cohorts will make disappear datas as forum messages
 ';
 $string['button_delete_cohort_confirm'] = 'Unenroll cohorts';
 $string['no_cohort'] = '<p class="alert alert-info">No cohort enrolled in this course !</p>';
-$string['deletecohortsscheduled'] = 'Your demand for cohorts unenrolled has been registered for this course and will be automatically executed soon.';
 
 // Admin dashboard page.
 $string['admin_course_managerinfo'] = '<p>This page gives access to tool for Moodle Admin. For Course Manager settings, please go to Plugins > Reports > Course Manager.</p>';
