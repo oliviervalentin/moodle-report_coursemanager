@@ -30,9 +30,11 @@ global $COURSE, $DB, $USER, $CFG;
 require_login();
 
 $id = required_param('id', PARAM_INT);
-$context = context_course::instance($id, MUST_EXIST);
 
-require_capability('moodle/course:reset', $context);
+$systemcontext = context_system::instance();
+$coursecontext = context_course::instance($id, MUST_EXIST);
+
+require_capability('moodle/course:reset', $coursecontext);
 
 if (!$course = $DB->get_record('course', ['id' => $id])) {
     throw new moodle_exception('invalidcourseid');
@@ -45,12 +47,10 @@ $site = get_site();
 
 // Page settings.
 $PAGE = new moodle_page();
-$PAGE->set_heading($site->fullname);
-
+$PAGE->set_context($systemcontext);
+$PAGE->set_pagelayout('report');
 $PAGE->set_url('/report/coursemanager/reset.php', ['id' => $id]);
-$PAGE->set_pagelayout('mycourses');
-$PAGE->set_pagetype('report-coursemanager');
-
+$PAGE->set_heading($site->fullname);
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
@@ -59,48 +59,66 @@ $mform = new report_coursemanager_reset_form(null, ['courseid' => $id]);
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.'/report/coursemanager/view.php');
 } else if ($data = $mform->get_data()) {
-
     echo $OUTPUT->header();
     echo $OUTPUT->heading($strresetcourse);
 
-    $data->reset_start_date_old = $course->startdate;
-    $data->reset_end_date_old = $course->enddate;
-    $status = reset_course_userdata($data);
+    // Création de la tâche ad-hoc
+    $task = new \report_coursemanager\task\reset_course_task();
 
-    // Get enroll instances.
-    $instances = enrol_get_instances($course->id, false);
-    $plugins   = enrol_get_plugins(false);
+    // On simplifie les données du formulaire
+    $customdata = [
+        'courseid' => $course->id,
+        'reset_assign' => !empty($data->reset_assign),
+        'reset_forum' => !empty($data->reset_forum),
+        'reset_quiz' => !empty($data->reset_quiz),
+        'reset_cohort' => !empty($data->reset_cohort)
+    ];
 
-    // Delete only cohort enrollment methods.
-    foreach ($instances as $instance) {
-        if ($instance->enrol == 'cohort') {
-            $plugin = $plugins[$instance->enrol];
-            $plugin->delete_instance($instance);
-        }
-    }
+    $task->set_custom_data($data);
+    \core\task\manager::queue_adhoc_task($task);
+    
+// Message de confirmation
+    redirect(new moodle_url('/report/coursemanager/view.php'),
+        get_string('resetcoursescheduled', 'report_coursemanager'), null, \core\output\notification::NOTIFY_SUCCESS);
 
-    $data = [];
+    // $data->reset_start_date_old = $course->startdate;
+    // $data->reset_end_date_old = $course->enddate;
+    // $status = reset_course_userdata($data);
 
-    foreach ($status as $item) {
-        $line = [];
-        $line[] = $item['component'];
-        $line[] = $item['item'];
-        $line[] = ($item['error'] === false) ? get_string('ok') : '<div class="notifyproblem">'.$item['error'].'</div>';
-        $data[] = $line;
-    }
+    // // Get enroll instances.
+    // $instances = enrol_get_instances($course->id, false);
+    // $plugins   = enrol_get_plugins(false);
 
-    echo html_writer::div(get_string('reset_result', 'report_coursemanager'), 'alert alert-success');
+    // // Delete only cohort enrollment methods.
+    // foreach ($instances as $instance) {
+    //     if ($instance->enrol == 'cohort') {
+    //         $plugin = $plugins[$instance->enrol];
+    //         $plugin->delete_instance($instance);
+    //     }
+    // }
 
-    echo $OUTPUT->continue_button('view.php');
-    echo $OUTPUT->footer();
+    // $data = [];
 
-    // Add event for course resetting.
-    $context = context_course::instance($course->id);
-    $eventparams = ['context' => $context, 'courseid' => $course->id];
-    $event = \report_coursemanager\event\course_global_reset::create($eventparams);
-    $event->trigger();
+    // foreach ($status as $item) {
+    //     $line = [];
+    //     $line[] = $item['component'];
+    //     $line[] = $item['item'];
+    //     $line[] = ($item['error'] === false) ? get_string('ok') : '<div class="notifyproblem">'.$item['error'].'</div>';
+    //     $data[] = $line;
+    // }
 
-    exit;
+    // echo html_writer::div(get_string('reset_result', 'report_coursemanager'), 'alert alert-success');
+
+    // echo $OUTPUT->continue_button('view.php');
+    // echo $OUTPUT->footer();
+
+    // // Add event for course resetting.
+    // $context = context_course::instance($course->id);
+    // $eventparams = ['context' => $context, 'courseid' => $course->id];
+    // $event = \report_coursemanager\event\course_global_reset::create($eventparams);
+    // $event->trigger();
+
+    // exit;
 }
 
 echo $OUTPUT->header();
