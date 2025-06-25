@@ -43,6 +43,8 @@ $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
 echo $OUTPUT->header();
+$url = new moodle_url('index.php');
+echo $OUTPUT->single_button($url, get_string('back'));
 
 echo html_writer::div(get_string('title_admin_files_distribution', 'report_coursemanager'));
 echo html_writer::div(get_string('admin_files_distribution_info', 'report_coursemanager'));
