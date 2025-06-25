@@ -148,7 +148,7 @@ foreach ($selectedassigns as $assign) {
     $course = $DB->get_record('course', ['id' => $assign->course]);
 
     $sqllastsubmission = "
-    SELECT FROM_UNIXTIME(MAX(asu.timemodified)) AS lastsubmission
+    SELECT (MAX(asu.timemodified)) AS lastsubmission
     FROM {assign_submission} asu
     JOIN {assignsubmission_file} asf ON asu.id = asf.submission
     WHERE asu.assignment = ?
@@ -166,7 +166,7 @@ foreach ($selectedassigns as $assign) {
         $row[] = html_writer::link("/course/view.php?id=".$assign->course, $course->fullname);
         $row[] = html_writer::link("/mod/assign/view.php?id=".$assign->cmid, $cm->name);
         $row[] = html_writer::label($assign->files, null);
-        $row[] = html_writer::label($dbresultlastsubmission->lastsubmission, null);
+        $row[] = html_writer::label(userdate($dbresultlastsubmission->lastsubmission), null);
         $row[] = html_writer::label(display_size($assign->weight, 0, 'MB'), null);
         // If course is in a group mode, or assign set as team submission.
         // -> Course Manager can't reset orphaned submissions for now ! Hide link.
