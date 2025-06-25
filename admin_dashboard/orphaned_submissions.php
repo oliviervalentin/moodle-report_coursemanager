@@ -122,6 +122,8 @@ if (!empty($delete)) {
 }
 
 echo $OUTPUT->header();
+$url = new moodle_url('index.php');
+echo $OUTPUT->single_button($url, get_string('back'));
 
 echo html_writer::div(get_string('admin_orphan_submissions_info', 'report_coursemanager'));
 
