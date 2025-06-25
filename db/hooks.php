@@ -15,17 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for Course Manager.
+ * Hook callbacks for Course Manager
  *
- * @package    report_coursemanager
- * @copyright  2022 Olivier VALENTIN
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     report_coursemanager
+ * @copyright   2022 Olivier VALENTIN
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025062302;
-$plugin->release = '3.3.3';
-$plugin->requires = 2024042200;
-$plugin->component = 'report_coursemanager';
-$plugin->maturity = MATURITY_STABLE;
+use report_coursemanager\output\display_reports;
+
+global $CFG;
+
+$callbacks = [];
+
+if ($CFG->version >= 2024042200) {
+    $callbacks[] = [
+        'hook' => core\hook\output\before_standard_top_of_body_html_generation::class,
+        'callback' => [display_reports::class, 'before_standard_top_of_body_html_generation'],
+        'priority' => 0,
+    ];
+}
