@@ -105,13 +105,13 @@ if (get_config('report_coursemanager', 'enable_course_content_task') == 1) {
     $sqlnoteacherincourse = "SELECT r1.course AS course, r2.detail AS weight
         FROM {report_coursemanager_reports} r1
         JOIN {report_coursemanager_reports} r2 ON r1.course = r2.course
-        WHERE r1.report = 'no_teacher_in_course' AND r2.report = 'weight'
+        WHERE r1.report LIKE 'no_teacher_in_course' AND r2.report LIKE 'weight'
         ORDER BY r2.detail DESC
     ";
 } else {
     $sqlnoteacherincourse = "SELECT r1.course AS course
         FROM {report_coursemanager_reports} r1
-        WHERE r1.report = 'no_teacher_in_course'
+        WHERE r1.report LIKE 'no_teacher_in_course'
     ";
 }
 $paramsnoteacherincourse = [];
@@ -164,7 +164,7 @@ if (count($existsnoteacherincourse) > 0) {
                 INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
                 INNER JOIN {modules} mm ON (mcm.module = mm.id)
                 WHERE mc.id = ?
-                AND mm.name <> \'forum\'
+                AND mm.name NOT LIKE \'forum\'
                 ';
             $paramsemptycourse = [$course->course];
             $dbresultemptycourse = $DB->count_records_sql($sqlemptycourse, $paramsemptycourse);
