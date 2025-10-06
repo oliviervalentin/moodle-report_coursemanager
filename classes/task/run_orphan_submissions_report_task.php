@@ -69,8 +69,8 @@ class run_orphan_submissions_report_task extends \core\task\scheduled_task {
                 JOIN {assignsubmission_file} asf ON asf.submission=f.itemid
                 JOIN {assign} a ON a.id = asf.assignment
                 JOIN {course} course ON a.course = course.id
-                WHERE f.component = \'assignsubmission_file\'
-                AND filename != \'.\'
+                WHERE f.component LIKE \'assignsubmission_file\'
+                AND filename NOT LIKE \'.\'
                 AND contextid = :contextid
                 AND u.id  NOT IN (
                     SELECT us.id
