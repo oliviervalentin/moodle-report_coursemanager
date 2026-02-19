@@ -438,7 +438,7 @@ if (count($listusercourses) == 0) {
 
                 // Create actions menu.
                 $deletelink = new moodle_url('/report/coursemanager/delete_course.php', ['courseid' => $course->id]);
-                $fileslink = new moodle_url('/report/coursemanager/course_files.php', ['id' => $course->id]);
+                $fileslink = new moodle_url('/report/coursemanager/course_files.php', ['courseid' => $course->id]);
                 $resetlink = new moodle_url('/report/coursemanager/reset.php', ['id' => $course->id]);
                 $deletecohortlink = new moodle_url('/report/coursemanager/delete_cohort.php', ['id' => $course->id]);
                 $courseeditlink = new moodle_url('/course/edit.php', ['id' => $course->id]);
