@@ -147,7 +147,7 @@ class run_course_content_report_task extends \core\task\scheduled_task {
                         INNER JOIN {course_modules} mcm ON (mc.id = mcm.course)
                         INNER JOIN {modules} mm ON (mcm.module = mm.id)
                         WHERE mc.id = ?
-                        AND mm.name <> \'forum\'
+                        AND mm.name NOT LIKE \'forum\'
                         ';
                         $paramsemptycourse = [$course->id];
                         $dbresultemptycourse = $DB->count_records_sql($sqlemptycourse, $paramsemptycourse);

@@ -67,11 +67,11 @@ if (!empty($delete)) {
             {course} AS c,
             {course_modules} AS cm
             WHERE
-            component = 'assignsubmission_file'
+            component LIKE 'assignsubmission_file'
             AND asf.submission=f.itemid
             AND a.id = asf.assignment
             AND f.userid = u.id
-            AND filename != '.'
+            AND filename NOT LIKE '.'
             AND c.id = a.course
             AND a.id = cm.instance
             AND cm.id = ?

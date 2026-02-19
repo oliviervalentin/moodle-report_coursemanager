@@ -106,11 +106,11 @@ function report_coursemanager_get_assign_comment($courseid) {
         {course} c,
         {course_modules} cm
     WHERE
-       component = "assignsubmission_file"
+       component LIKE \'assignsubmission_file\'
         AND asf.submission=f.itemid
         AND a.id = asf.assignment
         AND f.userid = u.id
-        AND filename != \'.\'
+        AND filename NOT LIKE \'.\'
         AND c.id = a.course
         AND c.id = ?
         AND a.id = cm.instance
@@ -493,7 +493,7 @@ function report_coursemanager_render_navbar_output() {
 function calculate_aggregation_coursesize() {
     global $DB;
     // Create request to retrieve all "weight" reports to calculate global coursesize. Null Weights are  excluded.
-    $select = 'report = "weight" AND detail IS NOT NULL';
+    $select = 'report LIKE \'weight\' AND detail IS NOT NULL';
     $params = array();
     // As "detail" is e longtext field, course size is transformed in int with CAST function).
     $weights = $DB->get_records_select('report_coursemanager_reports', $select, $params, 'CAST(detail AS DECIMAL) ASC');

@@ -66,7 +66,7 @@ $sizesql = "SELECT a.component, SUM(a.filesize) as filesize, COUNT(a.contenthash
                     FROM {files} f
                     JOIN {context} ctx ON f.contextid = ctx.id
                     WHERE ".$DB->sql_concat('ctx.path', "'/'")." LIKE ?
-                       AND f.filename != '.' AND f.source IS NOT NULL) a
+                       AND f.filename NOT LIKE '.' AND f.source IS NOT NULL) a
              GROUP BY a.component
              ORDER BY a.component";
 
