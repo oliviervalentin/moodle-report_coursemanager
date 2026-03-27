@@ -444,36 +444,36 @@ if (count($listusercourses) == 0) {
                 $courseeditlink = new moodle_url('/course/edit.php', ['id' => $course->id]);
 
                 // Create variable to list actions. By default, link to put course in trash is available.
-                $listactions = '<a class="dropdown-item" href="'.$deletelink.'">
-                    '.get_string('menudeletecourse', 'report_coursemanager').'</a>';
+                $listactions = '<li><a class="dropdown-item" href="'.$deletelink.'">
+                    '.get_string('menudeletecourse', 'report_coursemanager').'</a></li>';
 
                 // Now, check plugin config if other actions are enabled.
                 if (get_config('report_coursemanager', 'enable_action_coursefiles')) {
-                    $listactions .= '<a class="dropdown-item" href="'.$fileslink.'">
-                        '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a>';
+                    $listactions .= '<li><a class="dropdown-item" href="'.$fileslink.'">
+                        '.get_string('menucoursefilesinfo', 'report_coursemanager').'</a></li>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_reset')) {
-                    $listactions .= '<a class="dropdown-item" href="'.$resetlink.'">
-                        '.get_string('menureset', 'report_coursemanager').'</a>';
+                    $listactions .= '<li><a class="dropdown-item" href="'.$resetlink.'">
+                        '.get_string('menureset', 'report_coursemanager').'</a></li>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_cohorts')) {
-                    $listactions .= '<a class="dropdown-item" href="'.$deletecohortlink.'">
-                        '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a>';
+                    $listactions .= '<li><a class="dropdown-item" href="'.$deletecohortlink.'">
+                        '.get_string('menuunenrolcohorts', 'report_coursemanager').'</a></li>';
                 }
                 if (get_config('report_coursemanager', 'enable_action_params')) {
-                    $listactions .= '<a class="dropdown-item" href="'.$courseeditlink.'">
-                        '.get_string('menucourseparameters', 'report_coursemanager').'</a>';
+                    $listactions .= '<li><a class="dropdown-item" href="'.$courseeditlink.'">
+                        '.get_string('menucourseparameters', 'report_coursemanager').'</a></li>';
                 }
 
                 $menu = '
                     <div class="dropdown show">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink"
+                        data-bs-toggle="dropdown" aria-expanded="false">AAA</button>
                         <i class="icon fa fa-ellipsis-v fa-fw " ></i>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             '.$listactions.'
-                        </div>
+                        </ul>
                     </div>
                 ';
                 $row[] = html_writer::div($menu, null);
