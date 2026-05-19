@@ -122,12 +122,14 @@ $string['table_recommendation'] = 'Reports';
 $string['table_actions'] = 'Actions';
 $string['empty_settings'] = 'Some settings are missing for this plugin ; please contact your Moodle admin';
 $string['weight_not_calculated'] = 'Filesize not yet calculated';
+$string['head_median'] = 'Comparison with median course size';
 $string['head_median_help'] = "This column compares each course size with calculated median course size :
 <ul>
 <li><i class='fa fa-arrow-circle-down text-success'></i> indicates this course size is higher than median ;</li>
 <li><i class='fa fa-arrow-circle-up text-danger'></i> indicates this course size is lower than median ;</li>
 <li><i class='fa fa-question-circle text-info'></i> indicates this course size is null or not calculated yet.</li> 
 </ul>";
+$string['head_average'] = 'Comparison with average course size';
 $string['head_average_help'] = "This column compares each course size with calculated average course size :
 <ul>
 <li><i class='fa fa-arrow-circle-down text-success'></i> indicates this course size is higher than average ;</li>
@@ -406,3 +408,14 @@ $string['privacy:no_data_reason'] = 'Course Manager plugin does not store any pe
 // Capabilities.
 $string['coursemanager:viewreport'] = 'View reports in course if enabled';
 $string['coursemanager:admintools'] = 'Use admin tools in Report section';
+
+// JS translations for datatables.
+$string['dt_lengthmenu']   = 'Show _MENU_ entries';
+$string['dt_info']         = 'Showing _START_ to _END_ of _TOTAL_';
+$string['dt_infoempty']    = 'No results';
+$string['dt_infofiltered'] = '(filtered from _MAX_ total)';
+$string['dt_zerorecords']  = 'No courses found';
+$string['dt_first']        = '«';
+$string['dt_last']         = '»';
+$string['dt_next']         = '›';
+$string['dt_previous']     = '‹';
