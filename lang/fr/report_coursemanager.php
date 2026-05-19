@@ -122,6 +122,20 @@ $string['table_recommendation'] = 'Recommandations';
 $string['table_actions'] = 'Actions';
 $string['empty_settings'] = 'Certains paramètres du plugin sont manquants ; contactez l\'administrateur Moodle';
 $string['weight_not_calculated'] = 'Poids non calculé actuellement';
+$string['head_median'] = 'Comparaison avec la taille médiane du cours';
+$string['head_median_help'] = "Cette colonne compare la taille de chaque cours avec la taille médiane calculée :
+<ul>
+<li><i class='fa fa-arrow-circle-down text-success'></i> indique que la taille du cours est supérieure à la médiane ;</li>
+<li><i class='fa fa-arrow-circle-up text-danger'></i> indique que la taille du cours est inférieure à la médiane ;</li>
+<li><i class='fa fa-question-circle text-info'></i> indique que la taille du cours est nulle ou non calculée encore.</li> 
+</ul>";
+$string['head_average'] = 'Comparaison avec la taille moyenne du cours';
+$string['head_average_help'] = "Cette colonne compare la taille de chaque cours avec la taille moyenne calculée :
+<ul>
+<li><i class='fa fa-arrow-circle-down text-success'></i> indique que la taille du cours est supérieure à la moyenne ;</li>
+<li><i class='fa fa-arrow-circle-up text-danger'></i> indique que la taille du cours est inférieure à la moyenne ;</li>
+<li><i class='fa fa-question-circle text-info'></i> indique que la taille du cours est nulle ou non calculée encore.</li> 
+</ul>";
 
 // Actions.
 $string['menudeletecourse'] = 'Mettre à la corbeille';
@@ -413,3 +427,14 @@ $string['privacy:no_data_reason'] = 'Le plugin Course Manager n\'enregistre aucu
 // Capabilities.
 $string['coursemanager:viewreport'] = 'Voir les rapports dans les cours si activé';
 $string['coursemanager:admintools'] = 'Utiliser les outils admin dans la section Rapports';
+
+// JS translations for datatables.
+$string['dt_lengthmenu'] = 'Afficher _MENU_ résultats';
+$string['dt_info'] = 'Résultats _START_ à _END_ sur _TOTAL_';
+$string['dt_infoempty'] = 'Aucun résultat';
+$string['dt_infofiltered'] = '(filtré sur _MAX_ au total)';
+$string['dt_zerorecords']  = 'Aucun cours trouvé';
+$string['dt_first'] = '«';
+$string['dt_last'] = '»';
+$string['dt_next'] = '›';
+$string['dt_previous'] = '‹';
