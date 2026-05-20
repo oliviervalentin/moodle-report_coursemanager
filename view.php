@@ -44,20 +44,7 @@ $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
 // Load AMD module that initialises DataTables and filters.
-$PAGE->requires->js_call_amd('report_coursemanager/coursetable', 'init', [
-    'courses',
-    [
-        'lengthMenu'   => get_string('dt_lengthmenu', 'report_coursemanager'),
-        'info'         => get_string('dt_info', 'report_coursemanager'),
-        'infoEmpty'    => get_string('dt_infoempty', 'report_coursemanager'),
-        'infoFiltered' => get_string('dt_infofiltered', 'report_coursemanager'),
-        'zeroRecords'  => get_string('dt_zerorecords', 'report_coursemanager'),
-        'first'        => get_string('dt_first', 'report_coursemanager'),
-        'last'         => get_string('dt_last', 'report_coursemanager'),
-        'next'         => get_string('dt_next', 'report_coursemanager'),
-        'previous'     => get_string('dt_previous', 'report_coursemanager'),
-    ]
-]);
+$PAGE->requires->js_call_amd('report_coursemanager/coursetable', 'init', ['courses']);
 
 $now = time();
 
@@ -81,12 +68,14 @@ if ($done != '0') {
         default:
             break;
     }
-    // BS5 : btn-close and data-bs-dismiss replace close button.
+
     echo html_writer::div('
         <div class="alert alert-success alert-dismissible fade show" role="alert">
         <h4 class="alert-heading">' . $titledone . '</h4>
         <p>' . $textdone . '</p>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
         </div>
     ');
 }
@@ -108,34 +97,26 @@ if (!get_config('report_coursemanager', 'last_access_student') ||
 // Old filter system with <input type="radio"> + search_courses.js is removed.
 
 // Text field (replaces #courseInput + onkeyup="searchCourses()").
-echo html_writer::start_div('coursemanager-toolbar mb-3 d-flex flex-wrap gap-2 align-items-center');
-echo html_writer::tag(
-    'label',
-    get_string('search') . ' : ',
-    ['for' => 'coursemanager-search',
-    'class' => 'h5']
-);
-echo html_writer::tag(
-    'input', '', [
-        'type'        => 'text',
-        'id'          => 'coursemanager-search',
-        'class'       => 'form-control w-50',
-        'placeholder' => get_string('text_filter', 'report_coursemanager'),
-    ]
-);
+echo html_writer::start_div('coursemanager-toolbar mb-3 d-flex flex-wrap align-items-center');
+echo html_writer::tag('input', '', [
+    'type'        => 'text',
+    'id'          => 'coursemanager-search',
+    'class'       => 'form-control w-auto mr-2 mb-2',
+    'placeholder' => get_string('text_filter', 'report_coursemanager'),
+]);
 echo html_writer::end_div();
 
 // Filter buttons.
 echo html_writer::start_div('coursemanager-toolbar mb-3 d-flex flex-wrap gap-2 align-items-center');
 $filters = [
-    'filterrow' => ['icon' => 'fa-list', 'class' => '', 'label' => get_string('all_courses', 'report_coursemanager')],
-    'heavy-course' => ['icon' => 'fa-thermometer-three-quarters', 'class' => 'text-danger', 'label' => get_string('heavy_course', 'report_coursemanager')],
-    'no-visit-student' => ['icon' => 'fa-group', 'class' => 'text-info','label' => get_string('no_visit_student', 'report_coursemanager')],
-    'no-visit-teacher' => ['icon' => 'fa-graduation-cap', 'class' => '', 'label' => get_string('no_visit_teacher', 'report_coursemanager')],
-    'no-student' => ['icon' => 'fa-user-o', 'class' => '', 'label' => get_string('no_student', 'report_coursemanager')],
-    'no-content' => ['icon' => 'fa-battery-empty', 'class' => 'text-danger', 'label' => get_string('no_content', 'report_coursemanager')],
-    'orphan-submissions' => ['icon' => 'fa-files-o', 'class' => 'text-danger', 'label' => get_string('orphan_submissions_button', 'report_coursemanager')],
-    'ok' => ['icon' => 'fa-check-circle', 'class' => 'text-success', 'label' => get_string('ok', 'report_coursemanager')],
+    'filterrow'          => ['icon' => 'fa-list',                       'class' => '',             'label' => get_string('all_courses',              'report_coursemanager')],
+    'heavy-course'       => ['icon' => 'fa-thermometer-three-quarters',  'class' => 'text-danger',  'label' => get_string('heavy_course',              'report_coursemanager')],
+    'no-visit-student'   => ['icon' => 'fa-group',                      'class' => 'text-info',    'label' => get_string('no_visit_student',          'report_coursemanager')],
+    'no-visit-teacher'   => ['icon' => 'fa-graduation-cap',             'class' => '',             'label' => get_string('no_visit_teacher',          'report_coursemanager')],
+    'no-student'         => ['icon' => 'fa-user-o',                     'class' => '',             'label' => get_string('no_student',               'report_coursemanager')],
+    'no-content'         => ['icon' => 'fa-battery-empty',              'class' => 'text-danger',  'label' => get_string('no_content',               'report_coursemanager')],
+    'orphan-submissions' => ['icon' => 'fa-files-o',                    'class' => 'text-danger',  'label' => get_string('orphan_submissions_button', 'report_coursemanager')],
+    'ok'                 => ['icon' => 'fa-check-circle',               'class' => 'text-success', 'label' => get_string('ok',                       'report_coursemanager')],
 ];
 
 foreach ($filters as $token => $def) {
@@ -143,12 +124,12 @@ foreach ($filters as $token => $def) {
     $icon   = html_writer::tag('i', '', ['class' => "fa fa-lg {$def['icon']} {$def['class']}"]);
     echo html_writer::tag('button', $icon . ' ' . $def['label'], [
         'type'        => 'button',
-        'class'       => 'btn btn-outline-primary coursemanager-filter-btn' . $active,
+        'class'       => 'btn btn-outline-primary coursemanager-filter-btn mr-2 mb-2' . $active,
         'data-filter' => $token,
     ]);
 }
 
-echo html_writer::end_div();
+echo html_writer::end_div(); // .coursemanager-toolbar
 
 // NEW Courses table.
 $listusercourses = enrol_get_users_courses($USER->id, false, '', 'fullname ASC');
@@ -160,7 +141,6 @@ if (count($listusercourses) == 0) {
     $table        = new html_table();
     $table->id    = 'courses';
 
-    // w-100 forces width to 100 %.
     $table->attributes['class'] = 'admintable generaltable browse_courses w-100';
     $table->align               = ['left', 'left', 'left', 'left', 'left', 'left', 'center', 'left'];
     $table->head                = [];
@@ -168,7 +148,7 @@ if (count($listusercourses) == 0) {
     $aggregations = calculate_aggregation_coursesize();
     $maxsize      = max_size_course();
 
-    // Table headers.
+    // En-têtes.
     $table->head[] = get_string('table_course_name', 'report_coursemanager');
     $table->head[] = get_string('table_course_state', 'report_coursemanager');
     if (get_config('report_coursemanager', 'enable_column_coursesize') == 1) {
@@ -179,7 +159,7 @@ if (count($listusercourses) == 0) {
         if (get_config('report_coursemanager', 'aggregation_choice') == 1 ||
             get_config('report_coursemanager', 'aggregation_choice') == 2) {
             $table->head[] = get_string('table_size_comparison_median', 'report_coursemanager') .
-                 $OUTPUT->help_icon('head_median', 'report_coursemanager');
+                $OUTPUT->help_icon('head_median', 'report_coursemanager');
         }
         if (get_config('report_coursemanager', 'aggregation_choice') == 0 ||
             get_config('report_coursemanager', 'aggregation_choice') == 2) {
@@ -233,7 +213,7 @@ if (count($listusercourses) == 0) {
 
             $row = [];
 
-            // Course name column.
+             // Course name column.
             $row[] = html_writer::link(
                 new moodle_url('/course/view.php', ['id' => $course->id]),
                 $course->fullname
@@ -271,11 +251,10 @@ if (count($listusercourses) == 0) {
                 }
                 $row[] = html_writer::label('', null);
 
-                // BS5 : data-bs-toggle replaces data-toggle.
                 $menu  = '
-                    <div class="dropdown">
+                    <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon fa fa-ellipsis-v fa-fw"></i>
                         </a>
                         <div class="dropdown-menu">
@@ -428,16 +407,13 @@ if (count($listusercourses) == 0) {
                     $allrowclasses .= ' ok';
                 }
 
-                // BS5 update on old badge-pill badge-light and data-toggle/data-target.
                 $row[] = html_writer::label(
-                    $iconssumup . "<br /><a class='badge rounded-pill bg-light text-dark' href='#'
-                    data-bs-toggle='modal' data-bs-target='#exampleModal" . $course->id . "'>" .
+                    $iconssumup . "<br /><a class='badge badge-pill badge-light' href='#'
+                    data-toggle='modal' data-target='#exampleModal" . $course->id . "'>" .
                     get_string('see_advices', 'report_coursemanager') . '</a>',
                     null
                 );
 
-                // Modal recommandations.
-                // BS5 update : data-dismiss replaces data-bs-dismiss.
                 echo html_writer::div('
                 <div class="modal fade" id="exampleModal' . $course->id . '" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -446,13 +422,15 @@ if (count($listusercourses) == 0) {
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">' .
                             get_string('advices_for_course', 'report_coursemanager') . $course->fullname . '</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                       </div>
                       <div class="modal-body">
                           <ul>' . $sumup . '</ul>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' .
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">' .
                             get_string('closereportmodal', 'report_coursemanager') . '</button>
                       </div>
                     </div>
@@ -460,7 +438,7 @@ if (count($listusercourses) == 0) {
                 </div>
                 ');
 
-                // Acxtions menu.
+                // Actions menu.
                 $deletelink       = new moodle_url('/report/coursemanager/delete_course.php', ['courseid' => $course->id]);
                 $fileslink        = new moodle_url('/report/coursemanager/course_files.php', ['courseid' => $course->id]);
                 $resetlink        = new moodle_url('/report/coursemanager/reset.php', ['id' => $course->id]);
@@ -487,11 +465,10 @@ if (count($listusercourses) == 0) {
                         get_string('menucourseparameters', 'report_coursemanager') . '</a>';
                 }
 
-                // BS5 update : delete "show" on .dropdown, data-bs-toggle replaces data-toggle.
                 $menu  = '
-                    <div class="dropdown">
+                    <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="icon fa fa-ellipsis-v fa-fw"></i>
                         </a>
                         <div class="dropdown-menu">
