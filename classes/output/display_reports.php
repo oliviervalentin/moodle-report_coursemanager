@@ -156,79 +156,86 @@ class display_reports {
                         }
 
                         // Generate HTML for collapse button and create.
-                        $button = '<button id=\"coursemanager_collapse_report\" class=\"btn btn-primary collasped\" '
-                        .'data-toggle=\"collapse\" data-target=\"#coursemanager_reports_zone\">'
-                        .get_string('collapse_show_report', 'report_coursemanager')
-                        .'</button><div id=\"coursemanager_reports_zone\" class=\"collapse alert alert-warning\"><ul>'
-                        .$final.'</ul></div>';
+                        $button = '<button id=\"coursemanager_collapse_report\" class=\"btn btn-primary\" '
+                            .'data-bs-toggle=\"collapse\" data-bs-target=\"#coursemanager_reports_zone\" '
+                            .'aria-expanded=\"false\" aria-controls=\"coursemanager_reports_zone\">'
+                            .get_string('collapse_show_report', 'report_coursemanager')
+                            .'</button><div id=\"coursemanager_reports_zone\" class=\"collapse alert alert-warning\"><ul>'
+                            .$final.'</ul></div>';
 
-                        // JS function to push a div under admin nav.
-                        $js = 'function reportZone() {
-                            var container = document.getElementById("user-notifications");
-                            var button = document.createElement("div");
-                            button.id = "coursemanager_collapse";
-                            button.class = "collapse";
-                            button.innerHTML = "'.$button.'";
-                            container.appendChild(button);
-                            document.addEventListener("DOMContentLoaded", function() {
-                                var bouton = document.querySelector("#coursemanager_collapse button");
-                                var collapse = new bootstrap.Collapse(document.querySelector("#coursemanager_collapse"));
+                            $js = 'require(["theme_boost/bootstrap/collapse"], function(Collapse) {
+                                setTimeout(function() {
+                                    var container = document.getElementById("user-notifications");
+                                    if (!container) return;
 
-                                bouton.addEventListener("click", function() {
-                                    collapse.toggle();
-                                });
+                                    var wrapper = document.createElement("div");
+                                    wrapper.id = "coursemanager_collapse";
+                                    wrapper.innerHTML = "' . $button . '";
+                                    container.appendChild(wrapper);
+
+                                    var collapseEl = document.querySelector("#coursemanager_reports_zone");
+                                    var bouton = document.querySelector("#coursemanager_collapse_report");
+
+                                    var collapse = new Collapse(collapseEl, { toggle: false });
+
+                                    bouton.addEventListener("click", function() {
+                                        collapse.toggle();
+                                    });
+                                }, 20);
                             });
-                        }
-                        reportZone();
-                        ';
+                            ';
                         $output .= $PAGE->requires->js_amd_inline($js);
                     } else if (get_config('report_coursemanager', 'show_report_in_course') == 2) {
                         // If reports are shown with popover icons next to course title.
                         foreach ($allreports as $report) {
                             if ($report->report === "weight") {
                                 $courseweight = $report->detail;
-                                //break; // On sort de la boucle dès qu'on trouve la valeur
                             }
                             switch($report->report) {
                                 case $report->report = 'heavy':
                                     $info->size = display_size($courseweight, 0, 'MB');
+                                    $content = get_string('course_alert_heavy', 'report_coursemanager', $info);
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-danger heavy\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
+                                    .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
                                     .'title=\"'.get_string('heavy_course', 'report_coursemanager').'\" '
-                                    .'data-content=\"'.get_string('course_alert_heavy', 'report_coursemanager', $info)
+                                    .'data-bs-content=\"'.$content
                                     .'\"><i class=\"fa fa-thermometer-three-quarters\"></i></button></li>';
                                     break;
                                 case $report->report = 'no_visit_teacher':
+                                    $content = get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info);
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-info no_visit_teacher\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
-                                    .'title=\"'.get_string('no_visit_teacher', 'report_coursemanager')
-                                    .'\" data-content=\"'.get_string('course_alert_no_visit_teacher', 'report_coursemanager', $info)
+                                    .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
+                                    .'title=\"'.get_string('no_visit_teacher', 'report_coursemanager').'\" '
+                                    .'data-bs-content=\"'.$content
                                     .'\"><i class=\"fa fa-graduation-cap\"></i></button></li>';
                                     break;
                                 case $report->report = 'no_visit_student':
+                                    $content = get_string('course_alert_no_visit_student', 'report_coursemanager', $info);
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-info no_visit_student\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
-                                    .'title=\"'.get_string('no_visit_student', 'report_coursemanager')
-                                    .'\" data-content=\"'.get_string('course_alert_no_visit_student', 'report_coursemanager', $info)
+                                    .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
+                                    .'title=\"'.get_string('no_visit_student', 'report_coursemanager').'\" '
+                                    .'data-bs-content=\"'.$content
                                     .'\"><i class=\"fa fa-group\"></i></button></li>';
                                     break;
                                 case $report->report = 'no_student':
+                                    $content = get_string('course_alert_no_student', 'report_coursemanager', $info);
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-warning no_student\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
-                                    .'title=\"'.get_string('no_student', 'report_coursemanager')
-                                    .'\" data-content=\"'.get_string('course_alert_no_student', 'report_coursemanager', $info)
+                                    .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
+                                    .'title=\"'.get_string('no_student', 'report_coursemanager').'\" '
+                                    .'data-bs-content=\"'.$content
                                     .'\"><i class=\"fa fa-user-o\"></i></button></li>';
                                     break;
                                 case $report->report = 'empty':
+                                    $content = get_string('course_alert_empty', 'report_coursemanager', $info);
                                     $final .= '<li><button type=\"button\" '
                                     .'class=\"report_coursemanager-reportbutton bg-dark empty\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
-                                    .'title=\"'.get_string('no_content', 'report_coursemanager')
-                                    .'\" data-content=\"'.get_string('course_alert_empty', 'report_coursemanager', $info)
+                                    .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
+                                    .'title=\"'.get_string('no_content', 'report_coursemanager').'\" '
+                                    .'data-bs-content=\"'.$content
                                     .'\"><i class=\"fa fa-battery-empty\"></i></button></li>';
                                     break;
                             }
@@ -236,30 +243,51 @@ class display_reports {
 
                         $reportsorphans = $DB->get_records('report_coursemanager_orphans', ['course' => $PAGE->course->id]);
                         if (!empty($reportsorphans)) {
+                            $content = htmlspecialchars(
+                                get_string('course_alert_orphan_submissions', 'report_coursemanager', $info),
+                                ENT_QUOTES, 'UTF-8'
+                            );
                             $final .= '<li><button type=\"button\" '
-                                    .'class=\"report_coursemanager-reportbutton bg-danger orphan_submissions\" '
-                                    .'data-html=\"true\" data-toggle=\"popover\" data-placement=\"bottom\" '
-                                    .'title=\"'.get_string('orphan_submissions_button', 'report_coursemanager')
-                                    .'\" data-content=\"'
-                                    .get_string('course_alert_orphan_submissions', 'report_coursemanager', $info)
-                                    .'\"><i class=\"fa fa-files-o\"></i></button></li>';
+                            .'class=\"report_coursemanager-reportbutton bg-danger orphan_submissions\" '
+                            .'data-html=\"true\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" '
+                            .'title=\"'.get_string('orphan_submissions_button', 'report_coursemanager').'\" '
+                            .'data-bs-content=\"'.$content
+                            .'\"><i class=\"fa fa-files-o\"></i></button></li>';
                         }
 
-                        $js = 'function reportZone() {
-                            var container = document.querySelector(".page-context-header");
-                            var button = document.createElement("div");
-                            button.id = "coursemanager_popover";
-                            container.appendChild(button);
-                            var list = document.createElement("ul");
-                            list.innerHTML = "'.$final.'";
-                            list.id = "coursemanagerbuttons";
-                            button.appendChild(list);
-                            document.addEventListener("DOMContentLoaded", function() {
-                                var popoverTrigger = document.querySelector(\'[data-toggle="popover"]\');
-                                var popover = new bootstrap.Popover(popoverTrigger);
-                            });
-                        }
-                        reportZone();
+                        $js = 'require(["theme_boost/bootstrap/popover"], function(Popover) {
+                            setTimeout(function() {
+                                var container = document.querySelector(".page-context-header");
+                                if (!container) return;
+
+                                var button = document.createElement("div");
+                                button.id = "coursemanager_popover";
+                                container.appendChild(button);
+
+                                var list = document.createElement("ul");
+                                list.innerHTML = "' . $final . '";
+                                list.id = "coursemanagerbuttons";
+                                button.appendChild(list);
+
+                                var popoverTriggers = button.querySelectorAll(\'[data-bs-toggle="popover"]\');
+                                popoverTriggers.forEach(function(el) {
+                                    var existing = Popover.getInstance(el);
+                                    if (existing) existing.dispose();
+
+                                    var rawContent = el.getAttribute("data-bs-content");
+                                    var decoded = document.createElement("textarea");
+                                    decoded.innerHTML = rawContent;
+
+                                    new Popover(el, {
+                                        html: true,
+                                        sanitize: false,
+                                        trigger: "click",
+                                        container: "body",
+                                        content: decoded.value
+                                    });
+                                });
+                            }, 20);
+                        });
                         ';
                         $output .= $PAGE->requires->js_amd_inline($js);
                     }
