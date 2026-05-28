@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2026051901;
-$plugin->release = '4.0.0';
+$plugin->version = 2026052801;
+$plugin->release = '4.0.1';
 $plugin->requires = 2025041100;
 $plugin->component = 'report_coursemanager';
 $plugin->maturity = MATURITY_STABLE;
