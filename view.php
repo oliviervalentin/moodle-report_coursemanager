@@ -342,16 +342,21 @@ if (count($listusercourses) == 0) {
                 }
 
                 if (get_config('report_coursemanager', 'enable_column_comparison') == 1) {
+
+                    $weightdetail = (!empty($weight) && isset($weight->detail)) ? intval($weight->detail) : 0;
+
                     if (get_config('report_coursemanager', 'aggregation_choice') == 1 ||
                         get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $median = (!empty($aggregations) && isset($aggregations->median)) ? intval($aggregations->median) : 0;
                         $row[] = html_writer::div(
-                            aggregation_median(intval($weight->detail), intval($aggregations->median)), null
+                            aggregation_median($weightdetail, $median), null
                         );
                     }
                     if (get_config('report_coursemanager', 'aggregation_choice') == 0 ||
                         get_config('report_coursemanager', 'aggregation_choice') == 2) {
+                        $average = (!empty($aggregations) && isset($aggregations->average)) ? intval($aggregations->average) : 0;
                         $row[] = html_writer::div(
-                            aggregation_average(intval($weight->detail), intval($aggregations->average)), null
+                            aggregation_average($weightdetail, $average), null
                         );
                     }
                 }
