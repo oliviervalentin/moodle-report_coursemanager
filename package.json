@@ -1,0 +1,17 @@
+{
+  "name": "report_coursemanager",
+  "version": "4.0.1",
+  "description": "Build tooling for report_coursemanager Moodle plugin",
+  "scripts": {
+    "build": "npx grunt amd",
+    "watch": "npx grunt watch"
+  },
+  "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-contrib-uglify": "^5.2.2"
+  },
+  "dependencies": {
+    "datatables.net": "1.13.6",
+    "datatables.net-bs5": "1.13.6"
+  }
+}
