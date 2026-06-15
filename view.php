@@ -43,9 +43,6 @@ $PAGE->set_pagetype('report-coursemanager');
 $PAGE->blocks->add_region('content');
 $PAGE->set_title($site->fullname);
 
-// DataTables Bootstrap 5 CSS — local vendor copy, no CDN.
-$PAGE->requires->css('/report/coursemanager/vendor/datatables/dataTables.bootstrap5.css');
-
 // Load AMD module that initialises DataTables and filters.
 $PAGE->requires->js_call_amd('report_coursemanager/coursetable', 'init', [
     'courses',
